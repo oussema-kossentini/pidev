@@ -1,0 +1,79 @@
+.create-post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#createPostForm {
+    max-width: 500px;
+    width: 100%;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#createPostForm textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 18px; /* Augmenter la taille de la police */
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+    min-height: 150px; /* Définir une hauteur minimale pour la zone de texte */
+}
+
+#createPostForm .file-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333333;
+}
+
+#createPostForm input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+#createPostForm button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px; /* Ajuster le rembourrage vertical et horizontal */
+    background-color: #2fbfa7; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    border: none;
+    border-radius: 5px;
+    font-size: 10px; /* Taille de la police */
+    text-transform: uppercase; /* Texte en majuscules */
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#createPostForm button:hover {
+    background-color: #ff7029; /* Couleur de fond au survol */
+}
+
+.all-demo {
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
+    position: fixed;
+    top: 185px;
+    right: -105px;
+    background: #2fbfa7; /* Couleur de fond */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+
+

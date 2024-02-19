@@ -1,0 +1,32 @@
+<app-header></app-header>
+<form [formGroup]="specialiteForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-group">
+      <label for="id" class="form-label">ID</label>
+      <input type="text" pInputText formControlName="id" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" pInputText formControlName="title" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" pInputText formControlName="description" class="form-input">
+    </div>
+    <div class="form-group">
+        <label for="description" class="form-label">Image</label>
+        <input type="text" pInputText formControlName="description" class="form-input">
+      </div>
+      <a href="ajouter.html" class="butn md text-white">
+        <i class="fas fa-plus-circle icon-arrow before"></i>
+        <span class="label">Ajouter</span>
+        <i class="fas fa-plus-circle icon-arrow after"></i>
+      </a>
+
+</form>
+
+
+
+
+
+  
+<app-footer></app-footer>

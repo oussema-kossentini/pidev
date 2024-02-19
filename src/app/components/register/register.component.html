@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Les balises meta, le titre et les styles vont ici -->
+</head>
+<body>
+<style>
+  /* CSS */
+.register-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-column {
+  width: 48%; /* Pour laisser un léger espacement entre les deux colonnes */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.profile-picture-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile-picture-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.alert {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+
+}
+.password-strength {
+  height: 10px;
+  width: 100%;
+  background-color: #ddd;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.password-strength.weak {
+  background-color: #ff6666;
+}
+
+.password-strength.medium {
+  background-color: #ffcc66;
+}
+
+.password-strength.strong {
+  background-color: #99cc99;
+
+
+}
+
+
+
+</style>
+
+<app-header></app-header>
+
+<div class="register-container">
+  <h2 class="register-title">Create Account</h2>
+  <form (ngSubmit)="createUser($event)" #registerForm="ngForm">
+    <h1>Sign up</h1>
+    <div class="form-row">
+      <div class="form-column">
+        <div class="form-group">
+          <label for="firstName" class="form-control-label">First Name</label>
+          <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" name="firstName" [(ngModel)]="registerFormCustom.firstName">
+        </div>
+        <div class="form-group">
+          <label for="lastName" class="form-control-label">Last Name</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" name="lastName" [(ngModel)]="registerFormCustom.lastName">
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-control-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" [(ngModel)]="registerFormCustom.email">
+        </div>
+        <!-- <div class="form-group">
+          <label for="password" class="form-control-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter your password" [(ngModel)]="registerFormCustom.password" (input)="onChangePassword(registerFormCustom.password)">
+          <div id="passwordStrength" class="password-strength"></div>
+        </div> -->
+
+        <input type="password" [(ngModel)]="registerFormCustom.password" (keyup)="evaluatePasswordStrength(registerFormCustom.password)" class="form-control" placeholder="Create password">
+        <div *ngIf="typingStarted">
+          <p>Password Strength: {{ passwordStrength }}</p>
+          <!-- Exemple de représentation visuelle -->
+          <div [ngSwitch]="passwordStrength">
+            <p *ngSwitchCase="0">Very Weak</p>
+            <p *ngSwitchCase="1">Weak</p>
+            <p *ngSwitchCase="2">Moderate</p>
+            <p *ngSwitchCase="3">Strong</p>
+            <p *ngSwitchCase="4">Very Strong</p>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-control-label">Confirm Password</label>
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" [(ngModel)]="registerFormCustom.confirmPassword" name="confirmPassword">
+        </div>
+        <div class="form-group">
+          <label for="dateOfBirth" class="form-control-label">Date of Birth</label>
+          <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="registerFormCustom.dateOfBirth" name="dateOfBirth">
+        </div>
+      </div>
+      <div class="form-column">
+        <div class="form-group">
+          <label for="phoneCodes">Country Code</label>
+          <select [(ngModel)]="registerFormCustom.phoneCodes" name="phoneCode" class="form-control">
+            <option *ngFor="let code of phoneCodes" [value]="code.code">{{ code.name }} ({{ code.code }})</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="text" class="form-control" [(ngModel)]="registerFormCustom.phone" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number">
+        </div>
+        <div class="form-group">
+          <label for="profilePicture">Profile Picture</label>
+          <input type="file" class="form-control-file" id="profilePicture" (change)="onFileChange($event)" name="profilePicture" [(ngModel)]="registerFormCustom.profilePicture">
+
+        </div>
+        <div class="form-group">
+          <select [(ngModel)]="registerFormCustom.role" name="role">
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="nationality">Nationality</label>
+          <select [(ngModel)]="registerFormCustom.nationality" name="nationality">
+            <option *ngFor="let nationality of nationalities" [value]="nationality">{{ nationality }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn">Register</button>
+  </form>
+</div>
+
+<app-footer></app-footer>
+
+
+
+
+
+</body>
+
+</html>
