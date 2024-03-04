@@ -1,14 +1,36 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
 
+
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+
+import { Observable, tap } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { user } from '../models/user.model';
+//let jwt_decode = await import('jwt-decode');
+import jwt_decode from 'jwt-decode';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceFazzetregisterService {
 
-  constructor(private http: HttpClient) { }
+  // constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = sessionStorage.getItem('token');
+      if (token) {
+        // Optionnel : Validation du token côté serveur ici
+        this.updateIsAdminStatus(); // Initialise l'état isAdmin basé sur le token
+      }
+    }
+  }
+
+  private readonly TOKEN_KEY = 'token';
+
+
+
+
 getCountryCodes(): any[] {
     return [
         // Afrique
@@ -195,12 +217,25 @@ getCountryCodes(): any[] {
     ];
 }
 
+getProtectedData(url: string, jwtToken: string) {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${jwtToken}`
+    })
+  };
+
+  return this.http.get(url, httpOptions);
+}
+
 
 
 
     private baseUrl = 'http://localhost:8085/courszello/api/users'; // Ajustez selon votre configuration
-    private apiAddUser = 'http://localhost:8085/courszello/api/users/add';
+    //private apiAddUser = 'http://localhost:8085/courszello/api/users/add';
+  private apiAddUser = 'http://localhost:8085/courszello/api/auth/register';
 
+    private seconnecterurl='http://localhost:8085/courszello/api/auth/authenticate'
+private jwtbaseurl='http://localhost:8085/courszello/api/auth';
     getRoles(): Observable<any[]> {
       return this.http.get<any[]>(`${this.baseUrl}/roles`);
     }
@@ -209,21 +244,222 @@ getCountryCodes(): any[] {
       return this.http.get<any[]>(`${this.baseUrl}/nationalities`);
     }
     createUser(formData :FormData): Observable<any> {
-    //  const formData = new FormData();
-   //   formData.append('user', JSON.stringify(user));
-     // if (file) {
-       // formData.append('profilePicture', file);
-     // }
-    /* const formData = new FormData();
-     formData.append('user', JSON.stringify(registerFormCustom)); // Ajoutez le formulaire utilisateur en tant que JSON
 
-     if (registerFormCustom.profilePicture) {
-       formData.append('profilePicture', registerFormCustom.profilePicture);
-     }*/
-
-      // Retourne l'Observable sans s'abonner ici
-      return this.http.post(this.apiAddUser, formData);
+      return this.http.post(this.apiAddUser, formData).pipe(
+        tap((response: any) => {
+          sessionStorage.setItem('authToken', response.token); // Store the token
+        })
+      );;
     }
+
+
+
+
+     addTokenToHeaders(headers: HttpHeaders = new HttpHeaders()): HttpHeaders {
+      const token = this.getJwtToken();
+      if (token) {
+        return headers.append('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    }
+    //  decodeJwt(token: string): any {
+    //   try {
+    //     // Split le token en ses parties
+    //     const parts = token.split('.');
+    //     if (parts.length !== 3) {
+    //       throw new Error('Le JWT ne contient pas 3 parties');
+    //     }
+
+    //     // La partie qui nous intéresse est la deuxième, le payload
+    //     const decodedPayload = atob(parts[1]);
+    //     return JSON.parse(decodedPayload);
+    //   } catch (error) {
+    //     console.error('Erreur lors de la décodage du token:', error);
+    //     return null;
+    //   }
+    // }
+     decodeJwt(token: string): any {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    }
+    saveToken(token: string): void {
+      if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem(this.TOKEN_KEY, token);}
+    }
+
+
+
+    // Supprimer le token JWT
+    removeToken(): void {
+      sessionStorage.removeItem(this.TOKEN_KEY);
+     // this.isAdminSubject.next(false);
+    }
+
+    // Dans votre service d'authentification
+logoutUser(): void {
+  this.removeToken(); // ou toute autre logique de déconnexion
+  this.isAdminSubject.next(false); // Met à jour l'état d'administration
+}
+
+    // Vérifier si l'utilisateur est connecté
+    isLoggedIn(): boolean {
+      return !!this.getJwtToken();
+    }
+    // Utilisation de la fonction decodeJwt dans isAdmin
+    isAdmin(): boolean {
+      const token = this.getJwtToken();
+      if (!token) return false;
+
+      try {
+        const decoded = this.decodeJwt(token);
+        return decoded && decoded.roles && decoded.roles.includes('ADMINISTRATOR');
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }
+
+   /* login(email: string, password: string): Observable<any> {
+      return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password});
+    }*/
+
+    // login(email: string, password: string): Observable<any> {
+    //   return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
+    //     tap((response: any) => {
+    //       // Stocker le token dans sessionStorage
+    //       sessionStorage.setItem('token', response.token);
+
+    //     })
+    //   );
+    // }
+    login(email: string, password: string): Observable<any> {
+      return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
+        tap((response: any) => {
+          if (isPlatformBrowser(this.platformId)) {
+            sessionStorage.setItem('token', response.token);
+            this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
+          }
+        })
+      );
+    }
+
+    private isAdminSubject = new BehaviorSubject<boolean>(false);
+    public isAdmin$ = this.isAdminSubject.asObservable();
+
+
+    getJwtToken(): string | null {
+      if (isPlatformBrowser(this.platformId)) {
+        return sessionStorage.getItem('token');
+      }
+      return null; // ou gérer autrement pour SSR
+    }
+    public checkAndUpdateIsAdminStatus(): void {
+      this.updateIsAdminStatus(); // This forces an update based on the current token.
+    }
+
+//     updateIsAdminStatus(): void {
+//       const token = this.getJwtToken();
+//       if (token) {
+//         try {
+//           const decoded = this.decodeJwt(token);
+//           const isAdmin = decoded.roles.includes('ADMINISTRATEUR');
+//           this.isAdminSubject.next(isAdmin);
+
+
+// console.log(`isAdmin updated to: ${isAdmin}`);
+//         } catch (error) {
+//           console.error('Error decoding token:', error);
+//           this.isAdminSubject.next(false);
+//         }
+//       } else {
+//         this.isAdminSubject.next(false);
+//       }
+//     }
+
+hasRole(requiredRole: string): boolean {
+  const token = sessionStorage.getItem('token'); // ou sessionStorage, selon où vous stockez le token
+  if (token) {
+    const decodedToken = this.decodeJwt(token);
+    return decodedToken.roles.includes(requiredRole);
+  }
+  return false;
+}
+
+updateIsAdminStatus(): void {
+  const token = this.getJwtToken();
+  if (!token) {
+    this.isAdminSubject.next(false);
+    return;
+  }
+
+  try {
+    const decoded = this.decodeJwt(token);
+    // Assuming 'roles' is a string. Check if it matches 'ADMINISTRATOR'.
+    const isAdmin = decoded.roles === 'ADMINISTRATOR';
+    this.isAdminSubject.next(isAdmin);
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    this.isAdminSubject.next(false);
+  }
+}
+
+    requestPasswordReset(email: string): Observable<any> {
+      return this.http.post(`${this.jwtbaseurl}/forgot-password`, { email }, { responseType: 'text' });
+    }
+
+    // verifyResetCode(email: string, resetToken: string): Observable<any> {
+    //   // Vous devez avoir un endpoint pour vérifier le code
+    //   return this.http.post(`${this.jwtbaseurl}/verify-reset-code`, { email,resetToken }, { responseType: 'text' });
+    // }
+
+    verifyResetCode(email: string, resetToken: string): Observable<any> {
+      let params = new HttpParams().set('email', email).set('resetToken',resetToken);
+      return this.http.post(`${this.jwtbaseurl}/verify-reset-code`, {email,resetToken}, { params: params, responseType: 'text' });
+    }
+
+    private email: string = '';
+
+  setEmail(email: string) {
+    this.email = email;
+  }
+
+  getEmail(): string {
+    return this.email;
+  }
+
+  clear() {
+    this.email = '';
+  }
+
+  updateUserPassword(email: string, newPassword: string): Observable<any> {
+    const endpoint = `${this.jwtbaseurl}/update-password-after-reset`;
+    return this.http.post(endpoint, { email, newPassword },{ responseType: 'text' });
+  }
+
+
+
+  getUsers(): Observable<user[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-users`);
+  }
+
+  modifyUser(user: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/modify-user`, user);
+  }
+
+ /* removeUser(userId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/remove-user/${userId}`);
+  }*/
+
+
+  removeUser(userId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/remove-user/${userId}`,{ responseType: 'text' });
+
+  }
 
   }
 

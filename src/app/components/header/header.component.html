@@ -34,12 +34,33 @@
 
                             <!-- start menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
-                                <li><a href="index-2.html" >Home</a></li>
+                                <a [routerLink]="['']" >Home</a>
+
                                 <li>
 
+
+                                  <!-- <a  [routerLink]="['/4']">
+
+                                    <i class="fas fa-sign-out-alt icon-arrow before"> </i>
+                                      <span class="label">home lel test </span>
+
+                                  </a> -->
+                                  <!-- Si l'utilisateur n'est pas connecté, afficher Se Connecter -->
+                                  <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']">
+                                      <i class="fas fa-sign-in-alt icon-arrow before"></i>
+                                      <span class="label">Se Connecter</span>
+                                  </a>
+                                  <!-- Sinon, afficher Se Déconnecter -->
+                                  <a *ngIf="authService.isLoggedIn()" (click)="logout()">
+                                      <i class="fas fa-sign-out-alt icon-arrow before"></i>
+                                      <span class="label">Se Déconnecter</span>
+                                  </a>
+                                </li>
+
+
+                                <li>
                                     <a href="#!" >Evaluation</a>
                                     <ul>
-
                                         <li><a [routerLink]="['/add-evaluation']">Add Evaluation</a></li>
                                     </ul>
                                 </li>
@@ -51,8 +72,12 @@
                                     </ul>
                                 </li>
 
-                                <li><a [routerLink]="['/dadmin']"  >dashbored admin</a>
-
+                                <li *ngIf="isAdmin">
+                                  <a [routerLink]="['/dadmin']">Dashboard Admin</a>
+                                  <ul>
+                                    <li><a [routerLink]="['/listUseur']">Liste des Utilisateurs</a></li>
+                                    <!-- Ajoutez d'autres liens de sous-menu ici si nécessaire -->
+                                  </ul>
                                 </li>
 
                                 <li>
@@ -91,6 +116,7 @@
                                     <li><a [routerLink]="['/class']">class</a></li>
                                 </ul>
                                 </li>
+
                             </ul>
                             <!-- end menu area -->
 
@@ -98,7 +124,7 @@
                             <div class="attr-nav align-items-xl-center ms-xl-auto main-font">
                                 <ul>
                                     <li class="search"><a href="#!"><i class="fas fa-search"></i></a></li>
-                                    <li class="d-none d-xl-inline-block"><a [routerLink]="['/register']"><i class="fas fa-plus-circle icon-arrow before"></i><span class="label">Apply Now</span><i class="fas fa-plus-circle icon-arrow after"></i></a></li>
+                                    <li class="d-none d-xl-inline-block"><a [routerLink]="['/register']"><i class="fas fa-plus-circle icon-arrow before"></i><span class="label">create an acount</span><i class="fas fa-plus-circle icon-arrow after"></i></a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->

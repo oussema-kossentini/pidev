@@ -1,11 +1,12 @@
 import { ServiceFazzetregisterService } from './../../service/service-fazzetregister-service.service';
-import { Component, AfterViewInit } from '@angular/core';
-//import {Models } from '../register/register.module';
+import { Component } from '@angular/core';
+import { passwordResponce } from '../register/register.module';
 //import * as feather from 'feather-icons';
  import { OwlOptions } from 'ngx-owl-carousel-o';
  import { from } from 'rxjs';
  import { replace } from 'feather-icons';
  import zxcvbn from 'zxcvbn';
+ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -22,15 +23,46 @@ export class RegisterComponent {
 
     //  feather.replace();
   }
-  passwordStrength: number = 0;
-  evaluatePasswordStrength(password: string) {
-    const result = zxcvbn(password);
-    this.passwordStrength = result.score; // score est un nombre entre 0 et 4
-  }
+
+
 
   ngAfterViewInit() {
 
   }
+
+
+  // passwordStrength: string = '';
+  // warnings: string = '';
+  // suggestions: string = '';
+
+  // onChangePassword(password: string): void {
+  //   const result = zxcvbn(password);
+  //   this.passwordStrength = `Strength: ${result.score} / 4`;
+  //   this.warnings = result.feedback.warning;
+  //   this.suggestions = result.feedback.suggestions.join('. ');
+
+  //   // Vous pouvez ajuster les messages en fonction du score pour plus de clarté
+  //   switch (result.score) {
+  //     case 0:
+  //     case 1:
+  //       this.passwordStrength += ' (Weak)';
+  //       break;
+  //     case 2:
+  //       this.passwordStrength += ' (Fair)';
+  //       break;
+  //     case 3:
+  //       this.passwordStrength += ' (Good)';
+  //       break;
+  //     case 4:
+  //       this.passwordStrength += ' (Strong)';
+  //       break;
+  //   }
+  // }
+
+
+
+
+
 /*
 
 
@@ -56,7 +88,17 @@ export class RegisterComponent {
    // public routes = routes;
 
     //public passwordResponce:passwordResponce={};
+    onClick() {
+      if (this.password === 'password') {
+        this.password = 'text';
+        this.show = false;
+      } else {
+        this.password = 'password';
+        this.show = true;
+      }
+    }
 
+    public passwordResponce:passwordResponce={};
 
     nationalities: any[]=[]; // Ajoutez cette ligne pour déclarer la propriété
     roles: any[]=[];
@@ -68,7 +110,7 @@ export class RegisterComponent {
 
     phoneCodes: any[];
 
-    constructor(private serviceFazzetregisterService:ServiceFazzetregisterService ) {
+    constructor(private serviceFazzetregisterService:ServiceFazzetregisterService,private router:Router ) {
 
       this.phoneCodes = this.serviceFazzetregisterService.getCountryCodes();
       this.loadNationalities();
@@ -98,15 +140,7 @@ export class RegisterComponent {
       //this.loadRoles();
     }*/
 
-    onClick() {
-      if (this.password === 'password') {
-        this.password = 'text';
-        this.show = false;
-      } else {
-        this.password = 'password';
-        this.show = true;
-      }
-    }
+
 
     public registerFormCustom = {
       firstName: '',
@@ -118,37 +152,59 @@ export class RegisterComponent {
       nationality: '',
       phone: '',
       phoneCodes:'',
-      role: '',
+      role:'',
+      statue:'',
       profilePicture: null as File | null,
     };
 
 
 
+    public onChangePassword(password:string){
+      if(password.match(/^$|\s+/)) {
+        this.passwordResponce.passwordResponceText = "whitespaces are not allowed"
+        this.passwordResponce.passwordResponceImage = ""
+        this.passwordResponce.passwordResponceKey = ''
+        return
+      }
+      if(password.length == 0){
+        this.passwordResponce.passwordResponceText = ""
+        this.passwordResponce.passwordResponceImage = ""
+        this.passwordResponce.passwordResponceKey = ''
+        return
+      }
+      if (password.length < 8) {
+        this.passwordResponce.passwordResponceText = "Weak. Must contain at least 8 characters"
+        this.passwordResponce.passwordResponceImage = "assets/img/icon/angry.svg"
+        this.passwordResponce.passwordResponceKey = '0'
+      } else if (password.search(/[a-z]/) < 0) {
+        this.passwordResponce.passwordResponceText = "Average. Must contain at least 1 upper case and number"
+        this.passwordResponce.passwordResponceImage = "assets/img/icon/anguish.svg"
+        this.passwordResponce.passwordResponceKey = '1'
+      } else if(password.search(/[A-Z]/) < 0) {
+        this.passwordResponce.passwordResponceText = "Average. Must contain at least 1 upper case and number"
+        this.passwordResponce.passwordResponceImage = "assets/img/icon/anguish.svg"
+        this.passwordResponce.passwordResponceKey = '1'
+      } else  if (password.search(/[0-9]/) < 0) {
+        this.passwordResponce.passwordResponceText= "Average. Must contain at least 1 upper case and number"
+        this.passwordResponce.passwordResponceImage = "assets/img/icon/anguish.svg"
+        this.passwordResponce.passwordResponceKey = '1'
+      } else  if (password.search(/(?=.*?[#?!@$%^&*-])/) < 0) {
+        this.passwordResponce.passwordResponceText = "Almost. Must contain special symbol"
+        this.passwordResponce.passwordResponceImage = "assets/img/icon/smile.svg"
+        this.passwordResponce.passwordResponceKey = '2'
+      }else {
+        this.passwordResponce.passwordResponceText = "Awesome! You have a secure password."
+          this.passwordResponce.passwordResponceImage = "assets/img/icon/smile.svg"
+           this.passwordResponce.passwordResponceKey = '3'
+       }
+    }
 
     typingStarted = false;
 
     onInputChange() {
       this.typingStarted = true;
     }
-   /* onFileChange(event: Event) {
-      const element = event.target as HTMLInputElement;
-      const fileList: FileList | null = element.files;
-      if (fileList && fileList.length > 0) {
-          const file = fileList[0];
 
-          this.registerFormCustom.profilePicture = file;
-      }
-  }*/
-
-  // onFileChange(event: Event) {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   if (inputElement.files && inputElement.files.length > 0) {
-  //     // Récupérer le fichier à partir de l'événement
-  //     const file = inputElement.files[0];
-  //     // Assigner le fichier à registerFormCustom.profilePicture
-  //     this.registerFormCustom.profilePicture = file;
-  //   }
-  // }
 
   onFileChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -174,6 +230,121 @@ export class RegisterComponent {
 
 
     passwordMismatch = false;
+
+
+    createUser(event: Event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+      event.stopPropagation(); // Stop the event from propagating
+
+      if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
+        this.passwordMismatch = true;
+        return;
+      }
+
+      this.passwordMismatch = false;
+      const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
+      this.registerFormCustom.phone = fullPhoneNumber;
+
+      const formData = new FormData();
+      if (this.registerFormCustom.profilePicture) {
+        formData.append('profilePicture', this.registerFormCustom.profilePicture);
+      }
+      formData.append('firstName', this.registerFormCustom.firstName || '');
+      formData.append('lastName', this.registerFormCustom.lastName || '');
+      formData.append('email', this.registerFormCustom.email || '');
+      formData.append('password', this.registerFormCustom.password || '');
+      formData.append('dateOfBirth', this.registerFormCustom.dateOfBirth || '');
+      formData.append('nationality', this.registerFormCustom.nationality || '');
+      formData.append('phone', this.registerFormCustom.phone || '');
+      formData.append('role', this.registerFormCustom.role || '');
+
+      // Subscribe to the service method to create user
+      this.serviceFazzetregisterService.createUser(formData)
+        .subscribe({
+          next: (response) => {
+            console.log('User created successfully:', response);
+            // Handle success response here, for example, displaying a success message
+          },
+          error: (error) => {
+            console.error('Error creating user:', error);
+            // Handle error, for example, displaying an error message to the user
+          }
+        });
+    }
+
+   /* createUser(event: Event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+      event.stopPropagation(); // Stop the event from propagating
+
+      if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
+        this.passwordMismatch = true;
+        return;
+      }
+
+      this.passwordMismatch = false;
+      const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
+      this.registerFormCustom.phone = fullPhoneNumber;
+
+      const formData = new FormData();
+      formData.append('user', JSON.stringify(this.registerFormCustom));
+      if (this.registerFormCustom.profilePicture) {
+        formData.append('profilePicture', this.registerFormCustom.profilePicture);
+      }
+      formData.append('firstName', this.registerFormCustom.firstName || '');
+      formData.append('lastName', this.registerFormCustom.lastName || '');
+      formData.append('email', this.registerFormCustom.email || '');
+      formData.append('password', this.registerFormCustom.password || '');
+      formData.append('dateOfBirth', this.registerFormCustom.dateOfBirth || '');
+      formData.append('nationality', this.registerFormCustom.nationality || '');
+      formData.append('phone', this.registerFormCustom.phone || '');
+      formData.append('role', this.registerFormCustom.role || '');
+
+      // Subscribe to the service method to create user
+      this.serviceFazzetregisterService.createUser(formData)
+        .subscribe({
+          next: (response) => {
+            console.log('User created successfully:', response);
+            // Handle success response here, for example, displaying a success message
+          },
+          error: (error) => {
+            console.error('Error creating user:', error);
+            // Handle error, for example, displaying an error message to the user
+          }
+        });
+    }
+
+
+    */
+//temchi maa user adi
+/*
+    createUser(event:Event) {
+      event.preventDefault(); // Empêche la soumission du formulaire
+      event.stopPropagation(); // Empêche la propagation de l'événement
+      const formData = new FormData();
+      formData.append('request', new Blob([JSON.stringify(this.registerFormCustom)], { type: 'application/json' }));
+      if (this.registerFormCustom.profilePicture) {
+        formData.append('profilePicture', this.registerFormCustom.profilePicture);
+      }
+
+      formData.append('role', this.registerFormCustom.role = 'USER');
+      formData.append('password', this.registerFormCustom.password);
+
+      this.serviceFazzetregisterService.createUser(formData).subscribe({
+        next: (response) => {
+          console.log('User created successfully:', response);
+          // Ajoutez ici le traitement en cas de succès
+        },
+        error: (error) => {
+          console.error('Error creating user:', error);
+          // Ajoutez ici le traitement en cas d'erreur
+        }
+      });
+    }
+*/
+
+
+
+    /*
     createUser(event: Event) {
 
       event.preventDefault(); // Empêche la soumission du formulaire
@@ -209,14 +380,16 @@ export class RegisterComponent {
           next: (response) => {
             console.log('Utilisateur créé avec succès :', response);
             // Gestion de la réponse réussie, par exemple redirection ou affichage d'un message
-         //   this.router.navigate(['/cheminVersLaListeDesUtilisateurs']);
+            this.router.navigateByUrl('/listUseur');
           },
           error: (error) => {
             console.error('Erreur lors de la création de l\'utilisateur :', error);
             // Gestion de l'erreur, par exemple affichage d'un message d'erreur à l'utilisateur
           }
         });
-    }
+
+
+    }*/
 
 
     /*

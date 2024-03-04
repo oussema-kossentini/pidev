@@ -1,0 +1,142 @@
+<!-- <table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Date of Birth</th>
+      <th>Nationality</th>
+      <th>Phone</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <ng-container *ngIf="!user.editing; else editRow">
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.dateOfBirth }}</td>
+        <td>{{ user.nationality }}</td>
+        <td>{{ user.phone }}</td>
+        <td>
+          <button (click)="editUser(user)" style="background-color: blue">Edit</button>
+          <button (click)="deleteUser(user.id)" style="background-color: red">Delete</button>
+        </td>
+      </ng-container>
+      <ng-template #editRow>
+        <td><input type="text" [(ngModel)]="user.firstName" /></td>
+        <td><input type="text" [(ngModel)]="user.lastName" /></td>
+        <td><input type="text" [(ngModel)]="user.email" /></td>
+        <td><input type="text" [(ngModel)]="user.dateOfBirth" /></td>
+        <td><input type="text" [(ngModel)]="user.nationality" /></td>
+        <td><input type="text" [(ngModel)]="user.phone" /></td>
+        <td>
+          <button (click)="saveChanges(user)">Save</button>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</table> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Bootstrap User Management Data Table</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2>User <b>Management</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#id </th>
+                        <th>profilePicture</th>
+                        <th>FirstName</th>
+                        <th>LasteName</th>
+                        <th>Date of birth</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>phone number</th>
+                        <th>Nationality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users ; let i = index">
+                      <ng-container *ngIf="!user.editing; else editRow">
+                         <td>{{ i + 1 }}</td>
+                        <td>{{ user.idUser}} </td>
+                        <td> <img *ngIf="user.profilePicture" [src]="'data:image/jpeg;base64,' + user.profilePicture" alt="User Profile Picture" />  </td>
+                        <td>{{ user.firstName }} </td>
+                       <td>{{ user.lastName }}</td>
+                        <td>{{ user.dateOfBirth}}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.statue }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.nationality }}</td>
+
+                        <td>
+                          <button (click)="editUser(user)" style="background-color: blue">Edit</button>
+                          <button class="btn btn-danger btn-sm" (click)="removeUser(user.idUser)">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+
+                        </td>
+                      </ng-container>
+                      <ng-template #editRow>
+                        <td><input type="text" [(ngModel)]="user.idUser" /></td>
+                        <td><input type="text" [(ngModel)]="user.profilePicture" /></td>
+                        <td><input type="text" [(ngModel)]="user.firstName" /></td>
+                        <td><input type="text" [(ngModel)]="user.lastName" /></td>
+                        <td><input type="text" [(ngModel)]="user.dateOfBirth" /></td>
+                        <td><input type="text" [(ngModel)]="user.role" /></td>
+                        <td><input type="text" [(ngModel)]="user.statue" /></td>
+                        <td><input type="text" [(ngModel)]="user.email" /></td>
+                        <td><input type="text" [(ngModel)]="user.phone" /></td>
+                        <td><input type="text" [(ngModel)]="user.nationality" /></td>
+
+
+                        <td>
+                          <button (click)="saveChanges(user)">Save</button>
+                        </td>
+                      </ng-template>
+                    </tr>
+
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule,NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -28,6 +28,16 @@ import { DashbordlatbarComponent } from './components/dashbordlatbar/dashbordlat
 import {InputTextModule} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginComponentComponent } from './components/login-component/login-component.component';
+//import { ListuseruComponentComponent } from './components/listuseru-component/listuseru-component.component';
+import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { NgxPasswordStrengthModule } from 'ngx-password-strength';
+//import{ListuseruComponentComponent}from'./components/user-list-component/user-list-component.component;
+import { UserListComponentComponent } from './components/user-list-component/user-list-component.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
+//import{user}
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,11 +57,17 @@ import { ButtonModule } from 'primeng/button';
       AddPublicationComponent,
       AddSpecialiterComponent,
       DashbordlatbarComponent,
+      LoginComponentComponent,
+      UserListComponentComponent,
+    //  ListuseruComponentComponent,
+      ForgetPasswordComponent,
+      ChangePasswordComponent,
 
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    NgxPasswordStrengthModule,
     AppRoutingModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -62,14 +78,20 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
+NgxCaptchaModule,
     FormsModule,
 
 
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+
+   // { provide: HTTP_INTERCEPTORS, useClass: provideHttpClient(), multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
+
+
 export class AppModule { }

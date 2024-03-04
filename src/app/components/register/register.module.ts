@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+//import { FeatherIconModule } from 'src/app/shared/module/feather.module.ts';
 
 
 @NgModule({
