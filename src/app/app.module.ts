@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -28,13 +27,29 @@ import { DashbordlatbarComponent } from './components/dashbordlatbar/dashbordlat
 import {InputTextModule} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TableModule } from 'primeng/table';
+import { ClasseListComponent } from './components/classe-list/classe-list.component';
+import { EditClasseComponent } from './components/edit-classe/edit-classe.component';
+import {AccumulationChartModule, ChartModule, PieSeriesService} from '@syncfusion/ej2-angular-charts';
+
+
+
+import {DropdownModule} from 'primeng/dropdown';
+import { ListSpecialiteComponent } from './components/list-specialite/list-specialite.component';
+import { ShowClasseSpComponent } from './components/show-classe-sp/show-classe-sp.component';
+import { ListEnsignatByClasseComponent } from './components/list-ensignat-by-classe/list-ensignat-by-classe.component';
+import { ListEtudiantByClaaseComponent } from './components/list-etudiant-by-claase/list-etudiant-by-claase.component';
+import { ListEtudiantToAffComponent } from './components/list-etudiant-to-aff/list-etudiant-to-aff.component';
+import { ListEnseignatToAffComponent } from './components/list-enseignat-to-aff/list-enseignat-to-aff.component';
+import { StatEtudiantParSpeComponent } from './components/stat-etudiant-par-spe/stat-etudiant-par-spe.component';
+import { StatProffParSpcComponent } from './components/stat-proff-par-spc/stat-proff-par-spc.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
     FooterComponent,
-
     CoursComponent,
       ScheduleComponent,
       EvaluationComponent,
@@ -47,12 +62,24 @@ import { ButtonModule } from 'primeng/button';
       AddPublicationComponent,
       AddSpecialiterComponent,
       DashbordlatbarComponent,
+      ClasseListComponent,
+      EditClasseComponent,
+      ListSpecialiteComponent,
+      ShowClasseSpComponent,
+      ListEnsignatByClasseComponent,
+      ListEtudiantByClaaseComponent,
+      ListEtudiantToAffComponent,
+      ListEnseignatToAffComponent,
+      StatEtudiantParSpeComponent,
+      StatProffParSpcComponent,
+
 
   ],
   imports: [
-    HttpClientModule,
+    AccumulationChartModule,
     BrowserModule,
     AppRoutingModule,
+    ChartModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -63,12 +90,17 @@ import { ButtonModule } from 'primeng/button';
     InputTextModule,
     ButtonModule,
     FormsModule,
+    HttpClientModule,
+    TableModule,
+    DropdownModule,
+    ChartModule
 
 
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    PieSeriesService
   ],
   bootstrap: [AppComponent]
 })

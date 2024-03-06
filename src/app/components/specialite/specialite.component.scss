@@ -1,3 +1,16 @@
+.publications-card {
+  width: 80%;
+  max-width: 600px;
+  margin: auto; // Centered horizontally
+  box-shadow: 0 10px 20px rgba(0,0,0,0.50), 0 6px 6px rgba(0,0,0,0.23); // 3D shadow effect
+  transition: transform 0.5s, box-shadow 0.5s; // Smooth transition for hover effect
+
+  &:hover {
+    transform: scale(1.05); // Slight zoom effect on hover
+    box-shadow: 0 30px 40px rgba(0,0,0,0.2), 0 10px 10px rgba(0,0,0,0.24); // More pronounced shadow on hover
+  }
+}
+
 .form-container {
     max-width: 500px;
     margin: 30px auto;
@@ -48,6 +61,15 @@
       .butn:hover {
         background-color: #e57437; /* Bleu plus foncé au survol */
       }
+  
+   
     
   }
-  
+  .form-title {
+    text-align: center;
+    font-size: 18px; /* Even smaller font size */
+    margin-top: 5px; /* Minimal top margin */
+    margin-bottom: 5px; /* Minimal bottom margin to bring it very close to the form */
+    color: #333; /* Optional: Adjust the color as needed */
+    font-weight: bold; /* Making it bold for emphasis despite the smaller size */
+  }

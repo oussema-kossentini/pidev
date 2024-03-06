@@ -34,12 +34,12 @@
 
                             <!-- start menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
-                                <li><a href="index-2.html" >Home</a></li>
+                                <li><a [routerLink]="['']" >Home</a></li>
                                 <li>
 
                                     <a href="#!" >Evaluation</a>
                                     <ul>
-
+                                       
                                         <li><a [routerLink]="['/add-evaluation']">Add Evaluation</a></li>
                                     </ul>
                                 </li>
@@ -50,11 +50,8 @@
                                         <li><a href="course-details.html">Courses Details</a></li>
                                     </ul>
                                 </li>
-
-                                <li><a [routerLink]="['/dadmin']"  >dashbored admin</a>
-
-                                </li>
-
+                           
+                                                              
                                 <li>
                                     <a href="#!" >Scheduel</a>
                                     <ul>
@@ -86,9 +83,10 @@
                                 <li>
                                 <a href="#!" >Speciality</a>
                                 <ul>
-
+                                   
                                     <li><a [routerLink]="['/specialite']">Speciality</a></li>
-                                    <li><a [routerLink]="['/class']">class</a></li>
+                                    <li><a [routerLink]="['/classe']">class</a></li>
+                                    <li><a [routerLink]="['/list-specialite']">list-speciality</a></li>
                                 </ul>
                                 </li>
                             </ul>
@@ -98,7 +96,7 @@
                             <div class="attr-nav align-items-xl-center ms-xl-auto main-font">
                                 <ul>
                                     <li class="search"><a href="#!"><i class="fas fa-search"></i></a></li>
-                                    <li class="d-none d-xl-inline-block"><a [routerLink]="['/register']"><i class="fas fa-plus-circle icon-arrow before"></i><span class="label">Apply Now</span><i class="fas fa-plus-circle icon-arrow after"></i></a></li>
+                                    <li class="d-none d-xl-inline-block"><a href="contact.html" class="butn md text-white"><i class="fas fa-plus-circle icon-arrow before"></i><span class="label">Apply Now</span><i class="fas fa-plus-circle icon-arrow after"></i></a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->
@@ -108,6 +106,6 @@
             </div>
         </div>
     </div>
-</header>
+</header> 
 
 
