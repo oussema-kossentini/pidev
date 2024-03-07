@@ -1,0 +1,22 @@
+
+<div class="grade-container">
+    <mat-card *ngFor="let grade of grades" class="grade-card">
+      <mat-card-header>
+        <!-- Assurez-vous que cette propriété correspond à votre modèle Grade -->
+        <mat-card-title>Grade ID: {{ grade.idGrade }}</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <p><strong>Value:</strong> {{ grade.value }}</p>
+        <p><strong>Comment:</strong> {{ grade.comment }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button color="primary" (click)="editGrade(grade)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteGrade(grade.idGrade)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

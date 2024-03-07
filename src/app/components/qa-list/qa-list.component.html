@@ -1,0 +1,66 @@
+<!--<div class="qa-container">-->
+<!--  <mat-card *ngFor="let qa of qas" class="qa-card">-->
+<!--    <mat-card-header>-->
+<!--      <mat-card-title>{{ qa.question }}</mat-card-title>-->
+<!--      <mat-card-subtitle>Difficulté: {{ qa.difficulty ? qa.difficulty : 'Non spécifiée' }}</mat-card-subtitle>-->
+<!--    </mat-card-header>-->
+<!--    <mat-divider></mat-divider>-->
+<!--    <mat-card-content>-->
+<!--      <p><strong>Score:</strong> {{ qa.score }}</p>-->
+
+<!--      <p><strong>Réponses:</strong></p>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let response of qa.response">{{ response }}</li>-->
+<!--      </ul>-->
+<!--    </mat-card-content>-->
+<!--    <mat-card-actions>-->
+<!--      <button mat-icon-button color="primary" (click)="editQa(qa)">-->
+<!--        <mat-icon>edit</mat-icon>-->
+<!--      </button>-->
+<!--      <button mat-icon-button color="warn" (click)="removeQA(qa.idQa)">-->
+<!--        <mat-icon>delete</mat-icon>-->
+<!--      </button>-->
+<!--    </mat-card-actions>-->
+<!--  </mat-card>-->
+<!--</div>-->
+
+
+<div class="container">
+  <h1>Questions / Response </h1>
+  <table class="table">
+    <thead>
+    <tr >
+      <th scope="col">Question</th>
+      <th scope="col">Difficulté</th>
+      <th scope="col">Score</th>
+      <th scope="col">Réponses</th>
+      <th scope="col">Action</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let qa of qas">
+      <td>{{ qa.question }}</td>
+      <td>{{ qa.difficulty ? qa.difficulty : 'Non spécifiée' }}</td>
+      <td>{{ qa.score }}</td>
+      <td>
+        <ul>
+        <li *ngFor="let response of qa.response">{{ response }}</li>
+      </ul></td>
+      <td>
+        <div class="row">
+          <div class="col" *ngIf="!data">
+            <button mat-icon-button color="primary" (click)="editQa(qa)">
+            <mat-icon>edit</mat-icon>
+          </button></div>
+          <div class="col">
+            <button mat-icon-button color="warn" (click)="removeQA(qa.idQa)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+       </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
