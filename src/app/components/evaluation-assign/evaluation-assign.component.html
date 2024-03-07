@@ -1,45 +1,53 @@
-
-<div class="container" >
-  <div class="row">
-    <div class="col-10">
-      <h1>Evaluations</h1>
-    </div>
-  </div>
-  <hr/>
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-      <th scope="col">Type d'évaluation</th>
-      <th scope="col">Catégorie</th>
-      <th scope="col">Date de début</th>
-      <th scope="col">Date de fin</th>
-      <th scope="col">Statut</th>
-      <th scope="col">Durée</th>
-      <th scope="col">Action</th>
-
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let evaluation of evaluations">
-      <td>{{ evaluation.title }}</td>
-      <td>{{ evaluation.description }}</td>
-      <td>{{ evaluation.typeEvaluation }}</td>
-      <td>{{ evaluation.categorie }}</td>
-      <td>{{ evaluation.startDate | date }}</td>
-      <td>{{ evaluation.endDate | date }}</td>
-      <td>{{ evaluation.statue ? 'active' : 'inactive' }}</td>
-      <td>{{ evaluation.duration }}</td>
-      <td><div class="row">
-        <div class="col">
-          <button (click)="assign(evaluation.idEvaluation)" class="btn btn-sm btn-outline-primary" >
-            Assign
-          </button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluations</title>
+  
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Evaluations</h1>
         </div>
-      </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    </div>
+    <hr/>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Titre</th>
+            <th scope="col">Description</th>
+            <th scope="col">Type d'évaluation</th>
+            <th scope="col">Catégorie</th>
+            <th scope="col">Date de début</th>
+            <th scope="col">Date de fin</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Durée</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let evaluation of evaluations">
+            <td>{{ evaluation.title }}</td>
+            <td>{{ evaluation.description }}</td>
+            <td>{{ evaluation.typeEvaluation }}</td>
+            <td>{{ evaluation.categorie }}</td>
+            <td>{{ evaluation.startDate | date }}</td>
+            <td>{{ evaluation.endDate | date }}</td>
+            <td>{{ evaluation.statue ? 'active' : 'inactive' }}</td>
+            <td>{{ evaluation.duration }}</td>
+            <td>
+                <div class="action-btns">
+                    <button (click)="assign(evaluation.idEvaluation)" class="btn btn-assign" >
+                        Assigner
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+</body>
+</html>

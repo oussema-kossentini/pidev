@@ -13,6 +13,7 @@ import { Evaluation, TypeEvaluation , Categorie} from '../../Models/evaluation.m
 })
 export class AddEvaluationComponent implements OnInit {
   evaluationForm!: FormGroup;
+  
   isEditMode: boolean = false;
   categories = Object.values(Categorie);
   evolutionTypes = [
