@@ -10,6 +10,7 @@ export interface Publication {
   fileName?: string; // Ajoutez une propriété pour le nom du fichier
   imageToken?: string; // Ajoutez le champ pour stocker le token JWT de l'image
   likes?: number; // Déclaration de l'attribut likes de type number
+  shareCount ?: number; // Nombre de partages de la publication
 
   comments?: Comment[]; // Liste des commentaires associés à la publication
 

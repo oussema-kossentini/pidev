@@ -16,6 +16,7 @@
     button:not(:disabled)
 
     {cursor:pointer;
+       color:  rgb(165, 130, 42);
     
     
        

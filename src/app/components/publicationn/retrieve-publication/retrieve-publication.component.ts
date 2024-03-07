@@ -57,24 +57,30 @@ export class RetrievePublicationComponent implements OnInit {
     this.loadPublications();
   }
 
+
   loadPublications(): void {
-    this.publicationService.getPublications().subscribe(
-      (data: any[]) => {
-        this.PublicationList = data.map(publication => {
-          // Assurez-vous que la propriété creationDate est correctement renvoyée par le service
-          // et est au format approprié
-          const creationDate = new Date(); // Utilisez la date de création réelle de la publication
-          return {
-            ...publication,
-            formattedCreationDate: creationDate.toLocaleString() // Formatage de la date de création avec heure et minute
-          };
-        });
-      },
-      error => {
-        console.error('Erreur lors du chargement des publications :', error);
-      }
-    );
+ 
+this.publicationService.getPublications().subscribe(
+  (data: any[]) => {
+    this.PublicationList = data.map(publication => {
+      const creationDate = new Date(publication.creationDate);
+      return {
+        ...publication,
+        formattedCreationDate: creationDate.toLocaleString(),
+        showComments: false, // Ajouter une propriété pour contrôler l'affichage des commentaires
+        comments: [] // Initialiser la liste des commentaires vide
+      };
+    });
+
+ 
+  },
+  error => {
+    console.error('Error loading publications:', error);
+
   }
+);
+  }
+
   
  
   

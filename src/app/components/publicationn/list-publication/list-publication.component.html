@@ -9,7 +9,10 @@
     <nav>
       <div class="nav-left">
           <img src="assets/img/socialmedia/logo.png" alt="Logo">
-          <input type="text" placeholder="Search Mediabook..">
+          <div class="search-input">
+          <input type="text" [(ngModel)]="searchTitle" placeholder="Search Mediabook..">
+          <button (click)="searchPublicationsByTitle()">
+          <i class="fa fa-search"></i></button></div>
       </div>
 
       <div class="nav-middle">
@@ -135,8 +138,26 @@
         <div *ngFor="let publication of PublicationList" class="post">
             <div class="post-top">
             <p class="card-text"><span class="text-muted"> {{ publication.formattedCreationDate }}</span></p>
-            <i class="fas fa-ellipsis-h"></i>
+            <i class="fas fa-ellipsis-h" (click)="toggleOptions(publication.idPublication)"></i>
+
+            <ul *ngIf="selectedPublicationId === publication.idPublication && showOptions" class="options-list">
+                <div class="icon-container">
+  <li (click)="deletePublication(publication.idPublication)">
+
+    <i class="fas fa-trash-alt icon" style="color: red;" [ngClass]="{ 'clicked': isDeleteClicked }" (click)="toggleClickedState('delete')"></i> 
+
+</li>
+  <li (click)="editPublication(publication)">
+    <i class="fas fa-pencil-alt icon"style="color: orange;" [ngClass]="{ 'clicked': isEditClicked }" (click)="toggleClickedState('edit')"></i> 
+
+</li>
+</div>
+</ul>
+
+            
           </div>
+          <div>
+          <ng-container *ngIf="!publication.editing; else editRowPublication">
           <div class="post-content">
             <h5 class="card-title">{{ publication.title }}</h5>
             <p class="card-text">{{ publication.content }}</p>
@@ -144,33 +165,52 @@
                 src = "{{this.publicationService.host+'/api/publications/Imgarticles/'+publication.idPublication}}" 
                 style = "height :200px;width:fil-content"
                alt=""></a>
+</div></ng-container>
+
+
+               <ng-template #editRowPublication>
+                <!-- Champs d'édition du commentaire -->
+                <input type="text" [(ngModel)]="publication.title" />
+                <input type="text" [(ngModel)]="publication.content" />
+              
+
+                <button (click)="saveChanges(publication)">
+                    <i class="fas fa-archive"></i>saveChanges
+                </button>
+              </ng-template>
+
           </div>
           <div class="post-bottom">
             <div class="action">
-                <i class="far fa-thumbs-up" (click)="increaseLikes()"></i>
+
+                <i class="fas fa-heart" (click)="increaseLikes()"></i>
                 <span>{{ likes }}</span> <!-- Affiche le nombre de likes -->
               </div>
               
             
             <div class="action" (click)="showCommentInput(publication)" >
-              <i class="far fa-comment"></i>
+              <i class="fas fa-comment-alt"></i>
               <span>Comment</span>
             </div>
              <!-- Zone d'entrée de texte pour le commentaire -->
 
-            <div class="action">
-              <i class="fa fa-share"></i>
-              <span>Share</span>
+            <div class="action"  (click)="sharePublication(publication)">
+                <span>{{ publication.shareCount }}</span>
+
+                <i class="fas fa-users"></i>
+                <span>Share</span>
             </div>
           </div>
 
-
-          <button (click)="toggleComments(publication)">
+        
+          <i class="fas" [ngClass]="{'fa-chevron-up': publication.showComments, 'fa-chevron-down': !publication.showComments}" (click)="toggleComments(publication)"></i>
+          <span (click)="toggleComments(publication)">
             {{ publication.showComments ? 'Masquer les commentaires' : 'Afficher les commentaires' }}
-          </button>
+          </span>
+          
            <!-- Afficher les commentaires si showComments est vrai -->
   <div *ngIf="publication.showComments && publication.comments && publication.comments.length > 0">
-  <h4>Commentaires :</h4>
+  
   <div class="comment-container">
     <div *ngFor="let comment of publication.comments" class="comment-item">
         <ng-container *ngIf="!comment.editing; else editRow">
@@ -190,7 +230,7 @@
           <!-- Champs d'édition du commentaire -->
           <input type="text" [(ngModel)]="comment.content" />
           <button (click)="saveChanges(comment)">
-            Enregistrer
+            <i class="fas fa-archive"></i> saveChanges
           </button>
         </ng-template>
       </div>
@@ -219,9 +259,11 @@
         <div *ngIf="!isLoading && PublicationList.length === 0" class="text-center mt-3">
           No more publications to load.
         </div>
-        <div *ngIf="!isLoading && PublicationList.length > 0">
-          <button *ngIf="!allPublicationsLoaded" class="btn btn-primary btn-block" (click)="loadMorePublications()">Load More Publications</button>
-        </div>
+        <!-- Bouton Load More Publications -->
+<div *ngIf="!isLoading && PublicationList.length > 0 && searchTitle === ''">
+  <button *ngIf="!allPublicationsLoaded" class="btn btn-primary btn-block" (click)="loadMorePublications()">Load More Publications</button>
+</div>
+
       </div>
     
 <br>
@@ -298,4 +340,5 @@
             
         </div>
     </div>
-</div>
+
+  </div>

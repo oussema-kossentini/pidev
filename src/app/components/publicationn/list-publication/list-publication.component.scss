@@ -457,3 +457,222 @@ nav .nav-right a > i{
   font-size: 12px;
   color: #999;
 }
+.card-title {
+  font-size: 24px; /* Taille de la police plus grande pour le titre */
+  font-weight: bold; /* Texte en gras pour le titre */
+  text-align: center; /* Centrer le texte */
+  animation: animateText 2s infinite alternate; /* Animation du texte */
+  transform-origin: center; /* Point de transformation au centre */
+  color: blueviolet;
+}
+@keyframes animateText {
+  0% {
+      transform: scale(1); /* Taille normale */
+  }
+  50% {
+      transform: scale(2); /* Taille agrandie à 110% */
+  }
+  100% {
+      transform: scale(1); /* Retour à la taille normale */
+  }
+}
+
+.card-text {
+  /* Ajoutez ici les styles pour le contenu */
+  animation: animateText ;
+  font-size: 18px; /* Taille de la police plus grande pour le titre */
+}
+
+.search-input {
+  position: relative;
+  display: inline-block;
+}
+
+.search-input input[type="text"] {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #7fffd4; /* Vert d'eau */
+  border-radius: 20px; /* Coins arrondis */
+  transition: border-color 0.3s ease; /* Animation de transition */
+}
+
+.search-input button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-color: #7fffd4; /* Bordure orange en focus */
+
+}
+
+.search-input input[type="text"]:focus {
+  width: 300px;
+  border-color: #ffa500; /* Bordure orange en focus */
+
+}
+
+.search-input input[type="text"]:focus + button {
+  border-color: #7fffd4; /* Bordure orange en focus */
+  color: #ffa500; /* Couleur du texte du bouton en hover */
+
+}
+
+.search-input button:hover {
+color: #7fffd4; /* Bordure orange en focus */
+ 
+}
+
+.fa-search {
+  transition: all 0.3s ease;
+
+}
+
+
+.search-input input[type="text"]:focus + button .fa-search {
+  transform: rotate(90deg);
+  button:not(:disabled) {
+    color: #c9a11d;
+  }
+}
+.options-list {
+  list-style-type: none;
+  padding: 5px 0;
+  margin: 0;
+  position:sticky;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 0.3s ease forwards;
+  width: 80px; /* Largeur de la liste */
+}
+
+.options-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.options-list li:hover {
+  background-color: #f0f0f0;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.icon-container {
+  display: inline-block; /* Pour afficher les icônes sur la même ligne */
+}
+
+.icon {
+  font-size: 24px; /* Taille personnalisée */
+  margin-right: 10px; /* Espacement entre les icônes */
+  transition: transform 0.2s ease; /* Ajouter une transition pour l'échelle */
+}
+
+.clicked {
+  transform: scale(0.8); /* Réduire l'échelle lorsqu'un clic */
+}
+/* Style pour les champs input */
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Coins plus arrondis */
+}
+
+/* Style pour le bouton Enregistrer */
+button {
+  padding: 2px 5px;
+  background-color: #abab0c;
+  color: white;
+  border: 1px solid transparent; /* Lignes plus fines */
+  border-radius: 50px; /* Coins plus arrondis */
+  cursor: pointer;
+
+}
+
+/* Style pour le bouton Enregistrer au survol */
+button:hover {
+  background-color: #c9a11d;
+}
+/* CSS pour l'icône de cœur */
+.fa-heart {
+  color: #ff0000; /* Couleur rouge par défaut */
+  font-size: 16px; /* Taille de l'icône */
+  cursor: pointer; /* Curseur pointeur pour indiquer l'interactivité */
+  transition: color 0.3s ease; /* Animation de transition de couleur */
+  margin-right: 5px;
+}
+
+.fa-heart:hover {
+  color: #ff6666; /* Couleur rouge clair au survol */
+}
+
+/* Animation pour l'icône de cœur */
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Appliquer l'animation lors du clic sur l'icône de cœur */
+.fa-heart.clicked {
+  animation: heartBeat 0.5s ease;
+}
+/* Style pour l'icône de commentaire */
+.fas.fa-comment-alt {
+  color: #00bcd4; /* Couleur du commentaire */
+  font-size: 15px; /* Taille de l'icône */
+  margin-right: 5px; /* Marge à droite pour l'espacement */
+  transition: transform 0.3s ease; /* Animation de transition */
+}
+
+/* Effet de changement de couleur au survol */
+.fas.fa-comment-alt:hover {
+  color: #00838f; /* Nouvelle couleur au survol */
+}
+
+/* Animation de saut au clic */
+.fas.fa-comment-alt.clicked {
+  animation: jump 0.5s ease;
+}
+
+/* Animation de saut */
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+/* Style pour l'icône de partage */
+.fas.fa-users {
+  color: #3f51b5; /* Couleur de l'icône */
+  font-size: 24px; /* Taille de l'icône */
+  margin-right: 5px; /* Marge à droite pour l'espacement */
+  transition: color 0.3s ease; /* Animation de transition */
+}
+
+/* Effet de changement de couleur au survol */
+.fas.fa-users:hover {
+  color: #303f9f; /* Nouvelle couleur au survol */
+}
