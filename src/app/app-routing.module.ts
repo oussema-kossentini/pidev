@@ -15,12 +15,16 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { UserListComponentComponent } from './components/user-list-component/user-list-component.component';
 import { AuthGardService } from './service/auth-gard.service';
 import { RoleGuardService } from './service/role-guard.service';
+import { GoogleCallbackComponent } from './components/google-callback/google-callback.component';
+import { ResetPasswordGuardService } from './service/reset-password-guard.service';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
+//import { AuthGuard } from './service/auth.guard';
 const routes: Routes = [
 
-   { path: '', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
+   { path: 'home', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
     // Autres routes...
 
-  { path: 'evaluation', component: EvaluationComponent },
+  { path: 'evaluation', component: EvaluationComponent, canActivate: [AuthGardService] },
   {path :'4',component:HomeComponent},
   { path: 'add-evaluation', component: AddEvaluationComponent },
   { path: 'dadmin', component: DadminComponent },
@@ -30,11 +34,15 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
  // { path: 'login', component: LoginComponentComponent},
   { path: 'ForgetPassword', component: ForgetPasswordComponent},
+  { path: 'google-callback', component: GoogleCallbackComponent },
+
   { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { requiredRole:'ADMINISTRATOR'} },
   { path: 'login', component: LoginComponentComponent, canActivate: [AuthGardService] },
+  { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGardService] },
  /* { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [RoleGuard], data: { requiredRole: 'ADMIN' } }*/
-  {path:'change-password',component:ChangePasswordComponent}
+{path:'change-password',component:ChangePasswordComponent, canActivate: [ResetPasswordGuardService]}
 ];
 
 @NgModule({

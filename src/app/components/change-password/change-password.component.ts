@@ -24,10 +24,7 @@ export class ChangePasswordComponent {
       return;
     }
 
-    if (this.passwordStrength < this.someThreshold) {
-      console.error("Le mot de passe n'est pas assez fort.");
-      return;
-    }
+
 
     this.authService.updateUserPassword(this.userEmail, this.newPassword).subscribe({
       next: (response) => console.log(response),

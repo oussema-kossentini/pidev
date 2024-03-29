@@ -1,11 +1,15 @@
+import { user } from './../models/user.model';
 import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
 
-
+import { switchMap, catchError,map } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
+
 
 import { Observable, tap } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { user } from '../models/user.model';
+
 //let jwt_decode = await import('jwt-decode');
 import jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
@@ -18,18 +22,27 @@ export class ServiceFazzetregisterService {
   // constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) { }
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) {
     if (isPlatformBrowser(this.platformId)) {
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
+
       if (token) {
+        this.retrieveUserData();
         // Optionnel : Validation du token côté serveur ici
         this.updateIsAdminStatus(); // Initialise l'état isAdmin basé sur le token
       }
     }
+
   }
 
   private readonly TOKEN_KEY = 'token';
 
+  private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
 
-
+  private hasToken(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem(this.TOKEN_KEY);
+    }
+    return false;
+  }
 
 getCountryCodes(): any[] {
     return [
@@ -247,7 +260,8 @@ private jwtbaseurl='http://localhost:8085/courszello/api/auth';
 
       return this.http.post(this.apiAddUser, formData).pipe(
         tap((response: any) => {
-          sessionStorage.setItem('authToken', response.token); // Store the token
+          localStorage.setItem('authToken', response.token); // Store the token
+          this.updateUserStatus('ONLINE').subscribe();
         })
       );;
     }
@@ -262,22 +276,26 @@ private jwtbaseurl='http://localhost:8085/courszello/api/auth';
       }
       return headers;
     }
-    //  decodeJwt(token: string): any {
-    //   try {
-    //     // Split le token en ses parties
-    //     const parts = token.split('.');
-    //     if (parts.length !== 3) {
-    //       throw new Error('Le JWT ne contient pas 3 parties');
-    //     }
+    public updateRoleStatus(): void {
+      const token = this.getJwtToken();
+      if (!token) {
+        this.clearRoleStatus();
+        return;
+      }
 
-    //     // La partie qui nous intéresse est la deuxième, le payload
-    //     const decodedPayload = atob(parts[1]);
-    //     return JSON.parse(decodedPayload);
-    //   } catch (error) {
-    //     console.error('Erreur lors de la décodage du token:', error);
-    //     return null;
-    //   }
-    // }
+      try {
+        const decoded: any = this.decodeJwt(token); // Assurez-vous d'ajuster le typage ici
+        const roles = decoded.roles || [];
+        localStorage.setItem('isAdmin', String(roles.includes('ADMINISTRATOR')));
+        localStorage.setItem('isUser', String(roles.includes('USER')));
+        localStorage.setItem('isTeacher', String(roles.includes('TEACHER')));
+        localStorage.setItem('isStudent', String(roles.includes('STUDENT')));
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        this.clearRoleStatus();
+      }
+    }
+
      decodeJwt(token: string): any {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -289,29 +307,165 @@ private jwtbaseurl='http://localhost:8085/courszello/api/auth';
     }
     saveToken(token: string): void {
       if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem(this.TOKEN_KEY, token);}
+      localStorage.setItem(this.TOKEN_KEY, token);}
     }
 
 
 
-    // Supprimer le token JWT
-    removeToken(): void {
-      sessionStorage.removeItem(this.TOKEN_KEY);
-     // this.isAdminSubject.next(false);
-    }
+
 
     // Dans votre service d'authentification
-logoutUser(): void {
+
+
+    //lougout mdarha cote client barak
+/*logoutUser(): void {
+
+
   this.removeToken(); // ou toute autre logique de déconnexion
   this.isAdminSubject.next(false); // Met à jour l'état d'administration
+
+
+}
+*/
+
+/*
+logoutUser(): Observable<any> {
+  const token = this.getJwtToken();
+  if (!token) {
+    console.error("No JWT token found. Unable to logout.");
+    // Retourne un observable qui échoue, pour rester cohérent avec la signature de la méthode
+    return throwError(() => new Error('No JWT token found'));
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}` // Inclut correctement le token ici
+  });
+
+  //mettre ajoour le etat de user
+
+  // Enlève immédiatement le token du stockage pour éviter des utilisations non autorisées
+  this.removeToken();
+  this.isAdminSubject.next(false); // Met à jour l'état d'administration
+
+  // Retourne l'Observable de la requête HTTP, permettant ainsi son utilisation avec .subscribe()
+  return this.http.post(`${this.jwtbaseurl}/logout`, {}, { headers: headers ,responseType: 'text' });
+}
+*/
+
+logoutUser(): Observable<any> {
+  // Exemple d'implémentation
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getJwtToken()}`
+  });
+
+  // Supprime le token du stockage local et met à jour l'état de connexion
+  this.removeToken();
+  this.clearRoleStatus();
+  this.isAdminSubject.next(false);
+  // Si vous avez besoin de notifier le serveur de la déconnexion, faites-le ici
+  return this.http.post(`${this.jwtbaseurl}/logout`, {}, { headers }).pipe(
+    tap(() => {
+      // Mettre à jour l'état de connexion
+      this.isLoggedInSubject.next(false);
+
+      //this.isAdminSubject.next(false);
+      // Supprimer le token du stockage
+      this.removeToken();
+      // Rediriger vers la page de connexion ou effectuer d'autres actions
+    }),
+    catchError(error => {
+      console.error("Error during logout:", error);
+      return throwError(() => new Error('Error during logout'));
+    })
+  );
 }
 
+/*
+logoutUser(): Observable<any> {
+  const token = this.getJwtToken();
+  if (!token) {
+    console.error("No JWT token found. Unable to logout.");
+    return throwError(() => new Error('No JWT token found'));
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  // Premièrement, mettez à jour le statut de l'utilisateur à 'OFFLINE'
+  return this.updateUserStatus('OFFLINE').pipe(
+    // Utilisez switchMap pour enchaîner la requête de déconnexion après la mise à jour réussie du statut
+    switchMap(() => {
+      // Enlève le token du stockage pour éviter des utilisations non autorisées
+      this.removeToken();
+      this.isAdminSubject.next(false); // Met à jour l'état d'administration
+
+      // Effectue la requête de déconnexion
+      return this.http.post(`${this.jwtbaseurl}/logout`, {}, { headers: headers, responseType: 'text' });
+    }),
+    catchError(error => {
+      // Gestion des erreurs, si nécessaire
+      console.error("Error during logout:", error);
+      return throwError(() => new Error('Error during logout'));
+    })
+  );
+}*/
+
     // Vérifier si l'utilisateur est connecté
+   /* isLoggedIn(): boolean {
+      return !!this.getJwtToken();
+    }*/
+
+    public isLoggedInAndJwtValid(jwtToken: string): Observable<boolean> {
+      // Supposez que vous avez configuré votre backend pour valider le JWT et retourner un booléen
+      return this.http.get<boolean>(`${this.jwtbaseurl}/is-logged-in`, {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${jwtToken}`
+        })
+      }).pipe(
+        map(isValid => {
+          this.isLoggedInSubject.next(isValid);
+          return isValid;
+        }),
+        catchError(error => {
+          this.isLoggedInSubject.next(false);
+          return of(false);
+        })
+      );
+    }
+
+    
+
     isLoggedIn(): boolean {
       return !!this.getJwtToken();
     }
+
+     // Supprimer le token JWT
+     removeToken(): void {
+      localStorage.removeItem(this.TOKEN_KEY);
+     // this.isLoggedInSubject.next(false);
+    }
+
+  /*  public async isLoggedIn(): Promise<boolean> {
+      const jwtToken = this.getJwtToken();
+
+      if (!jwtToken) {
+        return false;
+      }
+
+      try {
+        // Await the result of the isLoggedInAndJwtValid call
+        const isValid = await this.isLoggedInAndJwtValid(jwtToken).toPromise();
+        return isValid;
+      } catch (error) {
+        console.error('Error checking login status:', error);
+        return false; // Or potentially handle the error differently
+      }
+    }*/
+
+
     // Utilisation de la fonction decodeJwt dans isAdmin
-    isAdmin(): boolean {
+    isAdminn(): boolean {
       const token = this.getJwtToken();
       if (!token) return false;
 
@@ -323,38 +477,432 @@ logoutUser(): void {
         return false;
       }
     }
+    private clearRoleStatus(): void {
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('isUser');
+      localStorage.removeItem('isTeacher');
+      localStorage.removeItem('isStudent');
+    }
+
+    // public get isAdmin(): boolean {
+    //   return JSON.parse(localStorage.getItem('isAdmin') || 'false');
+    // }
+
+    // public get isUser(): boolean {
+    //   return JSON.parse(localStorage.getItem('isUser') || 'false');
+    // }
+
+    // public get isTeacher(): boolean {
+    //   return JSON.parse(localStorage.getItem('isTeacher') || 'false');
+    // }
+
+    // public get isStudent(): boolean {
+    //   return JSON.parse(localStorage.getItem('isStudent') || 'false');
+    // }
+
+   /* isTeacher(): boolean {
+      const token = this.getJwtToken();
+      if (!token) return false;
+
+      try {
+        const decoded = this.decodeJwt(token);
+        return decoded && decoded.roles && decoded.roles.includes('PROFESSOR');
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }*/
+
+  /*  isTeacher(): boolean {
+      const token = this.getJwtToken();
+
+      // Handle missing token gracefully
+      if (!token) {
+        return false;
+      }
+
+      try {
+        const decoded = this.decodeJwt(token);
+
+        // Ensure decoded object and roles array exist before access
+        if (decoded && decoded.roles && decoded.roles.includes('PROFESSOR')) {
+          localStorage.setItem('isTeacher', 'true');
+          return true;
+        } else {
+          localStorage.removeItem('isTeacher'); // Clear if not a student
+          return false;
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }
+
+    */
+
+  /*  isStudent(): boolean {
+      const token = this.getJwtToken();
+
+      // Handle missing token gracefully
+      if (!token) {
+        return false;
+      }
+
+      try {
+        const decoded = this.decodeJwt(token);
+
+        // Ensure decoded object and roles array exist before access
+        if (decoded && decoded.roles && decoded.roles.includes('STUDENT')) {
+          localStorage.setItem('isStudent', 'true');
+          return true;
+        } else {
+          localStorage.removeItem('isStudent'); // Clear if not a student
+          return false;
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }
+
+    */
+   /* isUser(): boolean {
+      const token = this.getJwtToken();
+
+      // Handle missing token gracefully
+      if (!token) {
+        return false;
+      }
+
+      try {
+        const decoded = this.decodeJwt(token);
+
+        // Ensure decoded object and roles array exist before access
+        if (decoded && decoded.roles && decoded.roles.includes('USER')) {
+          localStorage.setItem('isUser', 'true');
+          return true;
+        } else {
+          localStorage.removeItem('isUser'); // Clear if not a student
+          return false;
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }*/
+
+
+   /* isStudent(): boolean {
+      const token = this.getJwtToken();
+      if (!token) return false;
+
+      try {
+        const decoded = this.decodeJwt(token);
+        return decoded && decoded.roles && decoded.roles.includes('STUDENT')
+        localStorage.setItem('isStudent', true);
+
+                   ;
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }*/
+
+   /* isUser(): boolean {
+      const token = this.getJwtToken();
+      if (!token) return false;
+
+      try {
+        const decoded = this.decodeJwt(token);
+        return decoded && decoded.roles && decoded.roles.includes('USER');
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return false;
+      }
+    }
+*/
+
+
+
+
+////// el fouk decodi el role men jwt
+
+
 
    /* login(email: string, password: string): Observable<any> {
       return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password});
     }*/
 
-    // login(email: string, password: string): Observable<any> {
-    //   return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
-    //     tap((response: any) => {
-    //       // Stocker le token dans sessionStorage
-    //       sessionStorage.setItem('token', response.token);
+   /* login(email: string, password: string): Observable<any> {
+      return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
+        tap((response: any) => {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('token', response.token);
+            this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
+          //  this.isStudent();
+            //this.isTeacher();
+            //this.isUser();
+          }
+        })
+      );
+    }
 
-    //     })
-    //   );
-    // }
+
+    */
+    private currentUserFirstName = new BehaviorSubject<string>('');
+    private currentUserLastName = new BehaviorSubject<string>('');
+    private currentUserEmail = new BehaviorSubject<string>('');
+
+    // Observable pour accéder au prénom et nom de l'extérieur
+    public currentUserFirstName$ = this.currentUserFirstName.asObservable();
+    public currentUserLastName$ = this.currentUserLastName.asObservable();
+    public currentUserEmail$ = this.currentUserEmail.asObservable();
+
+
+
+ //  private encryptionKey = '7abf56c4d22af9e9fbf3faafe69c9e65';
+///
+public updateUserData(firstName: string, lastName: string, email: string): void {
+  // Mettre à jour les sujets observables
+  this.currentUserFirstName.next(firstName);
+  this.currentUserLastName.next(lastName);
+  this.currentUserEmail.next(email);
+
+ // Store the data directly in localStorage
+ localStorage.setItem('userData', `${firstName},${lastName},${email}`);
+}
+
+retrieveUserData(): void {
+  const userData = localStorage.getItem('userData');
+  if (userData) {
+    const userDataArray = userData.split(',');
+    if (userDataArray.length === 3) {
+      const [firstName, lastName, email] = userDataArray;
+      this.updateUserData(firstName, lastName, email);
+    } else {
+      console.error('Invalid format of user data in localStorage');
+    }
+  } else {
+    console.debug('No user data found in localStorage');
+  }
+}
+// Méthode pour récupérer les données utilisateur du localStorage
+/*retrieveUserDataEN(): void {
+  const encryptedData = localStorage.getItem('userData');
+  if (encryptedData) {
+    try {
+      const decryptedDataArray = this.decryptUserData(encryptedData);
+      if (decryptedDataArray && decryptedDataArray.length > 0) {
+        const decryptedData = decryptedDataArray[0];
+        const userDataArray = decryptedData.split(',');
+        if (userDataArray.length === 3) {
+          const [firstName, lastName, email] = userDataArray;
+          this.updateUserData(firstName, lastName, email);
+        } else {
+          console.error('Invalid format of decrypted data');
+        }
+      }
+    } catch (error) {
+      console.error('Error decrypting user data:', error);
+    }
+  } else {
+    console.debug('No user data found in localStorage');
+  }
+}
+
+
+// Méthode pour chiffrer les données utilisateur
+private encryptUserData(firstName: string, lastName: string, email: string): string {
+  const dataToEncrypt = `${firstName},${lastName},${email}`;
+  return CryptoJS.AES.encrypt(dataToEncrypt, this.encryptionKey).toString();
+}
+
+// Méthode pour déchiffrer les données utilisateur
+private decryptUserData(encryptedData: string): string[] | null {
+  const bytes = CryptoJS.AES.decrypt(encryptedData, this.encryptionKey);
+  const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+  return decryptedData.split(',');
+}
+
+*/
+
+///
+
+public get isAdmin(): boolean {
+  return JSON.parse(localStorage.getItem('isAdmin') || 'false');
+}
+
+public get isUser(): boolean {
+  return JSON.parse(localStorage.getItem('isUser') || 'false');
+}
+
+public get isTeacher(): boolean {
+  return JSON.parse(localStorage.getItem('isTeacher') || 'false');
+}
+
+public get isStudent(): boolean {
+  return JSON.parse(localStorage.getItem('isStudent') || 'false');
+}
+
+
+    private isAdminSource = new BehaviorSubject<boolean>(false);
+    private isTeacherSource = new BehaviorSubject<boolean>(false);
+    private isStudentSource = new BehaviorSubject<boolean>(false);
+    private isUserSource = new BehaviorSubject<boolean>(false);
+
+    // Expose les observables pour chaque rôle
+    isAdmin$ = this.isAdminSource.asObservable();
+    isTeacher$ = this.isTeacherSource.asObservable();
+    isStudent$ = this.isStudentSource.asObservable();
+    isUser$ = this.isUserSource.asObservable();
+
+    resetState() {
+      this.isAdminSource.next(false);
+      this.isTeacherSource.next(false);
+      this.isStudentSource.next(false);
+      this.isUserSource.next(false);
+
+      // Vous pouvez également réinitialiser d'autres états ici, comme les informations de l'utilisateur
+    }
+
+
+    updateUserRoleState(roles: string[]): void {
+      // Met à jour chaque BehaviorSubject en fonction de la présence du rôle dans le tableau des rôles
+      this.isAdminSource.next(roles.includes('ADMINISTRATOR'));
+      this.isTeacherSource.next(roles.includes('TEACHER'));
+      this.isStudentSource.next(roles.includes('STUDENT'));
+      this.isUserSource.next(roles.includes('USER'));
+      localStorage.setItem('roles', JSON.stringify(roles));
+
+      // Log roles using console.debug for less intrusive logging (optional)
+      console.debug('Updated user roles:', roles);
+    }
+
+    getUserInfo() {
+      return {
+        firstName: localStorage.getItem('firstName'),
+        lastName: localStorage.getItem('lastName'),
+        email : localStorage.getItem('email'),
+        idUser :localStorage.getItem('idUser')
+
+
+      };}
+
+
+
+
     login(email: string, password: string): Observable<any> {
       return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
         tap((response: any) => {
           if (isPlatformBrowser(this.platformId)) {
-            sessionStorage.setItem('token', response.token);
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('firstName', response.firstName);
+            localStorage.setItem('lastName', response.lastName);
+            localStorage.setItem('email', response.email);
+            localStorage.setItem('idUser',response.idUser);
+            // Decode token to get roles
+            const decodedToken = this.decodeJwt(response.token);
+            const roles = decodedToken.roles || [];
+            // Stockez les rôles dans le localStorage ou dans un état géré par un service
+            localStorage.setItem('roles', JSON.stringify(roles));
+            // Mettre à jour l'état de l'application pour refléter le rôle de l'utilisateur
+            this.updateUserRoleState(roles); // Implémentez cette méthode dans votre service
+          //  this.updateUserData(response.firstName, response.lastName, response.email);
+
+          }
+        })
+      );
+    }
+
+
+    exchangeGoogleCodeForToken(code: string): Observable<any> {
+      const payload = { code }; // L'objet que votre backend attend
+      return this.http.post(`${this.jwtbaseurl}/google`, payload).pipe(
+        tap((response: any) => {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('token', response.token);
             this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
           }
         })
       );
     }
 
-    private isAdminSubject = new BehaviorSubject<boolean>(false);
-    public isAdmin$ = this.isAdminSubject.asObservable();
 
+
+
+
+/*
+    login(email: string, password: string): Observable<any> {
+      return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password},{ responseType: 'text' }).pipe(
+        tap((response: any) => {
+          if (isPlatformBrowser(this.platformId)) {
+
+            if (response.token) {
+            //localStorage.setItem('token', response.token);
+            this.isLoggedInSubject.next(true); // Mettez à jour le statut de connexion
+        localStorage.setItem('token',response.token);
+            this.saveToken(response.token);
+            console.log(response.message);
+            // Supposons que updateIsAdminStatus et updateUserStatus sont d'autres logiques que vous avez implémentées
+            this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
+            this.updateUserStatus('ONLINE').subscribe();
+          }}
+        }),
+        catchError((error) => {
+          console.error('Login error:', error);
+          this.isLoggedInSubject.next(false); // Si erreur, considérer comme non connecté
+          return throwError(() => new Error('Failed to login')); // Vous pouvez personnaliser le message d'erreur si nécessaire
+        })
+      );
+    }
+
+
+    */
+
+
+
+    updateUserStatus(status: 'ONLINE' | 'INACTIVE' | 'OFFLINE'): Observable<any> {
+      const token = this.getJwtToken(); // Suppose que vous avez cette méthode pour récupérer le JWT
+      if (!token) {
+        console.error("No JWT token found. Unable to update user status.");
+        return throwError(() => new Error('No JWT token found'));
+      }
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      // Envoyer une requête au serveur pour mettre à jour l'état de connexion avec le JWT dans les headers
+      return this.http.post(`${this.jwtbaseurl}/update-status`, { status }, { headers});
+    }
+
+    private urladdEvaluation = 'http://localhost:8080/api/add/eval';
+    addEvaluation(evaluation: any): Observable<any> { // Ajustez le type d'`evaluation` selon votre modèle
+      return this.http.post<any>(this.urladdEvaluation, evaluation, {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${this.getJwtToken()}`
+        })
+      });
+    }
+
+
+    private isAdminSubject = new BehaviorSubject<boolean>(false);
+  // public isAdmin$ = this.isAdminSubject.asObservable();
+
+
+    // getJwtToken(): string | null {
+    //   if (isPlatformBrowser(this.platformId)&& typeof window !== 'undefined') {
+    //     return localStorage.getItem(this.TOKEN_KEY);
+    //   }
+    //   return null; // ou gérer autrement pour SSR
+    // }
+    // public checkAndUpdateIsAdminStatus(): void {
+    //   this.updateIsAdminStatus(); // This forces an update based on the current token.
+    // }
 
     getJwtToken(): string | null {
       if (isPlatformBrowser(this.platformId)) {
-        return sessionStorage.getItem('token');
+        return localStorage.getItem('token');
       }
       return null; // ou gérer autrement pour SSR
     }
@@ -382,7 +930,7 @@ logoutUser(): void {
 //     }
 
 hasRole(requiredRole: string): boolean {
-  const token = sessionStorage.getItem('token'); // ou sessionStorage, selon où vous stockez le token
+  const token = localStorage.getItem('token'); // ou localStorage, selon où vous stockez le token
   if (token) {
     const decodedToken = this.decodeJwt(token);
     return decodedToken.roles.includes(requiredRole);
@@ -417,6 +965,19 @@ updateIsAdminStatus(): void {
     //   return this.http.post(`${this.jwtbaseurl}/verify-reset-code`, { email,resetToken }, { responseType: 'text' });
     // }
 
+    private resetCodeVerified: boolean = false;
+
+// Call this method once the reset code is successfully verified
+setResetCodeVerified(verified: boolean): void {
+  this.resetCodeVerified = verified;
+}
+
+// Method to check if the reset code has been verified
+isResetCodeVerified(): boolean {
+  return this.resetCodeVerified;
+}
+
+
     verifyResetCode(email: string, resetToken: string): Observable<any> {
       let params = new HttpParams().set('email', email).set('resetToken',resetToken);
       return this.http.post(`${this.jwtbaseurl}/verify-reset-code`, {email,resetToken}, { params: params, responseType: 'text' });
@@ -443,21 +1004,28 @@ updateIsAdminStatus(): void {
 
 
 
-  getUsers(): Observable<user[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-users`);
+  // Dans votre service Angular
+
+  modifyUser(idUser: string, user: any, imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('userJson', JSON.stringify(user));
+
+    if (imageFile) {
+      formData.append('image', imageFile, imageFile.name);
+    }
+
+    return this.http.put<any>(`${this.baseUrl}/modify-user/${idUser}`, formData);
   }
 
-  modifyUser(user: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/modify-user`, user);
-  }
-
- /* removeUser(userId: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/remove-user/${userId}`);
-  }*/
 
 
-  removeUser(userId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/remove-user/${userId}`,{ responseType: 'text' });
+getUsers(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-users`);
+}
+
+  removeUser(id: String): Observable<any> {
+
+    return this.http.delete(`${this.baseUrl}/remove-user/${id}`,{ responseType: 'text' });
 
   }
 

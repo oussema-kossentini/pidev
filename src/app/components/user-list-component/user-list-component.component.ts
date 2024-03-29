@@ -13,7 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 export class UserListComponentComponent implements OnInit {
   users: any[] = [];
-
+  selectedFile: File | null = null;
   constructor(private userService: ServiceFazzetregisterService, private formBuilder: FormBuilder) { this.loadU();  }
 
 
@@ -22,6 +22,13 @@ export class UserListComponentComponent implements OnInit {
   ngOnInit(): void {
  //  this.loadUsers();
     this.loadU();
+  }
+  onFileSelected(event: Event, user: any): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedFile = input.files[0];
+      user.selectedFile = this.selectedFile; // Assign the selected file to the specific user
+    }
   }
 
   // loadUsers(): void {
@@ -48,16 +55,39 @@ export class UserListComponentComponent implements OnInit {
 
   saveChanges(user: any): void {
     user.editing = false; // Deactivate edit mode for the user
-    this.userService.modifyUser(user).subscribe({
-      next: (response) => {
+
+    const formData = new FormData();
+    formData.append('userJson', JSON.stringify(user));
+
+    // Assurez-vous que le nom de l'attribut pour le fichier correspond à celui attendu par votre API.
+    // Dans l'exemple du contrôleur Spring, nous avons utilisé "image" comme paramètre pour le fichier.
+    // Changez "profilePicture" en "image" si c'est ce que votre backend s'attend à recevoir.
+    if (user.selectedFile) {
+      formData.append('image', user.selectedFile, user.selectedFile.name);
+    }
+
+    // L'ID de l'utilisateur doit être inclus dans l'URL, pas dans le FormData,
+    // assurez-vous que l'URL est correcte et correspond à celle définie dans votre contrôleur Spring.
+    this.userService.modifyUser(user.idUser, user, user.selectedFile).subscribe({
+      next: (response: any) => {
         console.log('User modified successfully:', response);
         // Handle successful response, e.g., display confirmation message
+        // Optionally, refresh the user list or update the UI to reflect the changes
+        this.loadU(); // Assuming you have a method loadU() to refresh the list of users
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error modifying user:', error);
         // Handle error, e.g., display error message to user
       }
     });
+  }
+
+
+
+
+  selectProfilePicture(user: any): void {
+    // Simplement, pour l'instant, affichez une alerte lorsque le bouton est cliqué
+    alert("Functionality to select profile picture will be implemented here.");
   }
 
  /* deleteUsers(userId: string): void {

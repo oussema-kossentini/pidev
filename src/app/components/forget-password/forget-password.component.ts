@@ -28,7 +28,7 @@ export class ForgetPasswordComponent {
     });
   }
 
-  verifyResetCode() {
+  /*verifyResetCode() {
 
 
     this.passwordResetService.verifyResetCode(this.email, this.resetToken).subscribe({
@@ -39,7 +39,23 @@ export class ForgetPasswordComponent {
       error: (error) => console.error('Error:', error)
     });
 
-  }
+  }*/
 
+  verifyResetCode() {
+    this.passwordResetService.verifyResetCode(this.email, this.resetToken).subscribe({
+      next: (response) => {
+        console.log(response);
+        // Update the reset code verified status on successful verification
+        this.passwordResetService.setResetCodeVerified(true);
+        this.router.navigate(['/change-password']); // Redirect to change password page
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        // Optionally reset the verified status or handle the error
+        this.passwordResetService.setResetCodeVerified(false);
+        console.log('Reset code verification failed');
+      }
+    });
+  }
 
 }

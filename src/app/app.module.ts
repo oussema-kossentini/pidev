@@ -28,7 +28,7 @@ import { DashbordlatbarComponent } from './components/dashbordlatbar/dashbordlat
 import {InputTextModule} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, withFetch } from '@angular/common/http';
 import { LoginComponentComponent } from './components/login-component/login-component.component';
 //import { ListuseruComponentComponent } from './components/listuseru-component/listuseru-component.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
@@ -37,6 +37,11 @@ import { NgxPasswordStrengthModule } from 'ngx-password-strength';
 //import{ListuseruComponentComponent}from'./components/user-list-component/user-list-component.component;
 import { UserListComponentComponent } from './components/user-list-component/user-list-component.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { AuthInterceptorService } from './service/auth-interceptor.service';
+import { GoogleCallbackComponent } from './components/google-callback/google-callback.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
+///import { withFetch } from '@angular/common/http';
+
 //import{user}
 @NgModule({
   declarations: [
@@ -62,11 +67,15 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     //  ListuseruComponentComponent,
       ForgetPasswordComponent,
       ChangePasswordComponent,
+      GoogleCallbackComponent,
+      AccountSettingsComponent,
 
   ],
   imports: [
-    HttpClientModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    HttpClientModule, // Utilisez withFetch() ici
+    //HttpClientModule,
+   // BrowserModule.withServerTransition({ appId: 'serverApp' }),
     NgxPasswordStrengthModule,
     AppRoutingModule,
     MatButtonModule,
@@ -85,6 +94,9 @@ NgxCaptchaModule,
   ],
   providers: [
     provideClientHydration(),
+   {provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true,},
     provideAnimationsAsync(),
 
    // { provide: HTTP_INTERCEPTORS, useClass: provideHttpClient(), multi: true }

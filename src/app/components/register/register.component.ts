@@ -234,7 +234,7 @@ export class RegisterComponent {
 
     createUser(event: Event) {
       event.preventDefault(); // Prevent the default form submission behavior
-      event.stopPropagation(); // Stop the event from propagating
+      //event.stopPropagation(); // Stop the event from propagating
 
       if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
         this.passwordMismatch = true;
@@ -264,6 +264,7 @@ export class RegisterComponent {
           next: (response) => {
             console.log('User created successfully:', response);
             // Handle success response here, for example, displaying a success message
+            this.router.navigate(['/evaluation']);
           },
           error: (error) => {
             console.error('Error creating user:', error);
@@ -272,151 +273,6 @@ export class RegisterComponent {
         });
     }
 
-   /* createUser(event: Event) {
-      event.preventDefault(); // Prevent the default form submission behavior
-      event.stopPropagation(); // Stop the event from propagating
-
-      if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
-        this.passwordMismatch = true;
-        return;
-      }
-
-      this.passwordMismatch = false;
-      const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
-      this.registerFormCustom.phone = fullPhoneNumber;
-
-      const formData = new FormData();
-      formData.append('user', JSON.stringify(this.registerFormCustom));
-      if (this.registerFormCustom.profilePicture) {
-        formData.append('profilePicture', this.registerFormCustom.profilePicture);
-      }
-      formData.append('firstName', this.registerFormCustom.firstName || '');
-      formData.append('lastName', this.registerFormCustom.lastName || '');
-      formData.append('email', this.registerFormCustom.email || '');
-      formData.append('password', this.registerFormCustom.password || '');
-      formData.append('dateOfBirth', this.registerFormCustom.dateOfBirth || '');
-      formData.append('nationality', this.registerFormCustom.nationality || '');
-      formData.append('phone', this.registerFormCustom.phone || '');
-      formData.append('role', this.registerFormCustom.role || '');
-
-      // Subscribe to the service method to create user
-      this.serviceFazzetregisterService.createUser(formData)
-        .subscribe({
-          next: (response) => {
-            console.log('User created successfully:', response);
-            // Handle success response here, for example, displaying a success message
-          },
-          error: (error) => {
-            console.error('Error creating user:', error);
-            // Handle error, for example, displaying an error message to the user
-          }
-        });
-    }
-
-
-    */
-//temchi maa user adi
-/*
-    createUser(event:Event) {
-      event.preventDefault(); // Empêche la soumission du formulaire
-      event.stopPropagation(); // Empêche la propagation de l'événement
-      const formData = new FormData();
-      formData.append('request', new Blob([JSON.stringify(this.registerFormCustom)], { type: 'application/json' }));
-      if (this.registerFormCustom.profilePicture) {
-        formData.append('profilePicture', this.registerFormCustom.profilePicture);
-      }
-
-      formData.append('role', this.registerFormCustom.role = 'USER');
-      formData.append('password', this.registerFormCustom.password);
-
-      this.serviceFazzetregisterService.createUser(formData).subscribe({
-        next: (response) => {
-          console.log('User created successfully:', response);
-          // Ajoutez ici le traitement en cas de succès
-        },
-        error: (error) => {
-          console.error('Error creating user:', error);
-          // Ajoutez ici le traitement en cas d'erreur
-        }
-      });
-    }
-*/
-
-
-
-    /*
-    createUser(event: Event) {
-
-      event.preventDefault(); // Empêche la soumission du formulaire
-      event.stopPropagation(); // Empêche la propagation de l'événement
-
-      if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
-        this.passwordMismatch = true;
-        return;
-      }
-
-      this.passwordMismatch = false;
-      const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
-      this.registerFormCustom.phone = fullPhoneNumber;
-
-      const formData = new FormData();
-     // formData.append('user', new Blob([JSON.stringify(this.registerFormCustom)], { type: 'application/json' }));
-     formData.append('user', JSON.stringify(this.registerFormCustom));
-      if (this.registerFormCustom.profilePicture) {
-        formData.append('profilePicture', this.registerFormCustom.profilePicture);
-      }
-      formData.append('firstName', this.registerFormCustom.firstName || '');
-      formData.append('lastName', this.registerFormCustom.lastName || '');
-      formData.append('email', this.registerFormCustom.email || '');
-      formData.append('password', this.registerFormCustom.password || '');
-      formData.append('dateOfBirth', this.registerFormCustom.dateOfBirth || '');
-      formData.append('nationality', this.registerFormCustom.nationality || '');
-      formData.append('phone', this.registerFormCustom.phone || '');
-      formData.append('role', this.registerFormCustom.role || '');
-
-      // S'abonner au service dans le composant
-      this.serviceFazzetregisterService.createUser(formData)
-        .subscribe({
-          next: (response) => {
-            console.log('Utilisateur créé avec succès :', response);
-            // Gestion de la réponse réussie, par exemple redirection ou affichage d'un message
-            this.router.navigateByUrl('/listUseur');
-          },
-          error: (error) => {
-            console.error('Erreur lors de la création de l\'utilisateur :', error);
-            // Gestion de l'erreur, par exemple affichage d'un message d'erreur à l'utilisateur
-          }
-        });
-
-
-    }*/
-
-
-    /*
-    createUser() {
-      // Vérifie si les mots de passe correspondent
-      if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
-    //    alert('Le mot de passe et la confirmation du mot de passe ne correspondent pas.');
-        this.passwordMismatch=true;
-        return; // Stoppe la fonction si les mots de passe ne correspondent pas
-      }
-
-      // Concaténation de l'indicatif téléphonique et du numéro de téléphone
-      const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
-      this.registerFormCustom.phone = fullPhoneNumber;
-
-      // Continuez avec l'envoi des données si les mots de passe correspondent
-      this.serviceFazzetregisterService.createUser(this.registerFormCustom).subscribe(
-        (response) => {
-          console.log('Utilisateur créé avec succès :', response);
-          // Ici, vous pouvez rediriger l'utilisateur ou afficher un message de succès
-        },
-        (error) => {
-          console.error('Erreur lors de la création de l\'utilisateur :', error);
-          // Ici, vous pouvez gérer l'erreur, par exemple, en affichant un message à l'utilisateur
-        }
-      );
-    }*/
 
 
 
