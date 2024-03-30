@@ -44,6 +44,7 @@ import { ListEtudiantToAffComponent } from './components/list-etudiant-to-aff/li
 import { ListEnseignatToAffComponent } from './components/list-enseignat-to-aff/list-enseignat-to-aff.component';
 import { StatEtudiantParSpeComponent } from './components/stat-etudiant-par-spe/stat-etudiant-par-spe.component';
 import { StatProffParSpcComponent } from './components/stat-proff-par-spc/stat-proff-par-spc.component';
+import { SpecialitynavetudiantComponent } from './components/specialitynavetudiant/specialitynavetudiant.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +73,7 @@ import { StatProffParSpcComponent } from './components/stat-proff-par-spc/stat-p
       ListEnseignatToAffComponent,
       StatEtudiantParSpeComponent,
       StatProffParSpcComponent,
+      SpecialitynavetudiantComponent,
 
 
   ],

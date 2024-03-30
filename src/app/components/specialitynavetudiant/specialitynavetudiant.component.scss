@@ -1,0 +1,50 @@
+
+h2 {
+  font-size: 40px; /* Ajustez la taille de la police selon vos besoins */
+}
+
+.introduction-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .intro-text, .video-container {
+    padding: 15px;
+  }
+
+  .intro-text {
+    // Permet de s'assurer que le texte prend plus d'espace
+    flex: 1;
+  }
+
+  .video-container {
+    // Permet de s'assurer que la vidéo ne prend pas plus de l'espace nécessaire
+    flex-basis: 350px; // Largeur de base pour la vidéo
+    iframe {
+      max-width: 100%;
+      height: auto; // Ajuste la hauteur en fonction de la largeur
+    }
+  }
+
+
+  .specialite-informatique .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .specialite-informatique .col {
+    /* Si vous souhaitez limiter la largeur de .col et la centrer */
+    max-width: 600px; /* ou la largeur souhaitée */
+  }
+
+
+  .table {
+    background-color: #8ccbc1; /* Couleur de fond pour les en-têtes */
+    color: white; /* Change la couleur du texte pour améliorer le contraste */
+  }
+
+
+
+}
+
+

@@ -31,13 +31,13 @@ export class ClasseComponent implements OnInit {
     private formBuilder : FormBuilder,
     private router: Router  ,
     private route: ActivatedRoute
-  
+
   ) {
-   
+
     this.createForm();
     this.loadLevels();
     // this.loadSpecialite();
-    this.getObjetByIds();
+    //this.getObjetByIds();
     this.errorMessage = ''; // Initialisation avec une chaîne vide
   }
   classeForm: FormGroup = this.formBuilder.group({
@@ -51,7 +51,7 @@ export class ClasseComponent implements OnInit {
       level: ['', [Validators.required,]],
       universityDate: ['', [Validators.required,]]
     });
-  
+
   }
 
 ngOnInit(): void {
@@ -71,7 +71,7 @@ gettingSpecialite(idSpecialite: any): void {
   });
 }
 
-
+/*
   getObjetByIds(): void {
     this.specialiteService.getAllSpecialite().subscribe({
       next: (data) => {
@@ -83,9 +83,9 @@ gettingSpecialite(idSpecialite: any): void {
       }
     });
   }
-  
 
 
+*/
 
 
 
@@ -107,7 +107,7 @@ gettingSpecialite(idSpecialite: any): void {
   //     console.log('Le formulaire est invalide. Veuillez vérifier les champs.');
   //   }
   // }
-  
+
   // onSubmit() {
   //   if (this.classeForm.valid) {
   //     this.classeService.addClasse(this.classeForm.value)
@@ -127,7 +127,7 @@ gettingSpecialite(idSpecialite: any): void {
   //   }
   // }
 
- 
+
   // onSubmit() {
   //   // Vérifie d'abord si le formulaire est valide
   //   if (this.classeForm.valid) {
@@ -135,20 +135,20 @@ gettingSpecialite(idSpecialite: any): void {
   //     const selectedTitle: string = this.classeForm.get('titres')!.value;
   //     // Trouve la spécialité correspondante dans la liste des titres
   //     const specialite = this.titres.find(s => s.title === selectedTitle);
-  
+
   //     // Si une spécialité correspondante est trouvée, utilise son idSpecialite; sinon, utilise null
   //     const idSpecialite = specialite ? specialite.idSpecialite : null;
-  
+
   //     // Vérifie si idSpecialite a été trouvé
   //     if (!idSpecialite) {
   //       console.error('Impossible de trouver l\'ID pour la spécialité sélectionnée.');
   //       this.router.navigate(['/classe-list']);
   //       return; // Arrête l'exécution si aucun idSpecialite n'est trouvé
   //     }
-  
+
   //     // Prépare les données du formulaire pour l'envoi
   //     const formData = { ...this.classeForm.value, idSpecialite };
-  
+
   //     // Appelle le service pour ajouter la classe avec l'ID de spécialité
   //     this.classeService.addClasse(formData,idSpecialite)
   //       .subscribe(
@@ -165,13 +165,13 @@ gettingSpecialite(idSpecialite: any): void {
   //     console.log('Le formulaire est invalide. Veuillez vérifier les champs.');
   //   }
   // }
-  
+
   onSubmit() {
     console.log(this.idSpecialite);
     if (this.classeForm.valid) {
 
       const classeData = this.classeForm.value;
-      
+
 
             // Appel de ajouterFoyerEtAffecterAUniversite avec les données du formulaire
             this.classeService.ajouterFoyerEtAffecterAUniversite(classeData, this.idSpecialite)
@@ -194,11 +194,11 @@ gettingSpecialite(idSpecialite: any): void {
       console.log('Le formulaire est invalide. Veuillez vérifier les champs.');
     }
   }
-  
-  
-  
-  
-  
+
+
+
+
+
 
   loadLevels() {
     this.classeService.getLevel().subscribe(
@@ -233,8 +233,8 @@ dateNotBefore2024(): ValidatorFn {
 
 
 }
-  
-  
+
+
 
 // export function notJustWhitespaceValidator(): ValidatorFn {
 //   return (control: AbstractControl): {[key: string]: any} | null => {

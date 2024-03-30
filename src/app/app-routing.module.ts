@@ -18,6 +18,7 @@ import { ListEtudiantToAffComponent } from './components/list-etudiant-to-aff/li
 import { ListEnseignatToAffComponent } from './components/list-enseignat-to-aff/list-enseignat-to-aff.component';
 import {StatEtudiantParSpeComponent} from "./components/stat-etudiant-par-spe/stat-etudiant-par-spe.component";
 import {StatProffParSpcComponent} from "./components/stat-proff-par-spc/stat-proff-par-spc.component";
+import {SpecialitynavetudiantComponent} from "./components/specialitynavetudiant/specialitynavetudiant.component";
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'list-enseignat-to-aff/:idClasse', component: ListEnseignatToAffComponent},
   { path: 'statEtudiant', component: StatEtudiantParSpeComponent},
   { path: 'statEnseignat', component: StatProffParSpcComponent},
+  { path: 'specialitenavetudiant', component: SpecialitynavetudiantComponent},
   {
     path: 'edit-classe/:id', // Assuming you need an ID to edit a specific class
     component: EditClasseComponent

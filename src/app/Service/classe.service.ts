@@ -97,7 +97,7 @@ affecterUserInClass(idUser:any, idClasse: any): Observable<any> {
   return this.http.post(url,null);
 }
 
-//Methode affichage par classes detailer
+//Methode affichage par user el kol
 getEtudiant(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/getEtudiant`);
 }
