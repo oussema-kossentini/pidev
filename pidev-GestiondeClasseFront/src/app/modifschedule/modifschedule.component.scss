@@ -1,0 +1,86 @@
+.form-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #e0f2f1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(69, 107, 126, 0.1);
+  
+    .form-group {
+        margin-bottom: 20px;
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Ensure mat-form-field takes the full width */
+        mat-form-field {
+            width: 100%; /* This ensures it matches the button width */
+        }
+    }
+
+    .submit-button,
+    .butn {
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button {
+        background-color: #83a0c0;
+        color: rgb(185, 77, 77);
+        cursor: pointer;
+    }
+
+    .butn {
+        background-color: #49d8c3;
+        color: white;
+    }
+
+    .butn:hover {
+        background-color: #e57437;
+    }
+
+
+  .style{
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px; /* Espacement en bas du tableau */
+    }
+  
+    /* Style pour les cellules de l'en-tête */
+    .th {
+      background-color: #52edf2; /* Couleur de fond */
+      border: 1px solid #5e1414; /* Bordure */
+      padding: 8px; /* Espacement interne */
+      text-align: left; /* Alignement du texte */
+    }
+  
+    /* Style pour les cellules de données */
+    .td {
+      border: 1px solid #944d4d; /* Bordure */
+      padding: 8px; /* Espacement interne */
+    }
+  
+    /* Style pour les lignes impaires */
+    .tr:nth-child(odd) {
+      background-color: #641b1b; /* Couleur de fond pour les lignes impaires */
+    }
+  
+
+
+
+
+}
+
+
+}

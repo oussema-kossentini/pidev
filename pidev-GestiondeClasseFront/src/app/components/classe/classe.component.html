@@ -1,0 +1,60 @@
+<app-header></app-header>
+<div class="publication-card">
+  <h2 class="form-title">Add Class</h2>
+  <form (ngSubmit)="onSubmit()" [formGroup]="classeForm" class="form-container">
+    <!-- <div class="form-group">
+      <label >id</label>
+      <div >
+        <input type="text" id="inputText" class="w-full mt-3"  matInput formControlName="idSpecialite" placeholder="idSpecialite">
+
+   
+       
+      </div>
+    </div> -->
+
+   <!--
+    <div class="form-group">
+      <label for="idSpecialite">Specialite</label>
+      <select formControlName="idSpecialite" class="form-control" name="idSpecialite" id="idSpecialite">
+        <option id ="specialiteeid" name ="specialiteeid" *ngFor="let title of titres" [value]="[title.idSpecialite]">{{ title.title }}</option>
+      </select>
+    </div>
+  -->
+ 
+
+    <div class="form-group">
+      <label for="nameClasse" class="form-label">Name</label>
+      <input type="text" formControlName="nameClasse" class="form-input" id="nameClasse" name="nameClasse">
+      <!-- Adding error message for nameClasse validation -->
+      <div *ngIf="classeForm.get('nameClasse')?.touched && classeForm.get('nameClasse')?.invalid" class="text-danger">
+        Name cannot be empty or just whitespace.
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="level">Level</label>
+      <select formControlName="level" class="form-control">
+        <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="universityDate" class="form-label">University Year</label>
+      <input type="date" formControlName="universityDate" class="form-input">
+      <!-- Adding error message for dateNotBefore2024 validation -->
+      <div *ngIf="classeForm.get('universityDate')?.touched && classeForm.hasError('dateNotBefore2024', 'universityDate')" class="text-danger">
+        The date must not be before 2024.
+      </div>
+    </div>
+
+    <!-- Other form fields as needed -->
+
+    <!-- Other form fields as needed -->
+    <button type="submit" class="butn md text-white">
+      <i class="fas fa-plus-circle icon-arrow before"></i>
+      <span class="label">Ajouter</span>
+      <i class="fas fa-plus-circle icon-arrow after"></i>
+    </button>
+  </form>
+</div>
+<app-footer></app-footer>

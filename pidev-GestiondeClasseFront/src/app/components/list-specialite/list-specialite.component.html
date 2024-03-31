@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="text-right mt-4">
+    <span style="margin-right: 22px;">
+        <i class="material-icons" (click)="ExportPdf()" style="cursor: pointer; color: green; font-size: 24px;">picture_as_pdf</i>
+
+    </span>
+            Exporter en PDF
+          </div>
+
+
+          <span (click)="goToStatEtudiant()" style="cursor: pointer;">
+    <i class="fas fa-chart-bar" style="color: green; font-size: 24px;"></i> StatEtudiant
+</span>
+
+          <span (click)="goTostatEnseignat()" style="cursor: pointer;">
+    <i class="fas fa-chart-bar" style="color: green; font-size: 24px;"></i> StatEnseignat
+</span>
+
+
+          <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let specialite of SpecList; let i = index">
+                            <ng-container *ngIf="!specialite.editing; else editRow">
+                                <td>{{ specialite.title }}</td>
+                                <td>{{ specialite.description }}</td>
+
+                                <td class="text-center">
+                                    <button (click)="editSpecialite(specialite)" class="btn btn-custom-edit btn-sm mr-2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteClass(specialite.idSpecialite)">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                    <button class="btn btn-success btn-sm" (click)="comment(specialite.idSpecialite)">
+                                        <i class="fas fa-edit"></i> add
+                                    </button>
+
+                                    <button class="btn btn-info btn-sm" (click)="comments(specialite.idSpecialite)">
+                                        <i class="fas fa-eye"></i> ShowClasse
+                                    </button>
+
+
+                                </td>
+                            </ng-container>
+
+                            <ng-template #editRow>
+                                <td><input type="text" class="form-control" [(ngModel)]="specialite.title" /></td>
+
+                                  <td><input type="text" class="form-control" [(ngModel)]="specialite.description" /></td>
+
+                                  <td>
+                                    <button (click)="saveChanges(specialite)" class="btn btn-success btn-sm">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </td>
+
+
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

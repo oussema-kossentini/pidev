@@ -1,0 +1,115 @@
+
+/* Container and Table 3D effect */
+.container {
+    perspective: 1000px; /* Enhances the 3D effect by adding perspective. */
+}
+
+.table-responsive {
+    transform: rotateX(15deg); /* Tilts the table for a more pronounced 3D effect. */
+    transition: transform 0.5s ease-in-out; /* Smooth transition for the transform effect. */
+}
+
+.table {
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2); /* Adds depth to the table with a shadow. */
+    overflow: hidden; /* Prevents the shadow from being clipped, ensuring it's fully visible. */
+}
+
+/* Table Header 3D effect with updated color */
+.thead-dark th {
+    background-color: #8ccbc1; /* Updated to a soft teal for a unique, refreshing look. */
+    color: #0c0b03; /* Dark color for text to ensure readability against the light background. */
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); /* Adds depth below the header for a layered effect. */
+}
+
+/* Button 3D effect */
+.btn {
+    border: none;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); /* Subtle text shadow for a lifted appearance. */
+    transition: all 0.2s ease; /* Smooth transition for hover and active states. */
+}
+
+.btn-primary, .btn-danger, .btn-success {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); /* Consistent shadow for depth. */
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Raises the button slightly on hover for a floating effect. */
+    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover for more depth. */
+}
+
+.btn:active {
+    transform: translateY(1px); /* Simulates the button being pressed down. */
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2); /* Reduces the shadow to mimic the pressed state. */
+}
+
+/* Enhanced 3D effect for table borders */
+.table-bordered>:not(caption)>* {
+    border-width: 2px 0; /* Specifies the border width, enhancing the 3D border effect. */
+}
+
+.table-bordered td, .table-bordered th {
+    border-left: 2px solid #dee2e6; /* Left border for defining cell boundaries. */
+    border-right: 2px solid #dee2e6; /* Right border for symmetry and depth. */
+}
+
+.table-bordered td::after, .table-bordered th::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 10px rgba(221, 239, 232, 0.2); /* Inner shadow for an inset depth effect. */
+    z-index: -1; /* Ensures the shadow does not overlap content. */
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #f8f9fa; /* Highlights the row on hover for better interactivity. */
+    box-shadow: 0 2px 4px rgba(237, 241, 241, 0.2); /* Slight shadow for a subtle lift effect. */
+    border-color: #8ccbc1; /* Optional: Matches the border color to the header for consistency. */
+}
+.btn-custom-edit {
+    background-color: #4a69bd; /* Custom edit button color */
+    color: white; /* Text color */
+    border: none; /* Remove default border */
+}
+
+.btn-custom-edit:hover {
+    background-color: #3c6382; /* Darker shade for hover effect */
+}
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px; /* Creates space between rows */
+  }
+  
+  .table .thead-dark th {
+    border-radius: 0.25rem 0.25rem 0 0; /* Rounds the top corners of the header */
+  }
+  
+  .table tbody tr {
+    background-color: #fff; /* Card background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for the card effect */
+  }
+  
+  .table tbody td {
+    border-top: hidden; /* Hides the top border to maintain the card effect */
+    border-bottom: hidden; /* Optional: hides the bottom border for a cleaner look */
+  }
+  
+  .table tbody tr:first-child td:first-child {
+    border-top-left-radius: 0.25rem; /* Rounds the top left corner */
+  }
+  
+  .table tbody tr:first-child td:last-child {
+    border-top-right-radius: 0.25rem; /* Rounds the top right corner */
+  }
+  
+  .table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.25rem; /* Rounds the bottom left corner */
+  }
+  
+  .table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.25rem; /* Rounds the bottom right corner */
+  }
+  

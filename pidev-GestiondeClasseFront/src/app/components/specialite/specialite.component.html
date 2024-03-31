@@ -1,0 +1,27 @@
+<app-header></app-header>
+<div class="publications-card">
+  <h2 class="form-title">Add Specialty</h2>
+  <form [formGroup]="specialiteForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-group">
+      <label for="title" class="form-label">Title</label>
+      <input id="title" type="text" formControlName="title" class="form-input">
+      <!-- Alert message for forbidden title -->
+      <div *ngIf="alertMessage" class="alert alert-danger">
+        {{ alertMessage }}
+      </div>
+
+      <!-- The rest of your form goes here -->
+
+    </div>
+    <div class="form-group">
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" formControlName="description" class="form-input"></textarea>
+    </div>
+    <button type="submit" class="butn md text-white">
+      <i class="fas fa-plus-circle icon-arrow before"></i>
+      <span class="label">Ajouter</span>
+      <i class="fas fa-plus-circle icon-arrow after"></i>
+    </button>
+  </form>
+</div>
+<app-footer></app-footer>
