@@ -2,7 +2,7 @@
     <form [formGroup]="registerFormCustom" (ngSubmit)="onSubmit()" class="form-container">
 
 
-     
+
         <h1>**********AJOUTER Session************</h1>
 
 
@@ -12,10 +12,10 @@
             <label for="titleSubject">Classe :</label>
             <mat-form-field appearance="fill">
                 <mat-label>Enter classe</mat-label>
-                <mat-select [(value)]="selectedTutorial" (selectionChange)="onSelect($event.value)" id="titleSubject">
-                    <mat-option *ngFor="let tutorial of classe" [value]="tutorial">
-                        {{ tutorial.classe.nameClasse}}
-                        
+                <mat-select [(value)]="clasess" (selectionChange)="onSelect($event.value)" id="titleSubject">
+                    <mat-option *ngFor="let tutorial of hadirs" [value]="tutorial">
+                        {{ tutorial.nameClasse}}
+
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -30,7 +30,7 @@
 
 
 
- 
+
 
         <div class="form-group">
             <label for="day" class="form-label">Day:</label>
@@ -72,8 +72,10 @@
                         <!-- Affichage de la matière pour cette heure -->
                         {{ getSubjectForTime(day, hour)?.nameClasse }}
 
-                     
-                           
+
+                        <button *ngIf="getSubjectForTime(day, hour)" class="delete-button"
+                            (click)="onDeleteSession(getSubjectForTime(day, hour).idSession, day, hour)">✖</button>
+
 
 
                         <style>

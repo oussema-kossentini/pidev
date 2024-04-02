@@ -35,7 +35,7 @@ const routes: Routes = [
 
   { path: 'evaluation', component: EvaluationComponent },
   { path: 'add-evaluation', component: AddEvaluationComponent },
- { path: 'schedule', component: ScheduleComponent },
+  { path: 'schedule', component: ScheduleComponent },
   { path: 'ss', component: SessionComponent },
   //{ path: 'modifS/:id', component: ModifscheduleComponent },
   { path: 'emp/:id', component: EmploiComponent },
@@ -55,7 +55,9 @@ const routes: Routes = [
   { path: 'statEtudiant', component: StatEtudiantParSpeComponent },
   { path: 'statEnseignat', component: StatProffParSpcComponent },
   { path: 'ajouterEtoS/:idClasse', component: EngToShComponent },
-  { path: 'ajouterSession/:idScheduel', component: SesionSchComponent },
+  {
+    path: 'ajouterSession/:idScheduel', component: SesionSchComponent
+  },
   {
     path: 'edit-classe/:id', // Assuming you need an ID to edit a specific class
     component: EditClasseComponent

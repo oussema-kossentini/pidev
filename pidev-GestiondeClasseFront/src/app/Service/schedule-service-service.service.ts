@@ -12,13 +12,21 @@ export class ScheduleServiceServiceService {
 
   private baseApiUrl = 'http://localhost:8085/api/schedule'; // URL de base pour les API de gestion des horaires
   private baseApiUrli = 'http://localhost:8085/api/session';
-   private baseUrl='http://localhost:8085/api/users';
+  private baseUrl = 'http://localhost:8085/api/users';
   private classe = 'http://localhost:8085/api/classes';
   private subject = 'http://localhost:8085/api';
+  private profuser = 'http://localhost:8085/api/specilite';
 
 
 
   constructor(private http: HttpClient) { }
+
+  getByIdClass(idClasse: any): Observable<any> {
+    return this.http.get(`${this.classe}/retrieve-all-classe/${idClasse}`);
+  }
+
+
+
 
 
   //affecter classe au scheduel
@@ -27,10 +35,14 @@ export class ScheduleServiceServiceService {
     const url = (`${this.baseApiUrl}/add-S-C/${idClasse}`);
     return this.http.post(url, session);
   }
+  addStoClasse(session: any, idClasse: string): Observable<any> {
+    // Utilisez idClasse comme partie du chemin de l'URL, pas comme un paramètre de requête
+    const url = (`${this.baseApiUrl}/add-to-classe/${idClasse}`);
+    return this.http.post(url, session);
+  }
 
-  // All scheduel
   getAllSchedules(): Observable<any> {
-    // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
+ 
     return this.http.get(`${this.baseApiUrl}/retrieve-all-scheduels`);
   }
 
@@ -83,14 +95,12 @@ export class ScheduleServiceServiceService {
   }
 
   //getbyid classe
-  getByIdClass(idClasse: any): Observable<any> {
-    return this.http.get(`${this.classe}/${idClasse}`);
-  }
+
 
   //getall clases
   getAllClasses(): Observable<any> {
     // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
-    return this.http.get(`${this.classe}/retrieve-all-classes`);
+    return this.http.get(`${this.classe}/retrieve-all-classe`);
   }
 
   //subject to session
@@ -101,7 +111,7 @@ export class ScheduleServiceServiceService {
   }
 
 
-   
+
 
 
 
@@ -124,7 +134,7 @@ export class ScheduleServiceServiceService {
 
 
 
-  
+
 
   getAllSubject(): Observable<any> {
     // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
@@ -145,8 +155,10 @@ export class ScheduleServiceServiceService {
   }
 
 
-  
 
+  getSpecialiteAndClasseFromProfesseur(idUser: string): Observable<any> {
+    return this.http.get(`${this.profuser}/getSpecialiteAndClasseFromProfesseur/${idUser}`);
+  }
 
 
 

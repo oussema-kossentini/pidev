@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpecialiteService } from '../Service/specialite.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ClasseService } from '../Service/classe.service';
 
 @Component({
   selector: 'app-sesion-sch',
@@ -13,22 +14,32 @@ export class SesionSchComponent implements OnInit {
 
   nameCLASSE: any;
   id: any;
+  idss: any;
+  iduser: any;
   sessions: any[] = [];
   dataSubmitted = false;
   selectedTutorial: any = {};
   session: any = {};
+  clasess: any[] = [];
 
+  hadirs: any[] = [];
   registerFormCustom!: FormGroup; // Formulaire pour ajouter une session
   daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']; // Liste des jours de la semaine
   hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']; // Liste des heures
 
   constructor(private fb: FormBuilder,
     private scheduleServiceService: ScheduleServiceServiceService,
-
+    private classesService: ClasseService,
     private router: Router,
     private route: ActivatedRoute) { }
 
+  getAllClasses(): void {
+    this.classesService.getClassesByUserId(this.iduser)
+      .subscribe(classes => {
+        this.clasess = classes;
+      });
 
+  }
   onSelect(tutorial: any): void {
     this.selectedTutorial = tutorial;
 
@@ -39,21 +50,31 @@ export class SesionSchComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
     this.registerFormCustom = this.fb.group({
 
 
       day: [''], // Jour de la session
       debutHour: [''], // Heure de début
       endHour: [''], // Heure de fin
+
     });
 
-
     this.id = this.route.snapshot.paramMap.get('idScheduel');
-    console.log("idScheduel", this.id)
+    this.idss = this.route.snapshot.paramMap.get('idScheduel');
+
+
+    console.log('okok')
+    // authService needs to be injected and implemented
+
 
     this.initializeScheduleFromLocalStorage(); // Initialisation de l'emploi du temps à partir du stockage local
-    this.getALLClasse();
-    //this.getByIdscheduel(this.id);
+    // this.getALLClasse();
+    this.getByIdscheduel(this.id);
+
+
+    this.gettest();
   }
 
 
@@ -75,7 +96,6 @@ export class SesionSchComponent implements OnInit {
       });
     });
   }
-
   saveScheduleToLocalStorage() {
     localStorage.setItem('schedule', JSON.stringify(this.session));
 
@@ -83,7 +103,7 @@ export class SesionSchComponent implements OnInit {
 
 
   }
-  
+
   //
   getSubjectForTime(day: string, hour: string): any {
     const session = this.session[day]?.[hour];
@@ -98,17 +118,18 @@ export class SesionSchComponent implements OnInit {
     if (this.registerFormCustom.valid) {
       const { day, debutHour, endHour } = this.registerFormCustom.value;
       const idScheduel = this.id;
-     // const sub = this.selectedTutorial.idSubject;
+
       const idS = this.selectedTutorial.idScheduel;
-      const nameClasse = this.selectedTutorial.classe.nameClasse
+
+      const nameClasse = this.selectedTutorial.nameClasse
 
 
 
-      this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idS).subscribe(
+      this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idScheduel).subscribe(
         (response) => {
           console.log("posttttttt", response);
-          console.log("classeNom", this.selectedTutorial.classe.nameClasse)
-          this.session[day][debutHour] = { idSession: response.idSession, idScheduel,  nameClasse };
+
+          this.session[day][debutHour] = { idSession: response.idSession, idScheduel, nameClasse };
           this.session[day][endHour] = { idSession: response.idSession, idScheduel, nameClasse };
           console.log("sesionnn", this.session)
           this.saveScheduleToLocalStorage();
@@ -126,32 +147,80 @@ export class SesionSchComponent implements OnInit {
   }
 
   classe: any[] = [];
-  getALLClasse(): void {
-    this.scheduleServiceService.getAllSchedules()
-      .subscribe(
-        (data) => {
-          console.log("gggggggggg", data);
-          this.classe = data; // assigner les données récupérées à la variable tutorials
+  // getALLClasse(): void {
+  //   this.scheduleServiceService.getAllSchedules()
+  //     .subscribe(
+  //       (data) => {
+  //         console.log("gggggggggg", data);
+  //         this.classe = data; // assigner les données récupérées à la variable tutorials
+  //       },
+  //       (error) => {
+  //         console.log(error); // gérer les erreurs éventuelles
+  //       }
+  //     );
+  // }
+  users: any
+  iddd: any
+  USERS: any
+  getByIdscheduel(id: any) {
+    this.scheduleServiceService.getByIdScheduel(id).subscribe(
+      data => {
+        this.classe = data;
+
+        console.log("idSchedueldddddddd", data.idScheduel)
+        const USERS = data.idScheduel;
+
+
+
+        console.log("aloooooooooooooooooooooo", data.classe.usersIds[0])
+        this.classesService.getClassesByUserId(data.classe.usersIds[0])
+          .subscribe({
+            next: (data) => {
+
+              this.hadirs = data;
+
+
+              console.log(data, "claseeeeeeByidddd");
+            },
+            error: (error) => {
+              console.error('Erreur lors de la récupération des horaires par idUser', error);
+            }
+          });
+
+
+
+      },
+      error => {
+        console.error('Erreur lors de la récupération des données', error);
+      }
+    );
+  }
+
+  gettest(): void {
+
+  }
+
+
+
+
+
+  onDeleteSession(idSession: string, day: string, hour: string): void {
+    console.log("Deleting session with ID:", idSession);
+    if (idSession) {
+      this.scheduleServiceService.deleteSession(idSession).subscribe(
+        () => {
+          // Suppression de la session du modèle local
+          delete this.session[day][hour];
+          this.saveScheduleToLocalStorage();
+          console.log('Session deleted successfully');
         },
         (error) => {
-          console.log(error); // gérer les erreurs éventuelles
+          console.error('Error deleting session:', error);
         }
       );
+    } else {
+      console.error('No session ID provided for deletion');
+    }
   }
-  // getByIdscheduel(id: any) {
-  //   this.scheduleServiceService.getByIdScheduel(id).subscribe(
-  //     data => {
-  //       this.classe = data;
-  //       console.log("data", this.classe)
-  //     },
-  //     error => {
-  //       console.error('Erreur lors de la récupération des données', error);
-  //     }
-  //   );
-  // }
-
-
-
-
 
 }

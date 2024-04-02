@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+
 import { response } from 'express';
+import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
 
 // Assurez-vous d'importer le service nécessaire si vous ne l'avez pas déjà fait.
 // import { ScheduleServiceService } from 'chemin-vers-votre-service';
@@ -42,6 +43,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this.getALL();
+    
     //this.getByIdClasse(this.id);
     this.getALLClasse();
   }
@@ -66,7 +68,7 @@ export class ScheduleComponent implements OnInit {
   onSubmitsch() {
     if (this.registerFormCustom.valid) {
       this.dataSubmitted = true;
-      this.scheduleServiceService.addShToClasse(this.registerFormCustom.value, this.selectedId).subscribe(
+      this.scheduleServiceService.addStoClasse(this.registerFormCustom.value, this.selectedId).subscribe(
         response => {
           console.log(response);
           this.hadirs.push(response);
@@ -83,6 +85,7 @@ export class ScheduleComponent implements OnInit {
 
 
 
+
   //All Scheduels
   getALL(): void {
     this.scheduleServiceService.getAllSchedules()
@@ -92,7 +95,11 @@ export class ScheduleComponent implements OnInit {
           this.hadirs = data; // assigner les données récupérées à la variable tutorials
 
 
-          console.log("dattttttttttttttttttttttttt", this.hadirs);
+
+
+
+
+          console.log("dattttttttttttttttttttttttt", data);
 
         },
         (error) => {
