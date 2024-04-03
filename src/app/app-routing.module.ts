@@ -9,6 +9,8 @@ import { CoursComponent } from './components/cours/cours.component';
 import { CoursDetailsComponent } from './components/cours-details/cours-details.component';
 import { CoursUpdateComponent } from './components/cours-update/cours-update.component';
 import { ContenuCoursComponent } from './components/contenu-cours/contenu-cours.component';
+import { AddContenuComponent } from './components/add-contenu/add-contenu.component';
+import { UpdateContentComponent } from './components/update-content/update-content.component';
 
 
 const routes: Routes = [
@@ -23,7 +25,9 @@ const routes: Routes = [
   { path: 'addCours', component: CoursComponent },
   { path: 'coursDetails', component: CoursDetailsComponent },
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
-  { path: 'contenuCours', component: ContenuCoursComponent }
+  { path: 'contentUpdate/:id', component: UpdateContentComponent },
+  { path: 'contenuCours', component: ContenuCoursComponent },
+  { path: 'addContenu', component: AddContenuComponent }
   
 
 ];

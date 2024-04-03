@@ -28,6 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoursDetailsComponent } from './components/cours-details/cours-details.component';
 import { CoursUpdateComponent } from './components/cours-update/cours-update.component';
 import { ContenuCoursComponent } from './components/contenu-cours/contenu-cours.component';
+import { AddContenuComponent } from './components/add-contenu/add-contenu.component';
+import { UpdateContentComponent } from './components/update-content/update-content.component';
 
 
 @NgModule({
@@ -50,6 +52,8 @@ import { ContenuCoursComponent } from './components/contenu-cours/contenu-cours.
       CoursDetailsComponent,
       CoursUpdateComponent,
       ContenuCoursComponent,
+      AddContenuComponent,
+      UpdateContentComponent,
 
   ],
   imports: [

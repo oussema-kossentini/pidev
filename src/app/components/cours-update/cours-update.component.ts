@@ -49,6 +49,7 @@ export class CoursUpdateComponent {
         console.log('Error updating course:', error);
       }
     );
+    this.router.navigate(['/coursDetails']);
   }
 
   

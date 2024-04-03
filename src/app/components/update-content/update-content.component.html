@@ -1,0 +1,45 @@
+<app-header></app-header>
+<br>
+<br>
+<br>
+<br>
+<div class="container-fluid">
+    <div class="card" style="width: 50%; margin: 5px auto;">
+        <div class="card-header">
+            Add Content
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="name">Title</label>
+                    <input  [(ngModel)]="Contenu.title" id="title" name="title" class="form-control" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label for="level">Cours</label>
+                    <div class="dropdown-with-indicator">
+                      <select  [(ngModel)]="Contenu.course" name="level" id="level" class="form-control">
+                        <option>java</option>
+                      </select>
+                      <div class="dropdown-indicator">&#9660;</div>
+                    </div>
+                  </div>
+
+                <div class="form-group">
+                    <label for="file">Upload File</label>
+                    <input [(ngModel)]="Contenu.fileData" type="file" class="form-control-file" id="file" name="file">
+                </div>
+
+
+                <button  (click)="updateContent()" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<app-footer></app-footer>
