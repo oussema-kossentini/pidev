@@ -50,31 +50,22 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let tutorial of hadirs; let i = index">
-
-
-
-        <td>{{ tutorial.classe?.usersIds }}</td>
-
-        <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
-        <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
-
-
-        <td>
-
-
-          <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter
-            Session</button>
-          <a (click)="deleteSchedule(tutorial.idScheduel)" class="button-like-link supprimer">delete</a>
-          <span style="margin-right: 20px;"></span> <!-- Espace -->
-        </td>
-
-
-
-
-
-      </tr>
+      <!-- Itération sur chaque tutorial -->
+      <ng-container *ngFor="let tutorial of hadirs; let i = index">
+        <!-- Itération sur chaque userId dans tutorial.classe.usersIds -->
+        <tr *ngFor="let userId of tutorial.classe?.usersIds; let j = index">
+          <td>{{ userId }}</td> <!-- Affiche chaque userId sur sa propre ligne -->
+          <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <!-- Boutons d'action qui seront répétés pour chaque userId -->
+            <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter Session</button>
+            <a (click)="deleteSchedule(tutorial.idScheduel)" class="button-like-link supprimer">delete</a>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
+    
   </table>
 </div>
 

@@ -11,19 +11,18 @@ import { Router } from '@angular/router';
   styleUrl: './list-enseignat-to-aff.component.scss'
 })
 export class ListEnseignatToAffComponent {
-  EnseignatLists:any []=[];
-  errorMessage:any;
-  idUser:any;
-  idClasse:any;
+  EnseignatLists: any[] = [];
+  errorMessage: any;
+  idUser: any;
+  idClasse: any;
   constructor(
-    private classeService:ClasseService,
+    private classeService: ClasseService,
     private formBuilder: FormBuilder,
-   private router: Router ,
-  private route:ActivatedRoute
-  ) 
-  {
- this.loadlistEnseignats();
-    
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.loadlistEnseignats();
+
     // this.loadTitels();
   }
 
@@ -32,14 +31,14 @@ export class ListEnseignatToAffComponent {
       this.idClasse = params['idClasse'];
       this.loadlistEnseignats();
 
-  });
-}
+    });
+  }
 
   loadlistEnseignats() {
     this.classeService.getEnseignat().subscribe(
       data => {
         this.EnseignatLists = data;
-        console.log(data);
+        console.log(data, "ttttttttttttttttttttttttttttttttt");
       },
       (error: HttpErrorResponse) => {
         this.errorMessage = 'Une erreur s\'est produite lors du chargement des etudiants dans classe: ' + error.message;
@@ -47,9 +46,9 @@ export class ListEnseignatToAffComponent {
     );
   }
 
-  
-  affectationEnseignat(idUser:any) {
-    this.classeService.affecterUserInClass(idUser,this.idClasse).subscribe();
-    this.router.navigate(['/list-ensignat-by-claase/',this.idClasse]);
+
+  affectationEnseignat(idUser: any) {
+    this.classeService.affecterUserInClass(idUser, this.idClasse).subscribe();
+    this.router.navigate(['/list-ensignat-by-claase/', this.idClasse]);
   }
 }
