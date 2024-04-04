@@ -133,7 +133,6 @@ export class EmploiComponent implements OnInit {
   // }
 
 
-  
 
 
 
@@ -142,37 +141,56 @@ export class EmploiComponent implements OnInit {
 
   onSubmit() {
     if (this.registerFormCustom.valid) {
-      const { day, debutHour, endHour } = this.registerFormCustom.value;
-      const idScheduel = this.id;
-      const sub = this.selectedTutorial.idSubject;
-      const name = this.selectedTutorial.subjectName;
+        const { day, debutHour, endHour } = this.registerFormCustom.value;
+        const idScheduel = this.id; 
+        const idSubject = this.selectedTutorial.idSubject; 
+        const subjectName = this.selectedTutorial.subjectName;
 
-      // Vérifier si une session avec la même heure et le même jour existe déjà dans le même emploi du temps
-      if (this.isSessionAlreadyAdded(day, debutHour, endHour, idScheduel)) {
-        console.error('Une session avec la même heure et le même jour existe déjà dans cet emploi du temps.');
-        return;
-      }
+        // Vérification pour s'assurer qu'on n'ajoute pas une session déjà existante
+        const existingSession = this.session[day]?.[debutHour]?.idScheduel === idScheduel && 
+                                this.session[day]?.[debutHour]?.idSubject === idSubject;
 
-      this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, sub).subscribe(
-        (response) => {
-          console.log("posttttttt", response);
+        if (!existingSession) {
+            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idSubject).subscribe(
+                (response) => {
+                    console.log("posttttttt", response);
 
-          this.session[day][debutHour] = { idSession: response.idSession, idScheduel, idSubject: response.idSubject, name };
-          this.session[day][endHour] = { idSession: response.idSession, idScheduel, idSubject: response.idSubject, name };
+                    // Assurez-vous de vérifier l'existence du jour et de l'heure avant d'attribuer la valeur
+                    if (!this.session[day]) {
+                        this.session[day] = {};
+                    }
 
-          this.saveScheduleToLocalStorage();
-          this.registerFormCustom.reset();
+                    this.session[day][debutHour] = { 
+                        idSession: response.idSession, 
+                        idScheduel, 
+                        idSubject: response.idSubject, 
+                        name: subjectName 
+                    };
+                    
+                    this.session[day][endHour] = { 
+                        idSession: response.idSession, 
+                        idScheduel, 
+                        idSubject: response.idSubject, 
+                        name: subjectName 
+                    };
 
-          console.log('Session ajoutée avec succès.');
-        },
-        (error) => {
-          console.log('Erreur lors de l\'ajout de la session:', error);
+                    this.saveScheduleToLocalStorage(); 
+                    this.registerFormCustom.reset(); 
+
+                    console.log('Session ajoutée avec succès.');
+                },
+                (error) => {
+                    console.log('Erreur lors de l\'ajout de la session:', error);
+                }
+            );
+        } else {
+            console.error('Une session avec les mêmes idScheduel et idSubject existe déjà.');
         }
-      );
     } else {
-      console.error('Le formulaire n\'est pas valide.');
+        console.error('Le formulaire n\'est pas valide.');
     }
-  }
+}
+
 
   isSessionAlreadyAdded(day: string, debutHour: string, endHour: string, idScheduel: string): boolean {
     // Vérifie si le jour a été initialisé dans le tableau session
@@ -284,7 +302,8 @@ export class EmploiComponent implements OnInit {
 
   getSubjectForTime(day: string, hour: string): any {
     const session = this.session[day]?.[hour];
-    if (session && session.idScheduel === this.id) {
+    if (session && session.idScheduel === this.id &&  session && session.idSession[1]
+) {
       return session;
     }
     return null;
