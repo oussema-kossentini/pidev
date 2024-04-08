@@ -26,6 +26,9 @@ import { SessionComponent } from './session/session.component';
 
 import { EmploiComponent } from './emploi/emploi.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { FinalSComponent } from './final-s/final-s.component';
+import { FinalCLASSComponent } from './final-class/final-class.component';
+import { SessionCLASSComponent } from './session-class/session-class.component';
 
 
 const routes: Routes = [
@@ -55,6 +58,9 @@ const routes: Routes = [
   { path: 'statEtudiant', component: StatEtudiantParSpeComponent },
   { path: 'statEnseignat', component: StatProffParSpcComponent },
   { path: 'ajouterEtoS/:idClasse', component: EngToShComponent },
+  { path: 'EMPLOIT', component: FinalSComponent },
+  { path: 'Finalclass', component: FinalCLASSComponent },
+  { path: 'SessionCLASS', component: SessionCLASSComponent },
   {
     path: 'ajouterSession/:idScheduel', component: SesionSchComponent
   },

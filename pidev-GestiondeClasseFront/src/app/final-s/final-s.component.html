@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<!-- Utilisation de (ngSubmit)="onSubmitsch()" pour appeler la bonne méthode lors de la soumission du formulaire -->
+
+
+
+
+ 
+
+<div *ngIf="hadirs">
+  <h2>List of Schedules</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <!-- <th>id</th> -->
+        <th>name</th>
+        <th>Start DATE</th>
+        <th>End DATE</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Itération sur chaque tutorial -->
+      <ng-container *ngFor="let tutorial of hadirs; let i = index">
+        <!-- Itération sur chaque userId dans tutorial.classe.usersIds -->
+        <tr *ngFor="let userId of tutorial.classe?.usersIds; let j = index">
+          <td>{{ userId }}</td> <!-- Affiche chaque userId sur sa propre ligne -->
+          <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <!-- Boutons d'action qui seront répétés pour chaque userId -->
+            <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter Session</button>
+           
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+    
+  </table>
+</div>
+
+
+
+
+<app-footer></app-footer>

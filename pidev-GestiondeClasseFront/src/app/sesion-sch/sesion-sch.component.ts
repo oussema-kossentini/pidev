@@ -115,36 +115,42 @@ export class SesionSchComponent implements OnInit {
 
 
   onSubmit() {
+    // Vérifie si le formulaire est valide
     if (this.registerFormCustom.valid) {
-      const { day, debutHour, endHour } = this.registerFormCustom.value;
-      const idScheduel = this.id;
+        const { day, debutHour, endHour } = this.registerFormCustom.value;
+        const idScheduel = this.id;
 
-      const idS = this.selectedTutorial.idScheduel;
+        const nameClasse = this.selectedTutorial.nameClasse;
 
-      const nameClasse = this.selectedTutorial.nameClasse
-
-
-
-      this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idScheduel).subscribe(
-        (response) => {
-          console.log("posttttttt", response);
-
-          this.session[day][debutHour] = { idSession: response.idSession, idScheduel, nameClasse };
-          this.session[day][endHour] = { idSession: response.idSession, idScheduel, nameClasse };
-          console.log("sesionnn", this.session)
-          this.saveScheduleToLocalStorage();
-          this.registerFormCustom.reset();
-
-          console.log('Session ajoutée avec succès.');
-        },
-        (error) => {
-          console.log('Erreur lors de l\'ajout de la session:', error);
-        }
-      );
+       
+        this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idScheduel).subscribe(
+            (response) => {
+                
+                console.log("TEST3CHA", response);
+                this.session[day][debutHour] = { idSession: response.idSession, idScheduel, nameClasse };
+                this.session[day][endHour] = { idSession: response.idSession, idScheduel, nameClasse };
+                console.log("sesionnn", this.session);
+                this.saveScheduleToLocalStorage();
+                this.registerFormCustom.reset();
+                console.log('Session ajoutée avec succès.');
+            },
+            (error) => {
+                
+                console.log('Erreur lors de l\'ajout de la session:', error);
+                if (error.status === 400) { 
+                    alert('Choisissez une autre date car elle est déjà remplie.');
+                } else {
+                  
+                    alert('Choisissez une autre date car elle est déjà remplie.');
+                }
+            }
+        );
     } else {
-      console.error('Le formulaire n\'est pas valide.');
+        // Si le formulaire n'est pas valide, affiche un message d'erreur
+        console.error('Le formulaire n\'est pas valide.');
     }
-  }
+}
+
 
   classe: any[] = [];
   // getALLClasse(): void {

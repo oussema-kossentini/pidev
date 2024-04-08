@@ -51,6 +51,9 @@ import { SessionComponent } from './session/session.component';
 import { EmploiComponent } from './emploi/emploi.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ModifscheduleComponent } from './modifschedule/modifschedule.component';
+import { FinalSComponent } from './final-s/final-s.component';
+import { FinalCLASSComponent } from './final-class/final-class.component';
+import { SessionCLASSComponent } from './session-class/session-class.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,6 +89,9 @@ import { ModifscheduleComponent } from './modifschedule/modifschedule.component'
     EmploiComponent,
        ScheduleComponent,
        ModifscheduleComponent,
+       FinalSComponent,
+       FinalCLASSComponent,
+       SessionCLASSComponent,
 
 
   ],

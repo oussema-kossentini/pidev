@@ -1,0 +1,54 @@
+<app-header></app-header>
+
+<!-- Utilisation de (ngSubmit)="onSubmitsch()" pour appeler la bonne méthode lors de la soumission du formulaire -->
+
+
+
+
+
+
+<div *ngIf="hadirs; else loading">
+  <h2>List of Schedules</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <!-- <th>id</th> -->
+        <th>Title</th>
+        <th>Start DATE</th>
+        <th>End DATE</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let tutorial of hadirs">
+        <!-- <td>{{ tutorial.idScheduel }}</td> -->
+        <td>{{ tutorial.classe?.nameClasse }}</td>
+
+        <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
+
+
+        <td>
+
+          <a [routerLink]="['/modifS', tutorial.idScheduel]" class="button-like-link">update</a>
+          <span style="margin-right: 20px;"></span> <!-- Espace -->
+          <!-- Lien Supprimer -->
+         
+          <span style="margin-right: 20px;"></span> <!-- Espace -->
+
+          <a [routerLink]="['/SessionCLASS', tutorial.idScheduel]" class="button-like-link">get schedule</a>
+          <!-- <a [routerLink]="['/SessionCLASS']" class="button-like-link">get schedule</a> -->
+
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <p>Chargement en cours...</p>
+</ng-template>
+<app-footer></app-footer>
