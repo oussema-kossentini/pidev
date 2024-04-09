@@ -29,6 +29,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { FinalSComponent } from './final-s/final-s.component';
 import { FinalCLASSComponent } from './final-class/final-class.component';
 import { SessionCLASSComponent } from './session-class/session-class.component';
+import { SessionPROFComponent } from './session-prof/session-prof.component';
 
 
 const routes: Routes = [
@@ -60,7 +61,8 @@ const routes: Routes = [
   { path: 'ajouterEtoS/:idClasse', component: EngToShComponent },
   { path: 'EMPLOIT', component: FinalSComponent },
   { path: 'Finalclass', component: FinalCLASSComponent },
-  { path: 'SessionCLASS', component: SessionCLASSComponent },
+  { path: 'SessionCLASS/:id', component: SessionCLASSComponent },
+  { path: 'SessionPROF/:idScheduel', component: SessionPROFComponent },
   {
     path: 'ajouterSession/:idScheduel', component: SesionSchComponent
   },

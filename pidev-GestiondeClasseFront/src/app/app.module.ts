@@ -54,6 +54,7 @@ import { ModifscheduleComponent } from './modifschedule/modifschedule.component'
 import { FinalSComponent } from './final-s/final-s.component';
 import { FinalCLASSComponent } from './final-class/final-class.component';
 import { SessionCLASSComponent } from './session-class/session-class.component';
+import { SessionPROFComponent } from './session-prof/session-prof.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,6 +93,7 @@ import { SessionCLASSComponent } from './session-class/session-class.component';
        FinalSComponent,
        FinalCLASSComponent,
        SessionCLASSComponent,
+       SessionPROFComponent,
 
 
   ],

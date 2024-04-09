@@ -8,7 +8,7 @@
  
 
 <div *ngIf="hadirs">
-  <h2>List of Schedules</h2>
+  <h2>Teachers'time schedule</h2>
   <table class="table">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
           <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
           <td>
             <!-- Boutons d'action qui seront répétés pour chaque userId -->
-            <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter Session</button>
+            <button [routerLink]="['/SessionPROF', tutorial.idScheduel]">get sessions</button>
            
           </td>
         </tr>
