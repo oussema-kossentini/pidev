@@ -12,6 +12,9 @@ import { GradeListComponent } from './components/grade-list/grade-list.component
 import { QaListComponent } from './components/qa-list/qa-list.component';
 import {EvaluationDetailsComponent} from "./components/evaluation/evaluation-details/evaluation-details.component";
 import {EvaluationAssessmentComponent} from "./components/evaluation-assessment/evaluation-assessment.component";
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+
 
 
 const routes: Routes = [
@@ -32,7 +35,9 @@ const routes: Routes = [
   { path: 'addQa',component: AddQaComponent},
   { path: 'addQaBack',component: AddQaComponent,outlet:'back'},
   { path: 'grade-list',component: GradeListComponent},
-  { path: 'qa-list',component: QaListComponent}
+  { path: 'qa-list',component: QaListComponent},
+  { path: 'dashbord',component: DashboardComponent},
+  { path: 'pieChart',component: PieChartComponent}
 
 ];
 

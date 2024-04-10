@@ -11,9 +11,10 @@
         >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
         </a>
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-chart-pie fa-fw me-3"></i><span>SEO</span>
+        <a (click)="navigateTo('Statistiques')" class="list-group-item list-group-item-action py-2 ripple">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>Statistiques</span>
         </a>
+        
         <a (click)="navigateTo('Evaluations')" class="list-group-item list-group-item-action py-2 ripple"
         ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Evaluations</span></a>
 
@@ -78,6 +79,12 @@
     </div>
     <div *ngIf="selectedPage=='Users'">
       <app-users-list></app-users-list>
+    </div>
+    <div *ngIf="selectedPage=='Statistiques'">
+     
+      <app-pie-chart></app-pie-chart>
+      <app-line-chart></app-line-chart>
+      <app-bar-chart></app-bar-chart>
     </div>
 
   </div>

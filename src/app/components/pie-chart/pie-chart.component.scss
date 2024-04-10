@@ -1,0 +1,29 @@
+/* pie-chart.component.scss */
+.card {
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .card-header {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 16px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .card-body {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    ngx-charts-pie-chart {
+      // Si vous avez besoin d'appliquer des styles spécifiques aux segments ou aux étiquettes:
+      .arc {
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+// Assurez-vous que les sélecteurs et les règles CSS correspondent aux classes et éléments générés par ngx-charts.
+// Si ngx-charts ne génère pas de flèches, vous devrez soit étendre le graphique avec des composants SVG personnalisés, soit surcharger le rendu par défaut.

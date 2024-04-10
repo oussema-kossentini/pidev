@@ -40,6 +40,12 @@ import { EvaluationDetailsComponent } from './components/evaluation/evaluation-d
 import { EvaluationAssessmentComponent } from './components/evaluation-assessment/evaluation-assessment.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { EvaluationAssignComponent } from './components/evaluation-assign/evaluation-assign.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
+import { CardChartComponent } from './components/card-chart/card-chart.component';
+import { LineChartComponent } from './components/line-chart/line-chart.component';
 
 
 
@@ -69,6 +75,11 @@ import { EvaluationAssignComponent } from './components/evaluation-assign/evalua
       EvaluationAssessmentComponent,
       UsersListComponent,
       EvaluationAssignComponent,
+      DashboardComponent,
+      PieChartComponent,
+      BarChartComponent,
+      CardChartComponent,
+      LineChartComponent,
 
 
   ],
@@ -88,7 +99,8 @@ import { EvaluationAssignComponent } from './components/evaluation-assign/evalua
     HttpClientModule,
     MatButtonToggleModule,
     MatRadioModule,
-    MatDividerModule
+    MatDividerModule,
+    NgxChartsModule
   ],
   providers: [
     provideClientHydration(),
