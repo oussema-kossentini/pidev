@@ -68,45 +68,15 @@
                 <tr *ngFor="let day of daysOfWeek">
                     <td>{{ day }}</td>
                     <td *ngFor="let hour of hours">
-
-                        <!-- Affichage de la matière pour cette heure -->
-                        {{ getSubjectForTime(day, hour)?.nameClasse }}
-
-
-                        <button *ngIf="getSubjectForTime(day, hour)" class="delete-button"
-                            (click)="onDeleteSession(getSubjectForTime(day, hour).idSession, day, hour)">✖</button>
-
-
-
-                        <style>
-                            .delete-button {
-                                color: red;
-                                /* Couleur du texte et du symbole */
-                                background: transparent;
-                                /* Fond transparent */
-                                border: none;
-                                /* Pas de bordure */
-                                cursor: pointer;
-                                /* Change le curseur pour indiquer qu'il s'agit d'un bouton */
-                            }
-
-                            .modify-button {
-                                color: blue;
-                                /* Couleur différente pour le distinguer du bouton de suppression */
-                                background: transparent;
-                                /* Fond transparent */
-                                border: none;
-                                /* Pas de bordure */
-                                cursor: pointer;
-                                /* Change le curseur pour indiquer qu'il s'agit d'un bouton */
-                            }
-                        </style>
-
-
-
-
-
+                        <!-- Utilisation d'une variable locale 'sessionInfo' pour stocker le résultat de 'getSubjectForTime(day, hour)' -->
+                        <ng-container *ngIf="getSubjectForTime(day, hour) as sessionInfo">
+                            <!-- Affichage de la matière pour cette heure -->
+                            {{ sessionInfo.nameClasse }}
+                
+                            <button class="delete-button" (click)="onDeleteSession(sessionInfo.idSession, day, hour)">✖</button>
+                        </ng-container>
                     </td>
+
                 </tr>
             </tbody>
         </table>

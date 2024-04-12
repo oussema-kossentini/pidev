@@ -106,35 +106,64 @@ export class SesionSchComponent implements OnInit {
 
   //
   getSubjectForTime(day: string, hour: string): any {
-    const session = this.session[day]?.[hour];
-    if (session && session.idScheduel === this.id) {
-      return session;
+   
+    const sessions = this.session[day]?.[hour];
+    
+    if (sessions && Array.isArray(sessions) && sessions.length) {
+      
+      const foundSession = sessions.find(session => session.idScheduel === this.id);
+     
+      return foundSession || null;
     }
     return null;
   }
 
 
   onSubmit() {
-    // Vérifie si le formulaire est valide
+    
     if (this.registerFormCustom.valid) {
-        const { day, debutHour, endHour } = this.registerFormCustom.value;
-        const idScheduel = this.id;
-
-        const nameClasse = this.selectedTutorial.nameClasse;
-
-       
-        this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idScheduel).subscribe(
-            (response) => {
-                
-                console.log("TEST3CHA", response);
-                this.session[day][debutHour] = { idSession: response.idSession, idScheduel, nameClasse };
-                this.session[day][endHour] = { idSession: response.idSession, idScheduel, nameClasse };
-                console.log("sesionnn", this.session);
-                this.saveScheduleToLocalStorage();
-                this.registerFormCustom.reset();
-                console.log('Session ajoutée avec succès.');
-            },
-            (error) => {
+      // Extraction des valeurs nécessaires du formulaire
+      const { day, debutHour, endHour } = this.registerFormCustom.value;
+      const idScheduel = this.id; // Assurez-vous que 'this.id' est bien défini et initialisé
+      const nameClasse = this.selectedTutorial.nameClasse; // Idem pour 'this.selectedTutorial.nameClasse'
+  
+      // Initialisation de 'this.session[day]' comme un objet si ce n'est pas déjà fait
+      if (!this.session[day]) {
+        this.session[day] = {};
+      }
+  
+      // Assurez-vous que 'this.session[day][debutHour]' et 'this.session[day][endHour]' sont des tableaux
+      if (!Array.isArray(this.session[day][debutHour])) {
+        this.session[day][debutHour] = [];
+      }
+      if (endHour !== debutHour && !Array.isArray(this.session[day][endHour])) {
+        this.session[day][endHour] = [];
+      }
+  
+      // Appel au service pour ajouter une session à l'horaire
+      this.scheduleServiceService.addShToSession({ day, debutHour, endHour }, idScheduel).subscribe(
+        (response) => {
+          // Ajout de la session aux tableaux pour les heures de début et de fin si elles sont différentes
+          const sessionInfo = {
+            idSession: response.idSession, // Supposons que votre API retourne un objet avec 'idSession'
+            idScheduel: idScheduel,
+            nameClasse: nameClasse
+          };
+          
+          this.session[day][debutHour].push(sessionInfo);
+  
+          if (endHour !== debutHour) {
+            this.session[day][endHour].push(sessionInfo);
+          }
+  
+          // Sauvegarde de l'état local, si nécessaire
+          // this.saveScheduleToLocalStorage(); // Implémentez cette méthode selon vos besoins
+  
+          this.saveScheduleToLocalStorage();
+          this.registerFormCustom.reset();
+          console.log('Session ajoutée avec succès',sessionInfo);
+        },
+          (error) => {
                 
                 console.log('Erreur lors de l\'ajout de la session:', error);
                 if (error.status === 400) { 
@@ -144,13 +173,12 @@ export class SesionSchComponent implements OnInit {
                     alert('Choisissez une autre date car elle est déjà remplie.');
                 }
             }
-        );
+      );
     } else {
-        // Si le formulaire n'est pas valide, affiche un message d'erreur
-        console.error('Le formulaire n\'est pas valide.');
+      // Gestion du cas où le formulaire n'est pas valide
+      console.error('Le formulaire n\'est pas valide.');
     }
-}
-
+  }
 
   classe: any[] = [];
   // getALLClasse(): void {
