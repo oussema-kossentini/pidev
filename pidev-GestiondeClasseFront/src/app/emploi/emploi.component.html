@@ -62,8 +62,10 @@
                     <td *ngFor="let hour of hours">
 
                         <!-- Affichage de la matière pour cette heure -->
-                        {{ getSubjectForTime(day, hour)?.name}}
-
+                        <ng-container *ngIf="getSubjectForTime(day, hour) as sessionInfo">
+                            <!-- Affichage de la matière pour cette heure -->
+                            {{ sessionInfo.subjectName }}
+                
                         <button *ngIf="getSubjectForTime(day, hour)" class="delete-button"
                             (click)="onDeleteSession(getSubjectForTime(day, hour).idSession, day, hour)">✖</button>
                         <button *ngIf="getSubjectForTime(day, hour)" class="modify-button"
@@ -98,6 +100,7 @@
 
 
 
+</ng-container>
 
                     </td>
                 </tr>
