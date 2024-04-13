@@ -55,6 +55,7 @@ import { FinalSComponent } from './final-s/final-s.component';
 import { FinalCLASSComponent } from './final-class/final-class.component';
 import { SessionCLASSComponent } from './session-class/session-class.component';
 import { SessionPROFComponent } from './session-prof/session-prof.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +95,10 @@ import { SessionPROFComponent } from './session-prof/session-prof.component';
        FinalCLASSComponent,
        SessionCLASSComponent,
        SessionPROFComponent,
+       
+       
+     
+   
 
 
   ],
