@@ -1,16 +1,15 @@
 <div class="card-container">
-    <div class="card" *ngFor="let data of cardData">
-      <ngx-charts-bar-vertical
-        [results]="[{name: '', value: data.value}]"
-        [scheme]="data.colorScheme"
-        [gradient]="false"
-        [animations]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        [showXAxisLabel]="false"
-        [showYAxisLabel]="true"
-        [yAxisLabel]="data.title">
-      </ngx-charts-bar-vertical>
-    </div>
+  <div class="card" *ngFor="let data of cardData">
+    <ngx-charts-bar-vertical
+      [results]="[{name: '', value: data.value}]"
+      [scheme]="data.colorScheme"
+      [gradient]="false"
+      [animations]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="data.title">
+    </ngx-charts-bar-vertical>
   </div>
-  
+</div>
