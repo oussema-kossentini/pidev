@@ -1,0 +1,63 @@
+<app-header></app-header>
+
+
+<div class="container mt-5">
+  <div class="filters">
+    <div class="row mb-3">
+      <div class="col">
+        <input matInput (keyup)="applyFilter($event)" type="text" class="form-control" placeholder="Search Keywords" name="keyword" aria-label="Search Keywords" aria-describedby="button-search">
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary" type="button" id="button-search">Search</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Class Name</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">University Date</th>
+                            <th scope="col" class="text-center">Actions</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let classe of ClassList; let i = index">
+                            <ng-container *ngIf="!classe.editing; else editRow">
+                                <td>{{ classe.nameClasse }}</td>
+                                <td>{{ classe.level }}</td>
+                                <td>{{ classe.universityDate }}</td>
+                                <td> <button class="btn btn-info btn-sm" (click)="goTOEtudiant(classe.idClasse)">
+                                    <i class="fas fa-eye"></i> ShowEtudiant
+                                </button>|
+
+                                 <button class="btn btn-info btn-sm" (click)="goTOEnsignat(classe.idClasse)">
+
+                                    <i class="fas fa-eye"></i> ShowEnsignant
+                                </button>|
+
+                                  <button class="btn btn-danger btn-sm" (click)="deleteClasse(classe.idClasse)">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                  </button></td>
+
+                            </ng-container>
+
+                            <ng-template #editRow>
+
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

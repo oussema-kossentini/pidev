@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+              
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">FirsName</th>
+                            <th scope="col">LastName</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let etudiant of EtudianLists; let i = index">
+                            <ng-container *ngIf="!etudiant.editing; else editRow">
+                                <td>{{ etudiant.firstName }}</td>
+                                <td>{{ etudiant.lastName }}</td>
+                                <td>  <button class="btn btn-sm btn-sm" (click)="affectationEtudiant(etudiant.idUser)">
+                                   
+                                    <i class="fas fa-plus-circle"></i> AffecterEtudiant
+                                </button></td>
+
+                            </ng-container>
+
+                            <ng-template #editRow>
+                                
+
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

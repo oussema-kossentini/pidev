@@ -1,0 +1,110 @@
+<app-header></app-header>
+
+<!-- Utilisation de (ngSubmit)="onSubmitsch()" pour appeler la bonne méthode lors de la soumission du formulaire -->
+<form [formGroup]="registerFormCustom" (ngSubmit)="onSubmitsch()" class="form-container">
+  <!-- <div class="form-group">
+    <label for="class" class="form-label">Select Class</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose Class</mat-label>
+      <mat-select formControlName="class">
+        <mat-option *ngFor="let classOption of classOptions" [value]="classOption.value">
+          {{ classOption.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+
+  <div class="form-group">
+    <label for="title" class="form-label">Titre</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Entrez le titre</mat-label>
+      <mat-select [(ngModel)]="selectedId" (selectionChange)="onSelect($event.value)">
+        <mat-option *ngFor="let tutorial of tutorialss" [value]="tutorial.idClasse">
+          {{ tutorial.nameClasse }}
+        </mat-option>
+      </mat-select>
+      <input matInput formControlName="title">
+    </mat-form-field>
+  </div>
+
+
+
+
+  <div class="form-group">
+    <label for="startDate" class="form-label">Start Date</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Start Date</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <label for="endDate" class="form-label">End Date</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Select End Date</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Remplacement du lien par un bouton de type submit pour la soumission du formulaire -->
+  <button type="submit" class="butn md text-white">
+    <i class="fas fa-plus-circle icon-arrow before"></i>
+    <span class="label">Add Schedule</span>
+    <i class="fas fa-plus-circle icon-arrow after"></i>
+  </button>
+</form>
+
+
+
+
+
+<div *ngIf="hadirs; else loading">
+  <h2>List of Schedules</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <!-- <th>id</th> -->
+        <th>Title</th>
+        <th>Start DATE</th>
+        <th>End DATE</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let tutorial of hadirs">
+        <!-- <td>{{ tutorial.idScheduel }}</td> -->
+        <td>{{ tutorial.classe?.nameClasse }}</td>
+
+        <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
+
+
+        <td>
+
+          <a [routerLink]="['/modifS', tutorial.idScheduel]" class="button-like-link">update</a>
+          <span style="margin-right: 20px;"></span> <!-- Espace -->
+          <!-- Lien Supprimer -->
+          <a (click)="deleteSchedule(tutorial.idScheduel)" class="button-like-link supprimer">delete</a>
+          <span style="margin-right: 20px;"></span> <!-- Espace -->
+
+          <a [routerLink]="['/emp', tutorial.idScheduel]" class="button-like-link">get schedule</a>
+
+
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <p>Chargement en cours...</p>
+</ng-template>
+<app-footer></app-footer>

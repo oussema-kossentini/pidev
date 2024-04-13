@@ -1,0 +1,41 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+               
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">FirsName</th>
+                            <th scope="col">LastName</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let Ensiginat of EnseignatLists; let i = index">
+                            <!-- <ng-container *ngIf="!Ensiginat.editing; else editRow"> -->
+                               
+
+                                <td>{{ Ensiginat.firstName }}</td>
+                                <td>{{ Ensiginat.lastName }}</td>
+<td>  <button class="btn btn-sm btn-sm" (click)="affectationEnseignat(Ensiginat.idUser)">
+                                   
+    <i class="fas fa-plus-circle"></i> AffecterEnseignat
+</button></td>
+                            <!-- </ng-container> --> 
+
+                            <ng-template #editRow>
+                                
+
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

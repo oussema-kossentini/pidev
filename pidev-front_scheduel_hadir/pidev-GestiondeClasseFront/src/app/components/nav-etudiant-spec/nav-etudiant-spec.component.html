@@ -1,0 +1,92 @@
+<app-header></app-header>
+
+<div class="container mt-5 introduction-container">
+  <div class="row">
+    <!-- Colonne pour les paragraphes -->
+    <div class="col-md-6 intro-text">
+      <h2>Spécialités Et Options</h2>
+      <p>S'appuyant sur une recherche de haut niveau, les enseignements se caractérisent par la richesse, la qualité et l'innovation pédagogique.</p>
+      <p>Les spécialités répondent parfaitement à la diversification croissante des métiers de la société de l'information.</p>
+      <p>Un accent tout particulier est mis sur les qualités humaines, la maîtrise du management, la capacité à travailler dans un contexte pluriculturel et la responsabilisation face à la puissance des technologies dont les diplômés d’Esprit seront experts.</p>
+    </div>
+    <!-- Colonne pour la vidéo -->
+    <div class="col-md-6 video-container">
+      <iframe width="100%" height="auto" src="https://www.youtube.com/embed/ZzWlMZRRj4w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+  <!-- Ligne pour le tableau, sous les paragraphes et la vidéo -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 specialites-tableau mt-4">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">IT 2ème cycle</th>
+            <th scope="col">TC 2ème cycle</th>
+            <th scope="col">Génie Civil</th>
+            <th scope="col">GE 2ème cycle</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Si vous avez des données spécifiques à afficher dans le corps du tableau, elles iraient ici.
+               Sinon, vous pouvez laisser cette section vide si le tableau n'a qu'une ligne d'en-tête. -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Vidéo Section End -->
+  <!-- Spécialité Informatique Section Start -->
+  <div class="container mt-5 specialite-informatique">
+    <div class="row">
+      <div class="col text-center">
+        <h2>Spécialité Informatique</h2>
+        <p>Maitrise des techniques du génie logiciel (méthodes, langages et outils) et de l'interaction utilisateur pour la conception des logiciels embarqués et des systèmes d'information. Acquisition des compétences sur la conception et le déploiement de systèmes et réseaux à l’interface logiciel/matériel. La spécialité informatique se divise en 1er cycle tronc commun avec la spécialité télécommunication et un deuxième cycle composé de différents parcours qui représentent des options.</p>
+      </div>
+    </div>
+  </div>
+  <!-- Spécialité Informatique Section End -->
+
+
+
+
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-3" *ngFor="let specialite of SpecList">
+        <div class="card">
+          <div class="image-container">
+            <div class="first">
+              <div class="d-flex justify-content-center align-items-center specialite-container">
+                <span class="discount font-weight-bold text-uppercase">{{ specialite.title }}</span>
+                <span class="wishlist ml-2"><i class="fa fa-heart-o"></i></span>
+              </div>
+
+            </div>
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/school-education-logo-template-%7C-school-logo-design-1387842f55c4e3ae29acb9141fe09830_screen.jpg?ts=1681371927" class="img-fluid rounded thumbnail-image">
+          </div>
+          <div class="product-detail-container p-2">
+            <div class="d-flex justify-content-between align-items-center">
+
+              <div class="d-flex flex-column mb-2">
+                <p class="text-left font-weight-light mb-0">{{ specialite.description }}</p>
+              </div>
+
+
+
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
