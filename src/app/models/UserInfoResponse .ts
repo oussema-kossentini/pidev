@@ -1,4 +1,4 @@
-export interface user{
+export interface UserInfoResponse{
 
   idUser:string
   firstName: any;

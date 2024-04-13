@@ -34,7 +34,9 @@ export class LoginComponentComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;

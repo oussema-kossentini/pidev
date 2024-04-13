@@ -17,6 +17,8 @@
                 </form>
             </div>
         </div>
+
+        
         <!-- end top search -->
 
         <div class="container">
@@ -87,7 +89,7 @@
                                       </a>
 
                                 </li>
-                                <li *ngIf="authService.isLoggedIn()">
+                                <li *ngIf="authService.isAdmin || authService.isTeacher">
                                 <a href="#!" >Courses</a>
                                     <ul>
                                         <li><a href="courses-grid.html">Courses Grid</a></li>
@@ -106,7 +108,7 @@
                                 </li>
 
                                 <li>
-                                    <li *ngIf="authService.isLoggedIn()">
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
                                     <a href="#!" >Scheduel</a>
                                     <ul>
                                         <li><a href="#!"  >Portfolio Grid</a>
@@ -120,7 +122,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <li *ngIf="authService.isLoggedIn()">
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
                                     <a href="#!"  >Forum</a>
                                     <ul>
                                         <li><a [routerLink]="['/add-publication']">add publication</a>
@@ -136,7 +138,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <li *ngIf="authService.isLoggedIn()">
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
                                 <a href="#!" >Speciality</a>
                                 <ul>
 

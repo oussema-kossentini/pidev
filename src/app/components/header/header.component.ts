@@ -28,10 +28,12 @@ export class HeaderComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
 
-this.isAdmin = JSON.parse(localStorage.getItem('isAdmin') || 'false');
-this.isTeacher=JSON.parse(localStorage.getItem('isTeacher') || 'false');
-this.isStudent=JSON.parse(localStorage.getItem('isStudent') || 'false');
-this.isUser=JSON.parse(localStorage.getItem('isUser') || 'false');
+
+
+// this.isAdmin = JSON.parse(localStorage.getItem('isAdmin') || 'false');
+// this.isTeacher=JSON.parse(localStorage.getItem('isTeacher') || 'false');
+// this.isStudent=JSON.parse(localStorage.getItem('isStudent') || 'false');
+// this.isUser=JSON.parse(localStorage.getItem('isUser') || 'false');
 
     // S'abonner au statut isAdmin pour les mises à jour
     this.authService.isAdmin$.subscribe(isAdmin => {
@@ -81,6 +83,11 @@ isproffeseur = true*/
 
     ngOnInit(): void {
       if (isPlatformBrowser(this.platformId)) {
+
+        this.isAdmin = JSON.parse(localStorage.getItem('isAdmin') || 'false');
+this.isTeacher=JSON.parse(localStorage.getItem('isTeacher') || 'false');
+this.isStudent=JSON.parse(localStorage.getItem('isStudent') || 'false');
+this.isUser=JSON.parse(localStorage.getItem('isUser') || 'false');
         if (typeof localStorage !== 'undefined') {
           // Appel de la méthode updateRoleStatus pour mettre à jour les rôles
           this.authService.updateRoleStatus();

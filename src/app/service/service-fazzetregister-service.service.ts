@@ -1,11 +1,12 @@
 import { user } from './../models/user.model';
 import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
-
+import { Router } from '@angular/router';
 import { switchMap, catchError,map } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { interval, of, throwError } from 'rxjs';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
-
+//import { JwtHelperService } from '@auth0/angular-jwt';
+import { Subscription } from 'rxjs';
 
 import { Observable, tap } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
@@ -13,6 +14,7 @@ import { isPlatformBrowser } from '@angular/common';
 //let jwt_decode = await import('jwt-decode');
 import jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
+import { UserInfoResponse } from '../models/UserInfoResponse ';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +22,20 @@ import { BehaviorSubject } from 'rxjs';
 export class ServiceFazzetregisterService {
 
   // constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) { }
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient,private router: Router) {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
 
       if (token) {
         this.retrieveUserData();
         // Optionnel : Validation du token côté serveur ici
-        this.updateIsAdminStatus(); // Initialise l'état isAdmin basé sur le token
-      }
+        this.updateIsAdminStatus();
+         // Initialise l'état isAdmin basé sur le token
+         this.fetchUserInfoPeriodically();
+        }
+
     }
+
 
   }
 
@@ -249,6 +255,7 @@ getProtectedData(url: string, jwtToken: string) {
 
     private seconnecterurl='http://localhost:8085/courszello/api/auth/authenticate'
 private jwtbaseurl='http://localhost:8085/courszello/api/auth';
+private getuserinfo ='http://localhost:8085/courszello/api/auth/userinfo/{idUser}'
     getRoles(): Observable<any[]> {
       return this.http.get<any[]>(`${this.baseUrl}/roles`);
     }
@@ -371,6 +378,7 @@ logoutUser(): Observable<any> {
       //this.isAdminSubject.next(false);
       // Supprimer le token du stockage
       this.removeToken();
+      localStorage.clear();
       // Rediriger vers la page de connexion ou effectuer d'autres actions
     }),
     catchError(error => {
@@ -434,7 +442,7 @@ logoutUser(): Observable<any> {
       );
     }
 
-    
+
 
     isLoggedIn(): boolean {
       return !!this.getJwtToken();
@@ -778,7 +786,8 @@ public get isStudent(): boolean {
       console.debug('Updated user roles:', roles);
     }
 
-    getUserInfo() {
+    //tedem ama men response
+   /* getUserInfo() {
       return {
         firstName: localStorage.getItem('firstName'),
         lastName: localStorage.getItem('lastName'),
@@ -786,25 +795,281 @@ public get isStudent(): boolean {
         idUser :localStorage.getItem('idUser')
 
 
-      };}
+      };}*/
+//mel response
+//period mech dima ijiyou les donner a jour
+private userInfoSource = new BehaviorSubject<any>(this.loadInitialData());
+  public userInfo$ = this.userInfoSource.asObservable();
+
+  private loadInitialData() {
+    return {
+      firstName: localStorage.getItem('firstName'),
+      lastName: localStorage.getItem('lastName'),
+      email: localStorage.getItem('email'),
+      dateOfBirth: localStorage.getItem('dateOfBirth'),
+      nationality: localStorage.getItem('nationality'),
+      phone: localStorage.getItem('phone'),
+      profilePicture: localStorage.getItem('profilePicture')
+    };
+  }/*
+
+fetchUserInfoPeriodically() {
+  interval(1000) // Exécute la fonction toutes les 20 secondes
+    .subscribe(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        // Récupérer les informations de l'utilisateur à partir du token
+        this.fetchUserInfo(token).subscribe(userInfo => {
+          // Mettre à jour les informations stockées localement
+          this.storeUserInfo(userInfo);
+        });
+      }
+    });
+}
+*/
+//louta ajad ou temchi
+
+/*
+fetchUserInfoPeriodically() {
+  interval(10000)  // Peut-être envisager un intervalle plus long, comme 10 secondes (10000 ms).
+    .subscribe(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.fetchUserInfo(token).subscribe(
+          userInfo => {
+            this.storeUserInfo(userInfo);
+          },
+          error => {
+            console.error('Erreur lors de la récupération des informations utilisateur', error);
+            // Ajoutez une gestion d'erreur pour arrêter l'intervalle si nécessaire
+          }
+        );
+      }
+    });
+}
+*/private fetchUserInfoSubscription: Subscription = new Subscription();
+
+fetchUserInfoPeriodically() {
+  // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
+  this.fetchUserInfoSubscription = interval(10000).subscribe(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.fetchUserInfo(token).subscribe(
+        userInfo => {
+          this.storeUserInfo(userInfo);
+          this.userInfoSource.next(userInfo);  // Mettre à jour BehaviorSubject avec les nouvelles données
+        },
+        error => {
+          console.error('Erreur lors de la récupération des informations utilisateur', error);
+        }
+      );
+    }
+  });
+}
+fetchUserInfo(token: string) {
+  const userId = this.decodeJwt(token).userId;
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const url = this.getuserinfo.replace('{idUser}', userId);
+
+  return this.http.get<any>(url, { headers }).pipe(
+    tap(userInfo => {
+      // Gestion de stockage dans le localStorage
+      Object.keys(userInfo).forEach(key => {
+        if (isPlatformBrowser(this.platformId)) {
+        if (userInfo[key] != null) {
+
+          console.log(`Storing ${key}: ${userInfo[key]}`);
+           // Log pour débogage
+          localStorage.setItem(key, userInfo[key]);
+        } else {
+          localStorage.removeItem(key);
+        }
+      }});
+    }),
+    catchError(error => {
+      console.error('Error fetching user info', error);
+      throw error;
+    })
+  );
+}
+//louta temchhi
+/*fetchUserInfo(token: string): Observable<UserInfoResponse> {
+  const userId = this.decodeJwt(token).userId;
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const url = this.getuserinfo.replace('{idUser}', userId);  // Ensure the userId is being inserted into the URL
+  return this.http.get<any>(url, { headers }).pipe(
+    tap(userInfo => {
+      this.storeUserInfo(userInfo);
+    })
+  );
+ // return this.http.get<UserInfoResponse>(url, { headers });
+}*/
+
+ngOnDestroy() {
+  if (this.fetchUserInfoSubscription) {
+    this.fetchUserInfoSubscription.unsubscribe();
+  }
+}
+updateimageurl ='http://localhost:8085/courszello/api/auth/update-image'
+
+updateProfilePicture(file: File, token: string) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.put(this.updateimageurl, formData, { headers, responseType: 'text' })
+    .pipe(
+      tap(response => console.log('Upload success: ', response)),
+      catchError(error => {
+        console.error('Upload failed: ', error);
+        return throwError(() => new Error('Failed to upload image'));
+      })
+    );
+}
 
 
 
 
-    login(email: string, password: string): Observable<any> {
-      return this.http.post(`${this.jwtbaseurl}/authenticate`, {email, password}).pipe(
+
+
+getUserInfo(): any {
+  if (isPlatformBrowser(this.platformId)) {
+  return {
+
+
+    firstName: localStorage.getItem('firstName'),
+    lastName: localStorage.getItem('lastName'),
+    email: localStorage.getItem('email'),
+    dateOfBirth: localStorage.getItem('dateOfBirth'),
+    nationality: localStorage.getItem('nationality'),
+    phone: localStorage.getItem('phone'),
+    profilePicture: localStorage.getItem('profilePicture')
+  }};
+}
+/*updateUserInfo() {
+  const userInfo = fetchUserInfo(); // Simule une requête API
+  storeUserInfo(userInfo);
+}
+*/
+storeUserInfo(userInfo: any): void {
+  Object.keys(userInfo).forEach(key => {
+
+    if (isPlatformBrowser(this.platformId)) {
+    if (userInfo[key] != null) {
+      console.log(`Storing ${key}: ${userInfo[key]}`);  // Log pour débogage
+      localStorage.setItem(key, userInfo[key]);
+    } else {
+      localStorage.removeItem(key);
+    }
+  }});
+  this.userInfoSource.next({...this.getUserInfo()});
+}
+
+
+ /*storeUserInfoo(userInfo:any) {
+  localStorage.setItem('firstName', userInfo.firstName);
+  localStorage.setItem('lastName', userInfo.lastName);
+  localStorage.setItem('email', userInfo.email);
+  localStorage.setItem('dateOfBirth', userInfo.dateOfBirth);
+  localStorage.setItem('nationality', userInfo.nationality);
+  localStorage.setItem('phone', userInfo.phone);
+  localStorage.setItem('profilePicture', userInfo.profilePicture);
+}*/
+
+
+    /*  setUserInfo(token: string): void {
+        const userInfo = this.decodeJwt(token);
+        Object.keys(userInfo).forEach(key => {
+          localStorage.setItem(key, userInfo[key]);
+        });
+      }*/
+
+
+/*getUserInfoJWT(): any {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const userInfo = this.decodeJwt(token);
+    // Vérifier d'abord si les informations sont déjà dans le local storage
+    if (!localStorage.getItem('firstName')) {
+      // Si les informations ne sont pas présentes, les sauvegarder dans le local storage
+      Object.keys(userInfo).forEach(key => {
+        localStorage.setItem(key, userInfo[key]);
+      });
+    }
+    // Retourner les informations à partir du local storage
+    return {
+      firstName: localStorage.getItem('firstName'),
+      lastName: localStorage.getItem('lastName'),
+      email: localStorage.getItem('email'),
+      idUser: localStorage.getItem('userId'),
+      phone: localStorage.getItem('phone'),
+      nationality: localStorage.getItem('nationality'),
+      dateOfBirth: localStorage.getItem('dateOfBirth'),
+      profilePicture: localStorage.getItem('profilePicture')
+      // Ajoutez d'autres propriétés si nécessaire
+    };
+  } else {
+    // Retourner null si aucun token n'est présent dans le local storage
+    return null;
+  }
+}
+*/
+login(email: string, password: string): Observable<any> {
+  return this.http.post(this.seconnecterurl, { email, password }).pipe(
+    tap((response: any) => {
+
+     if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('token', response.token);}
+              const decodedToken = this.decodeJwt(response.token);
+            const roles = decodedToken.roles || [];
+      // Autres traitements nécessaires avec le token
+    }),
+    switchMap(response => {
+      // Ici, vous utilisez switchMap pour continuer avec la récupération des informations de l'utilisateur
+      return this.fetchUserInfo(response.token).pipe(
+        tap(userInfo => {
+          if (isPlatformBrowser(this.platformId)) {
+          this.storeUserInfo(userInfo);  // Stockage des informations de l'utilisateur
+
+          const decodedToken = this.decodeJwt(response.token);
+            const roles = decodedToken.roles || [];
+            localStorage.setItem('roles', JSON.stringify(roles));
+          this.updateUserRoleState(roles);
+     } }),
+        catchError(error => {
+          console.error('Failed to fetch user info', error);
+          return of(null);  // Gérer l'erreur éventuellement autrement
+        })
+      );
+    }),
+    catchError(error => {
+      console.error('Login failed', error);
+      return of(null);  // Gérer l'erreur de connexion
+    })
+  );
+}
+/*
+    loginn(email: string, password: string): Observable<any> {
+      return this.http.post(this.seconnecterurl, {email, password}).pipe(
         tap((response: any) => {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.token);
-            localStorage.setItem('firstName', response.firstName);
-            localStorage.setItem('lastName', response.lastName);
-            localStorage.setItem('email', response.email);
-            localStorage.setItem('idUser',response.idUser);
+            //localStorage.setItem('firstName', response.firstName);
+            //localStorage.setItem('lastName', response.lastName);
+            //localStorage.setItem('email', response.email);
+           // localStorage.setItem('idUser',response.idUser);
+//fouk jawou bahi mech njareb haja o5ra
+            //
             // Decode token to get roles
             const decodedToken = this.decodeJwt(response.token);
             const roles = decodedToken.roles || [];
             // Stockez les rôles dans le localStorage ou dans un état géré par un service
+            //cv
+           this.fetchUserInfo(response.token);
             localStorage.setItem('roles', JSON.stringify(roles));
+       //    this.setUserInfo(response.token);
+            //mtaa role el fouk cb
             // Mettre à jour l'état de l'application pour refléter le rôle de l'utilisateur
             this.updateUserRoleState(roles); // Implémentez cette méthode dans votre service
           //  this.updateUserData(response.firstName, response.lastName, response.email);
@@ -813,19 +1078,50 @@ public get isStudent(): boolean {
         })
       );
     }
-
+*/
+    // exchangeGoogleCodeForToken(code: string): Observable<any> {
+    //   const payload = { code }; // L'objet que votre backend attend
+    //   return this.http.post(`${this.jwtbaseurl}/google`, payload).pipe(
+    //     tap((response: any) => {
+    //       if (isPlatformBrowser(this.platformId)) {
+    //         localStorage.setItem('token', response.token);
+    //         this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
+    //       }
+    //     })
+    //   );
+    // }
 
     exchangeGoogleCodeForToken(code: string): Observable<any> {
       const payload = { code }; // L'objet que votre backend attend
       return this.http.post(`${this.jwtbaseurl}/google`, payload).pipe(
         tap((response: any) => {
           if (isPlatformBrowser(this.platformId)) {
+            // Stocker les informations retournées par le backend
             localStorage.setItem('token', response.token);
-            this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur
+            localStorage.setItem('firstName', response.firstName);
+            localStorage.setItem('lastName', response.lastName);
+            localStorage.setItem('email', response.email);
+            localStorage.setItem('idUser', response.idUser);
+
+            this.updateIsAdminStatus(); // Mettre à jour le statut d'administrateur si nécessaire
+            // Vous devrez peut-être ajouter une logique supplémentaire pour déterminer si l'utilisateur est un admin
           }
         })
       );
     }
+
+
+    loginWithGoogle() {
+      // Changez cette URL par l'URL configurée dans votre backend Spring Boot
+      window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    }
+
+    // Sauvegarde le token d'accès et redirige vers une page de l'application
+    saveTokenGoogle(token: string) {
+      if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('access_token', token);
+      this.router.navigate(['/evaluation']); // Redirigez l'utilisateur vers la page d'accueil après l'authentification
+        }  }
 
 
 
@@ -930,11 +1226,13 @@ public get isStudent(): boolean {
 //     }
 
 hasRole(requiredRole: string): boolean {
+  if (isPlatformBrowser(this.platformId)) {
   const token = localStorage.getItem('token'); // ou localStorage, selon où vous stockez le token
   if (token) {
     const decodedToken = this.decodeJwt(token);
     return decodedToken.roles.includes(requiredRole);
   }
+}
   return false;
 }
 

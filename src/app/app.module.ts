@@ -1,6 +1,6 @@
 import { NgModule,NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+//import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -41,6 +41,10 @@ import { AuthInterceptorService } from './service/auth-interceptor.service';
 import { GoogleCallbackComponent } from './components/google-callback/google-callback.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 ///import { withFetch } from '@angular/common/http';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 
 //import{user}
 @NgModule({
@@ -73,10 +77,13 @@ import { AccountSettingsComponent } from './components/account-settings/account-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TabsModule.forRoot(),
+
     HttpClientModule, // Utilisez withFetch() ici
     //HttpClientModule,
    // BrowserModule.withServerTransition({ appId: 'serverApp' }),
     NgxPasswordStrengthModule,
+    SocialLoginModule,
     AppRoutingModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -94,12 +101,25 @@ NgxCaptchaModule,
   ],
   providers: [
     provideClientHydration(),
+
    {provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true,},
     provideAnimationsAsync(),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('VotreClientIDGoogle')
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
 
-   // { provide: HTTP_INTERCEPTORS, useClass: provideHttpClient(), multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: provideHttpClient(), multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
