@@ -129,7 +129,7 @@ const routes: Routes = [
   { path: 'delete-publication', component: DeletePublicationComponent },
   { path: 'list', component: ListPublicationComponent },
   { path: 'comment', component: CommentComponent },
-
+//testlel iptihel
 
   { path: 'addCours', component: CoursComponent },
   { path: 'coursDetails', component: CoursDetailsComponent },
