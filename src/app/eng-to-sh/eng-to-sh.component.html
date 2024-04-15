@@ -1,0 +1,75 @@
+<app-header></app-header>
+
+<!-- Utilisation de (ngSubmit)="onSubmitsch()" pour appeler la bonne méthode lors de la soumission du formulaire -->
+<form [formGroup]="registerFormCustom" (ngSubmit)="onSubmitsch()" class="form-container">
+
+
+
+  <h1>**********AJOUTER schedule************</h1>
+
+
+  <div class="form-group">
+    <label for="startDate" class="form-label">Start Date</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Start Date</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <label for="endDate" class="form-label">End Date</label>
+    <mat-form-field appearance="fill">
+      <mat-label>Select End Date</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Remplacement du lien par un bouton de type submit pour la soumission du formulaire -->
+  <button type="submit" class="butn md text-white">
+    <i class="fas fa-plus-circle icon-arrow before"></i>
+    <span class="label">Add Schedule</span>
+    <i class="fas fa-plus-circle icon-arrow after"></i>
+  </button>
+</form>
+
+<div *ngIf="hadirs">
+  <h2>List of Schedules</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <!-- <th>id</th> -->
+        <th>name</th>
+        <th>Start DATE</th>
+        <th>End DATE</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Itération sur chaque tutorial -->
+      <ng-container *ngFor="let tutorial of hadirs; let i = index">
+        <!-- Itération sur chaque userId dans tutorial.classe.usersIds -->
+        <tr *ngFor="let userId of tutorial.classe?.usersIds; let j = index">
+          <td>{{ userId }}</td> <!-- Affiche chaque userId sur sa propre ligne -->
+          <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <!-- Boutons d'action qui seront répétés pour chaque userId -->
+            <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter Session</button>
+            <a (click)="deleteSchedule(tutorial.idScheduel)" class="button-like-link supprimer">delete</a>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+    
+  </table>
+</div>
+
+
+
+
+<app-footer></app-footer>

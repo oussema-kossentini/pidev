@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #2fbfa7;
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.table th {
+    background-color: #2fbfa7;
+    color: white;
+}
+
+.btn-assign {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #2fbfa7;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-assign:hover {
+    background-color: #249d85;
+}
+
+.action-btns {
+    text-align: center;
+}

@@ -1,0 +1,173 @@
+
+<header class="header-style1 menu_area-light">
+
+    <div class="navbar-default border-bottom border-color-light-white">
+
+        <!-- start top search -->
+        <div class="top-search bg-primary">
+            <div class="container">
+                <form class="search-form" action="https://elearn.websitelayout.net/search.html" method="GET" accept-charset="utf-8">
+                    <div class="input-group">
+                        <span class="input-group-addon cursor-pointer">
+                            <button class="search-form_submit fas fa-search text-white" type="submit"></button>
+                        </span>
+                        <input type="text" class="search-form_input form-control" name="s" autocomplete="off" placeholder="Type & hit enter...">
+                        <span class="input-group-addon close-search mt-1"><i class="fas fa-times"></i></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+        <!-- end top search -->
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-12">
+                    <div class="menu_area alt-font">
+                        <nav class="navbar navbar-expand-lg navbar-light p-0">
+                            <div class="navbar-header navbar-header-custom">
+                                <!-- start logo -->
+                                <a href="index-2.html" class="navbar-brand"><img id="logo" src="assets/img/logos/logo-inner.png" alt="logo" /></a>
+                                <!-- end logo -->
+                            </div>
+
+                            <div class="navbar-toggler bg-primary"></div>
+
+
+
+                            <!-- start menu area -->
+                            <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
+                                <a [routerLink]="['']" >Home </a>
+
+                                <li>
+
+
+                                  <!-- <a  [routerLink]="['/4']">
+
+                                    <i class="fas fa-sign-out-alt icon-arrow before"> </i>
+                                      <span class="label">home lel test </span>
+
+                                  </a> -->
+                                      <!-- Si l'utilisateur n'est pas connecté, afficher Se Connecter -->
+
+
+                                      <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']">
+                                        <i class="fas fa-sign-in-alt icon-arrow before"></i>
+                                        <span class="label">Se Connecter</span>
+                                    </a>
+                                    <!-- Sinon, afficher Se Déconnecter -->
+                                    <a *ngIf="authService.isLoggedIn()" (click)="logout()">
+                                        <i class="fas fa-sign-out-alt icon-arrow before"></i>
+                                        <span class="label">Se Déconnecter</span>
+                                    </a>
+                                  </li>
+                                  <li *ngIf="authService.isLoggedIn()">
+                                    <a>
+                                        <span class="label">{{ userInfo.firstName }} {{ userInfo.lastName }}</span>
+                                    </a>
+                                </li>
+
+
+                                  <li *ngIf="authService.isLoggedIn()">
+                                    <a [routerLink]="['/account-settings']">
+                                      <i class="fas fa-cog icon-arrow before"></i>
+
+
+                                      <span class="label">Paramètres du Compte</span>
+                                    </a>
+                                  </li>
+                                  <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                    <!-- <a href="#!" >Evaluation</a>
+                                    <ul>
+                                        <li><a [routerLink]="['/add-evaluation']">Add Evaluation</a></li>
+                                    </ul> -->
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
+
+                                    <a [routerLink]="['/add-evaluation']">
+                                        <span class="label">Add Evaluation</span>
+                                      </a>
+
+                                </li>
+                                <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                <a href="#!" >Courses</a>
+                                    <ul>
+                                        <li><a href="courses-grid.html">Courses Grid</a></li>
+                                        <li><a href="courses-list.html">Courses List</a></li>
+                                        <li><a href="course-details.html">Courses Details</a></li>
+                                    </ul>
+                                </li>
+
+                                <li *ngIf="authService.isAdmin">
+                                  <a [routerLink]="['/dadmin']">Dashboard Admin</a>
+                                  <ul>
+                                    <li><a [routerLink]="['/listUseur']">Liste des Utilisateurs</a></li>
+
+                                    <!-- Ajoutez d'autres liens de sous-menu ici si nécessaire -->
+                                  </ul>
+                                </li>
+
+                                <li>
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                    <a href="#!" >Scheduel</a>
+                                    <ul>
+                                        <li><a href="#!"  >Portfolio Grid</a>
+                                            <ul>
+                                                <li><a href="portfolio-two-columns.html">2 Columns</a></li>
+                                                <li><a href="portfolio.html">3 Columns - Standard</a></li>
+                                                <li><a href="portfolio-four-columns.html">4 Columns</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="portfolio-details.html" >Portfolio Details</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                    <a href="#!"  >Forum</a>
+                                    <ul>
+                                        <li><a [routerLink]="['/add-publication']">add publication</a>
+                                            <ul>
+                                                <li><a href="blog-grid-two-columns.html">2 Columns</a></li>
+                                                <li><a href="blog-grid-two-columns-left-sidebar.html">2 Col – Left Sidebar</a></li>
+                                                <li><a href="blog-grid-two-columns-right-sidebar.html">2 Col – Right Sidebar</a></li>
+                                                <li><a href="blog-grid.html">3 Columns - Standard</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="blog-list.html" >Blog List</a></li>
+                                        <li><a href="blog-details.html" >Blog Details</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                <a href="#!" >Speciality</a>
+                                <ul>
+
+                                    <li><a [routerLink]="['/specialite']">Speciality</a></li>
+                                    <li><a [routerLink]="['/class']">class</a></li>
+                                </ul>
+                                </li>
+
+                            </ul>
+                            <!-- end menu area -->
+
+                            <!-- start attribute navigation -->
+                            <div class="attr-nav align-items-xl-center ms-xl-auto main-font">
+                                <ul>
+                                    <li class="search"><a href="#!"><i class="fas fa-search"></i></a></li>
+                                    <!-- Modification pour conditionner l'affichage du lien de création de compte -->
+                                     <li class="d-none d-xl-inline-block" *ngIf="!authService.isLoggedIn()">
+                                     <a [routerLink]="['/register']"><i class="fas fa-plus-circle icon-arrow before"></i><span class="label">create an account</span><i class="fas fa-plus-circle icon-arrow after"></i></a>
+                                     </li>
+
+                                </ul>
+                            </div>
+                            <!-- end attribute navigation -->
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+

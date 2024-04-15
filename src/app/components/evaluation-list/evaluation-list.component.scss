@@ -1,0 +1,59 @@
+/* Styles pour le conteneur d'évaluation */
+.evaluation-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+/* Styles pour la carte d'évaluation */
+.evaluation-card {
+  width: calc(33% - 20px); /* 33% de la largeur du conteneur avec un peu d'espace entre les cartes */
+  margin-bottom: 20px;
+  border: 1px solid #ccc; /* Ajout d'une bordure */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Styles pour l'en-tête de la carte */
+mat-card-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+/* Styles pour le titre de la carte */
+mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Styles pour le contenu de la carte */
+mat-card-content {
+  padding: 10px 20px;
+}
+
+/* Styles pour les paragraphes de contenu */
+mat-card-content p {
+  margin: 5px 0;
+}
+
+/* Styles pour les statuts actifs et inactifs */
+.active {
+  color: green;
+}
+
+.inactive {
+  color: red;
+}
+
+/* Styles pour les actions de la carte */
+mat-card-actions {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Styles pour les boutons d'action */
+mat-card-actions button {
+  margin-left: 10px;
+}

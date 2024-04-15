@@ -1,0 +1,139 @@
+
+<app-header></app-header>
+
+<style>
+  .login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .extra-links {
+    margin-top: 20px;
+  }
+
+  .extra-links a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .extra-links a:hover {
+    text-decoration: underline;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+
+
+</style>
+
+
+<!-- <div class="login-container">
+  <h2>sign in  </h2> -->
+  <!-- <form>
+    <div class="form-group">
+      <input type="email" [(ngModel)]="email" name="email" id="email" placeholder="Email" required>
+    </div>
+
+    <div class="form-group">
+      <input type="password" [(ngModel)]="password" name="password" id="password" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="password-container">
+        <input type="password" formControlName="password" id="password" placeholder="Password" required>
+        <button type="button" class="show-password-btn" (click)="togglePasswordVisibility()">
+          <i class="fa fa-eye-slash" *ngIf="!passwordVisible"></i>
+          <i class="fa fa-eye" *ngIf="passwordVisible"></i>
+        </button>
+      </div>
+    </div>
+
+    <button (click)="onLogin()">Login</button>
+  </form> -->
+  <div class="login-container">
+    <h2>Sign in</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" id="email" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" id="password" placeholder="Password" required>
+          <button type="button" class="show-password-btn" (click)="togglePasswordVisibility()">
+            <i class="fa" [ngClass]="{'fa-eye-slash': !passwordVisible, 'fa-eye': passwordVisible}"></i>
+          </button>
+          <div *ngIf="isBrowser">
+            <ngx-recaptcha2 #captchaElem
+              [siteKey]="'6Lf7-okpAAAAAFRdq9NCZtUBV2VEbjD9hjGe6jmL'"
+              (reset)="handleReset()"
+              (expire)="handleExpire()"
+              (load)="handleLoad()"
+              (success)="handleSuccess($event)"
+              [useGlobalDomain]="false"
+              formControlName="recaptcha">
+            </ngx-recaptcha2>
+          </div>
+
+
+        </div>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+
+  <div class="extra-links">
+    <a [routerLink]="['/ForgetPassword']">Forgot Password?</a>
+
+    <span>Don't have an account? <a [routerLink]="['/register']">create a acount </a></span>
+    <span>sdqsdqsd <a [routerLink]="['/listUseur']">voir les compte </a></span>
+  </div>
+<!-- login-component.component.html -->
+<button (click)="loginWithGoogle()" class="login-btn google">Se connecter avec Google</button>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<app-footer></app-footer>
+
+
