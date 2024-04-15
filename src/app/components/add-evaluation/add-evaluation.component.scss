@@ -1,0 +1,99 @@
+/* Style pour le conteneur principal afin de centrer la carte */
+.container {
+  display: flex;
+  justify-content: center; /* Centrer horizontalement */
+  align-items: center; /* Centrer verticalement */
+  min-height: 100vh; /* Hauteur minimale pour que le conteneur s'étende sur toute la hauteur de la vue */
+  padding: 0 15px; /* Padding pour éviter que la carte touche les bords sur les écrans étroits */
+}
+
+/* Style pour la carte et le titre */
+mat-card {
+  width: 100%; /* Utilise toute la largeur du conteneur pour une flexibilité maximale */
+  max-width: 450px; /* Largeur maximale pour garder la carte gérable sur les grands écrans */
+  margin: auto; /* Centrage automatique de la carte dans le conteneur */
+  box-shadow: 0 4px 8px rgba(122, 117, 117, 0.1); /* Effet d'ombre pour ajouter de la profondeur */
+  
+  mat-card-title {
+    color: #2FBFA7; /* Couleur du titre ajustée pour la cohérence */
+    text-align: center; /* Centre le titre pour une présentation propre */
+  }
+}
+
+/* Style pour ajuster les champs de formulaire et les icônes */
+.form-field {
+  width: 100%; /* Ajuste pour utiliser la pleine largeur disponible */
+  margin: 15px 0 15px; /* Réduit l'espace entre les champs pour une apparence plus compacte */
+  
+  .mat-datepicker-toggle {
+    color: #2FBFA7; /* Assure la cohérence de la couleur de l'icône du calendrier */
+  }
+  
+  .mat-form-field-underline, .mat-form-field-ripple, .mat-form-field-label {
+    background-color: #2FBFA7; /* Unifie la couleur pour underline, ripple, et label actif */
+  }
+}
+
+/* Ajustements pour le bouton */
+.submit-button {
+  display: flex; /* Utilise flex pour centrer l'icône et le texte à l'intérieur du bouton */
+  justify-content: center; /* Centre le contenu horizontalement */
+  align-items: center; /* Centre le contenu verticalement */
+  width: 100%; /* Assure que le bouton correspond à la largeur des champs de saisie */
+  margin: 20px 0 0; /* Ajuste la marge supérieure pour l'espace avec les champs */
+  padding: 12px 0; /* Ajuste le padding pour une hauteur adaptée */
+  border-radius: 4px; /* Arrondit les bords pour une esthétique douce */
+  background-color: #2FBFA7; /* Couleur de fond du bouton */
+  color: white; /* Couleur du texte du bouton */
+
+  &:hover {
+    background-color: darken#2FBFA7; /* Assombrit légèrement au survol */
+  }
+
+  &:disabled {
+    background-color: lighten(#2FBFA7, 20%); /* Éclaircit quand désactivé */
+    color: darken(white, 10%); /* Assombrit le texte pour moins de visibilité */
+  }
+
+  mat-icon {
+    margin-right: 8px; /* Espacement avant le texte pour centrer l'icône */
+  }
+
+  /* ... Autres styles ... */
+
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.status-label {
+  margin-right: 15px;
+}
+
+.status-button {
+  margin: 0 5px;
+}
+
+.mat-radio-button {
+  border: 1px solid #2FBFA7;
+  border-radius: 20px;
+  padding: 5px 20px;
+  margin: 0 10px;
+  color: #2FBFA7;
+}
+
+.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #2FBFA7;
+}
+
+.mat-radio-button .mat-radio-inner-circle,
+.mat-radio-checked .mat-radio-inner-circle {
+  background-color: #2FBFA7;
+}
+
+/* ... Autres styles ... */
+
+  
+}

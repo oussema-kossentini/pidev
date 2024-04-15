@@ -1,0 +1,21 @@
+.chart-card-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: fit-content;
+  
+    ngx-charts-line-chart {
+      width: 100%;
+      height: 100%;
+  
+      .line-series .line {
+        stroke-width: 3px; // Adjust the stroke width of the line
+      }
+    }
+  }
+  

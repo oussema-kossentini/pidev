@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<app-header></app-header>
+</head>
+<body>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+
+                        <h2>User <b>Management</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a href="#">Add New User</a>
+                        <a href="#">Export to Excel</a>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>idUser</th>
+                        <th>profilePicture</th>
+                        <th>FirstName</th>
+                        <th>LasteName</th>
+                        <th>Date of birth</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>phone number</th>
+                        <th>Nationality</th>
+                    </tr>
+                </thead>
+                <tbody><!-- Add this line to your template to debug -->
+
+
+
+                    <tr *ngFor="let user of users; let i = index">
+                      <ng-container *ngIf="!user.editing; else editRow">
+                        <td>{{ user.idUser }}</td>
+                        <td><img *ngIf="user.profilePicture" [src]="'data:image/jpeg;base64,' + user.profilePicture" alt="User Profile Picture" />
+
+                        </td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.dateOfBirth }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.statue }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.nationality }}</td>
+
+                        <td>
+                          <button (click)="editUser(user)">Edit</button>
+                          <button (click)="removeUser(user.idUser)">Delete</button>
+
+                        </td>
+                      </ng-container>
+                      <ng-template #editRow>
+                        <td><input type="text" [(ngModel)]="user.idUser" /></td>
+                        <td><input type="text" [(ngModel)]="user.profilePicture" /></td>
+                        <td><input type="text" [(ngModel)]="user.firstName" /></td>
+                        <td><input type="text" [(ngModel)]="user.lastName" /></td>
+                        <td><input type="text" [(ngModel)]="user.dateOfBirth" /></td>
+                        <td><input type="text" [(ngModel)]="user.role" /></td>
+                        <td><input type="text" [(ngModel)]="user.statue" /></td>
+                        <td><input type="text" [(ngModel)]="user.email" /></td>
+                        <td><input type="text" [(ngModel)]="user.phone" /></td>
+                        <td><input type="text" [(ngModel)]="user.nationality" /></td>
+
+
+                        <td>
+                          <button (click)="saveChanges(user)">Save</button>
+                        </td>
+                      </ng-template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

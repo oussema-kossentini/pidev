@@ -1,0 +1,75 @@
+.publications-card {
+  width: 80%;
+  max-width: 600px;
+  margin: auto; // Centered horizontally
+  box-shadow: 0 10px 20px rgba(0,0,0,0.50), 0 6px 6px rgba(0,0,0,0.23); // 3D shadow effect
+  transition: transform 0.5s, box-shadow 0.5s; // Smooth transition for hover effect
+
+  &:hover {
+    transform: scale(1.05); // Slight zoom effect on hover
+    box-shadow: 0 30px 40px rgba(0,0,0,0.2), 0 10px 10px rgba(0,0,0,0.24); // More pronounced shadow on hover
+  }
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #e0f2f1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    .form-group {
+      margin-bottom: 20px;
+  
+      .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #333;
+      }
+  
+      .form-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+  
+    .submit-button {
+      width: 100%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      background-color: #0056b3;
+      color: white;
+      cursor: pointer;
+    }
+    .butn {
+        background-color: #49d8c3; /* Bleu par défaut, ajustez selon votre thème */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+      }
+      
+      .butn:hover {
+        background-color: #e57437; /* Bleu plus foncé au survol */
+      }
+  
+   
+    
+  }
+  .form-title {
+    text-align: center;
+    font-size: 18px; /* Even smaller font size */
+    margin-top: 5px; /* Minimal top margin */
+    margin-bottom: 5px; /* Minimal bottom margin to bring it very close to the form */
+    color: #333; /* Optional: Adjust the color as needed */
+    font-weight: bold; /* Making it bold for emphasis despite the smaller size */
+  }

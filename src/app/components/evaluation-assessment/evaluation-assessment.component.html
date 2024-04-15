@@ -1,0 +1,24 @@
+<div class="container">
+ 
+        <div style="font-size: 40px;margin-top: 50px;padding: 25px" *ngIf="!accessibleEval ;else accessible" class="alert alert-danger" role="alert">
+           <div class="row">
+             <div class="col-10">
+               Evaluation is Expired !
+             </div>
+             <div class="col-2">
+               <button [routerLink]="['/evaluation']" class="btn btn btn-danger">Go back to home !</button>
+             </div>
+           </div>
+        </div>
+      </div>
+
+<ng-template #accessible>
+  <div class="container">
+    {{remainingTime}}
+    Evaluation:
+   <ul *ngFor="let q of evaluation.qas">
+  <li>{{q.question}}</li>
+    </ul>
+  </div>
+  </ng-template>
+

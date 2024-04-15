@@ -1,0 +1,65 @@
+// Définition des variables
+$primary-color: #2FBFA7;
+$font-color: #2FBFA7;
+$max-width-card: 600px;
+$max-width-field: 500px;
+$shadow-color: rgba(0, 0, 0, 0.2);
+$font-size-input: 0.8rem;
+
+// Mixin pour les ombres
+@mixin box-shadow($color) {
+  box-shadow: 0 4px 8px 0 $color;
+}
+
+:host {
+  display: block;
+
+  .qa-card {
+    max-width: $max-width-card;
+    @include box-shadow($shadow-color);
+    margin: 50px auto;
+    padding: 20px;
+
+    .qa-form-field {
+      width: 100%;
+      max-width: $max-width-field;
+      margin: 0 auto 24px;
+      
+      .mat-form-field-wrapper { padding-bottom: 0.25em; }
+      .mat-form-field-flex { padding: 0.5em; }
+
+      .mat-input-element,
+      .mat-select-value {
+        font-size: $font-size-input;
+        color: $font-color;
+      }
+
+      .mat-form-field-infix {
+        padding: 0;
+        border: 0;
+      }
+
+      .mat-form-field-label-wrapper { top: -1em; }
+    }
+
+    .submit-button,
+    .add-response-button {
+      width: 100%;
+      max-width: $max-width-field;
+      margin: 20px auto;
+      padding: 12px 20px;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      @include box-shadow(none);
+      cursor: pointer;
+
+      .mat-icon {
+        color: white;
+        margin-right: 8px;
+      }
+
+      &:hover { background-color: darken($primary-color, 10%); }
+    }
+  }
+}

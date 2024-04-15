@@ -1,0 +1,54 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Class Name</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">University Date</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let classe of ClassList; let i = index">
+                            <ng-container *ngIf="!classe.editing; else editRow">
+                                <td>{{ classe.nameClasse }}</td>
+                                <td>{{ classe.level }}</td>
+                                <td>{{ classe.universityDate }}</td>
+                                <td class="text-center">
+                                    <button (click)="editClasse(classe)" class="btn btn-custom-edit btn-sm mr-2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteClass(classe.idClasse)">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <ng-template #editRow>
+                                <td><input type="text" class="form-control" [(ngModel)]="classe.nameClasse" /></td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="classe.level">
+                                      <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+                                    </select>
+                                  </td>
+                                <td><input type="date" class="form-control" [(ngModel)]="classe.universityDate" /></td>
+                                <td class="text-center">
+                                    <button (click)="saveChanges(classe)" class="btn btn-success btn-sm">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </td>
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,66 @@
+/* Styles pour le conteneur QA */
+.qa-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  /* Styles pour la carte QA */
+  .qa-card {
+    width: calc(33% - 20px); /* 33% de la largeur du conteneur avec un peu d'espace entre les cartes */
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Ajout d'une bordure */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  }
+  
+  /* Styles appliqués aux éléments mat-card existants dans vos cartes QA */
+  mat-card-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+  
+  mat-card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  mat-card-content {
+    padding: 10px 20px;
+  }
+  
+  mat-card-content p {
+    margin: 5px 0;
+  }
+  
+  .active {
+    color: green;
+  }
+  
+  .inactive {
+    color: red;
+  }
+  
+  mat-card-actions {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  mat-card-actions button {
+    margin-left: 10px;
+  }
+  
+  /* Ajustements spécifiques pour le formulaire d'ajout/modification QA */
+  :host {
+    .qa-card {
+      .qa-form-field {
+        .mat-input-element,
+        .mat-select {
+          width: 80%; /* Réduction de la longueur des inputs et selects */
+        }
+      }
+    }
+  }
+  

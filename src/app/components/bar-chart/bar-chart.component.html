@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header">
+      Top Contributors
+    </div>
+    <div class="card-body">
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="barChartData"
+        [gradient]="barChartOptions.gradient"
+        [xAxis]="barChartOptions.showXAxis"
+        [yAxis]="barChartOptions.showYAxis"
+        [legend]="barChartOptions.showLegend"
+        [showXAxisLabel]="barChartOptions.showXAxisLabel"
+        [xAxisLabel]="'Top contributors'"
+        [showYAxisLabel]="barChartOptions.showYAxisLabel"
+        [yAxisLabel]="'Contribution value'"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+  
