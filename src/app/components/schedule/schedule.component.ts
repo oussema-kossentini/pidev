@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { response } from 'express';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
 
 // Assurez-vous d'importer le service nécessaire si vous ne l'avez pas déjà fait.
 // import { ScheduleServiceService } from 'chemin-vers-votre-service';
@@ -43,7 +43,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this.getALL();
-    
+
     //this.getByIdClasse(this.id);
     this.getALLClasse();
   }

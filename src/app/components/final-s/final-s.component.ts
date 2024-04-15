@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
 @Component({
   selector: 'app-final-s',
   templateUrl: './final-s.component.html',
@@ -12,7 +12,7 @@ export class FinalSComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllSchedules();
-    
+
   }
 
   getAllSchedules(): void {

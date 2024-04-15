@@ -1,5 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
 
 @Component({
   selector: 'app-final-class',
@@ -13,7 +13,7 @@ export class FinalCLASSComponent implements OnInit{
 
   ngOnInit(): void {
     this.getSchedules();
-    
+
   }
 
   getSchedules(): void {

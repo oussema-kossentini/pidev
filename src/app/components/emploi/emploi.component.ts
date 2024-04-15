@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -142,17 +142,17 @@ export class EmploiComponent implements OnInit {
   onSubmit() {
     if (this.registerFormCustom.valid) {
         const { day, debutHour, endHour } = this.registerFormCustom.value;
-        const idScheduel = this.id; 
-        const idSubject = this.selectedTutorial.idSubject; 
+        const idScheduel = this.id;
+        const idSubject = this.selectedTutorial.idSubject;
         const subjectName = this.selectedTutorial.subjectName;
 
       // Idem pour 'this.selectedTutorial.nameClasse'
-  
+
       // Initialisation de 'this.session[day]' comme un objet si ce n'est pas déjà fait
       if (!this.session[day]) {
         this.session[day] = {};
       }
-  
+
       // Assurez-vous que 'this.session[day][debutHour]' et 'this.session[day][endHour]' sont des tableaux
       if (!Array.isArray(this.session[day][debutHour])) {
         this.session[day][debutHour] = [];
@@ -160,10 +160,10 @@ export class EmploiComponent implements OnInit {
       if (endHour !== debutHour && !Array.isArray(this.session[day][endHour])) {
         this.session[day][endHour] = [];
       }
-  
+
       // Appel au service pour ajouter une session à l'horaire
-      
-        
+
+
             this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idSubject).subscribe(
                 (response) => {
                   // Ajout de la session aux tableaux pour les heures de début et de fin si elles sont différentes
@@ -172,26 +172,26 @@ export class EmploiComponent implements OnInit {
             idScheduel: idScheduel,
             subjectName: subjectName
           };
-          
+
           this.session[day][debutHour].push(sessionInfo);
-  
+
           if (endHour !== debutHour) {
             this.session[day][endHour].push(sessionInfo);
           }
-  
+
           // Sauvegarde de l'état local, si nécessaire
           // this.saveScheduleToLocalStorage(); // Implémentez cette méthode selon vos besoins
-  
+
           this.saveScheduleToLocalStorage();
           this.registerFormCustom.reset();
           console.log('Session ajoutée avec succès',sessionInfo);
         },
                 (error) => {
                   console.log('Erreur lors de l\'ajout de la session:', error);
-                  if (error.status === 400) { 
+                  if (error.status === 400) {
                       alert('Choisissez une autre date car elle est déjà remplie.');
                   } else {
-                    
+
                       alert('Choisissez une autre date car elle est déjà remplie.');
                   }
               }
@@ -201,20 +201,20 @@ export class EmploiComponent implements OnInit {
         console.error('Le formulaire n\'est pas valide.');
       }
     }
- 
+
     getSubjectForTime(day: string, hour: string): any {
-   
+
       const sessions = this.session[day]?.[hour];
-      
+
       if (sessions && Array.isArray(sessions) && sessions.length) {
-        
+
         const foundSession = sessions.find(session => session.idScheduel === this.id);
-       
+
         return foundSession || null;
       }
       return null;
     }
-    
+
 
   isSessionAlreadyAdded(day: string, debutHour: string, endHour: string, idScheduel: string): boolean {
     // Vérifie si le jour a été initialisé dans le tableau session
@@ -324,7 +324,7 @@ export class EmploiComponent implements OnInit {
 
   }
 
-  
+
 
 
   //Initialise l'emploi du temps avec des valeurs par défaut.

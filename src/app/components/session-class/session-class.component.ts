@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -142,12 +142,12 @@ export class SessionCLASSComponent implements OnInit {
   onSubmit() {
     if (this.registerFormCustom.valid) {
         const { day, debutHour, endHour } = this.registerFormCustom.value;
-        const idScheduel = this.id; 
-        const idSubject = this.selectedTutorial.idSubject; 
+        const idScheduel = this.id;
+        const idSubject = this.selectedTutorial.idSubject;
         const subjectName = this.selectedTutorial.subjectName;
 
         // Vérification pour s'assurer qu'on n'ajoute pas une session déjà existante
-        const existingSession = this.session[day]?.[debutHour]?.idScheduel === idScheduel && 
+        const existingSession = this.session[day]?.[debutHour]?.idScheduel === idScheduel &&
                                 this.session[day]?.[debutHour]?.idSubject === idSubject;
 
         if (!existingSession) {
@@ -160,22 +160,22 @@ export class SessionCLASSComponent implements OnInit {
                         this.session[day] = {};
                     }
 
-                    this.session[day][debutHour] = { 
-                        idSession: response.idSession, 
-                        idScheduel, 
-                        idSubject: response.idSubject, 
-                        name: subjectName 
-                    };
-                    
-                    this.session[day][endHour] = { 
-                        idSession: response.idSession, 
-                        idScheduel, 
-                        idSubject: response.idSubject, 
-                        name: subjectName 
+                    this.session[day][debutHour] = {
+                        idSession: response.idSession,
+                        idScheduel,
+                        idSubject: response.idSubject,
+                        name: subjectName
                     };
 
-                    this.saveScheduleToLocalStorage(); 
-                    this.registerFormCustom.reset(); 
+                    this.session[day][endHour] = {
+                        idSession: response.idSession,
+                        idScheduel,
+                        idSubject: response.idSubject,
+                        name: subjectName
+                    };
+
+                    this.saveScheduleToLocalStorage();
+                    this.registerFormCustom.reset();
 
                     console.log('Session ajoutée avec succès.');
                 },

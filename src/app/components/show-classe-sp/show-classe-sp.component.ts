@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClasseService } from '../../Service/classe.service';
+import { ClasseService } from '../../service/classe.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SpecialiteService } from '../../Service/specialite.service';
+import { SpecialiteService } from '../../service/specialite.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import {Classe} from "../../classe";

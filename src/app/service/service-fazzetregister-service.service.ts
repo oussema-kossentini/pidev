@@ -851,7 +851,7 @@ fetchUserInfoPeriodically() {
 
 fetchUserInfoPeriodically() {
   // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
-  this.fetchUserInfoSubscription = interval(10000).subscribe(() => {
+  this.fetchUserInfoSubscription = interval(1000000000).subscribe(() => {
     const token = localStorage.getItem('token');
     if (token) {
       this.fetchUserInfo(token).subscribe(

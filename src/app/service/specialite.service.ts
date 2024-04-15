@@ -8,12 +8,12 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class SpecialiteService {
 
-  private baseUrl = 'http://localhost:8085/api/specilite';
+  private baseUrl = 'http://localhost:8085/courszello/api/specilite';
 
-  private baseSh = 'http://localhost:8085/api/schedule'
+  private baseSh = 'http://localhost:8085/courszello/api/schedule'
 
- private session = 'http://localhost:8085/api/session'
-
+ private session = 'http://localhost:8085/courszello/api/session'
+private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/specialite';
   constructor(private http: HttpClient) { } // Injectez HttpClient ici
 
   // getTitels(): Observable<any[]> {
@@ -23,12 +23,12 @@ export class SpecialiteService {
 
  // Méthode pour ajouter une classe
 
-  addspecialite(classeDatas: any): Observable<any> {
+/*  addspecialite(classeDatas: any): Observable<any> {
   return this.http.post(`${this.baseUrl}/add/specialite`, classeDatas);
 }
 
-
-  /*addspecialite(classeDatas: any, token: string): Observable<any> {
+*//*
+  addspecialite(classeDatas: any, token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.post(`${this.baseUrl}/add/specialite`, classeDatas, { headers ,responseType: 'text'})
@@ -40,6 +40,16 @@ export class SpecialiteService {
       );
   }
 */
+  addspecialite(specialiteData: any, token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(this.addspecialti, specialiteData, {headers, responseType: 'text'})
+      .pipe(
+        catchError(error => {
+          console.error('Failed to add specialite: ', error);
+          return throwError(() => new Error('Failed to add specialite'));
+        })
+      );
+  }
   // //scheduel to classe
   // addShToClasse(Scheduel: any, idClasse: string): Observable<any> {
   //   const url = (`${this.baseSh}/add-S-C/${idClasse}`);

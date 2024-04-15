@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ClasseService } from '../../Service/classe.service';
+import { ClasseService } from '../../service/classe.service';
 import { FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,9 +19,9 @@ export class ListEtudiantToAffComponent {
     private formBuilder: FormBuilder,
    private router: Router ,
   private route:ActivatedRoute
-  ) 
+  )
   {
-    this.loadlistEtudiants(); 
+    this.loadlistEtudiants();
     // this.loadTitels();
   }
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class ListEtudiantToAffComponent {
     );
   }
 
-  
+
   affectationEtudiant(idUser:any) {
     this.classeService.affecterUserInClass(idUser,this.idClasse).subscribe();
     this.router.navigate(['/list-etudiant-by-claase/',this.idClasse]);

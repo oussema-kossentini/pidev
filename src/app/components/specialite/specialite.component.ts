@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import { SpecialiteService } from '../../service/specialite.service';
+///import { SpecialiteService } from '../../service/specialite.service';
+//import  {SpecialiteService} from "../../service/specialite.service";
+import {SpecialiteService} from "../../service/specialite.service";
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from "@angular/common/http";
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
@@ -32,9 +34,9 @@ export class SpecialiteComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnInit(): void {
+ /* ngOnInit(): void {
     //this.loadTitles();
-  }
+  }*/
 
   loadTitles(): void {
     this.specialiteService.getAllTitles().subscribe({
@@ -48,28 +50,33 @@ export class SpecialiteComponent implements OnInit {
     });
   }
 
-  initializeForm(): void {
+ /* initializeForm(): void {
     this.specialiteForm = this.formBuilder.group({
       title: ['', [Validators.required, this.forbiddenTitleValidator(this.titles)]],
       description: ['', Validators.required]
     });
-  }
+  }*/
 
   onSubmit(): void {alert('');
     // Reset alertMessage each time form is submitted
-    token=thqi
-    this.alertMessage = null;
 
+    // Récupération du token JWT via le service d'authentification
+    const token = this.authService.getJwtToken();
+
+    if (token == null) {
+      this.alertMessage = "Token not found";
+      return;  // Arrêter la soumission si le token n'est pas trouvé
+    }
     // Check for the forbiddenTitle error specifically
-    const titleControl = this.specialiteForm.get('title');
+ /*   const titleControl = this.specialiteForm.get('title');
     if (titleControl.errors?.forbiddenTitle) {
       // Set the alert message
       this.alertMessage = titleControl.errors.forbiddenTitle.message;
       return; // Stop the form submission process
     }
-
+*/
     if (this.specialiteForm.valid) {
-      this.specialiteService.addspecialite(this.specialiteForm.value).subscribe({
+      this.specialiteService.addspecialite(this.specialiteForm.value,token).subscribe({
         next: (response) => {
           console.log('La spécialité a été créée avec succès:', response);
           this.router.navigate(['/list-specialite']);
@@ -80,6 +87,21 @@ export class SpecialiteComponent implements OnInit {
       });
     }
   }
+
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.loadTitles();
+  }
+
+  initializeForm(): void {
+    this.specialiteForm = this.formBuilder.group({
+      title: ['', [Validators.required, this.forbiddenTitleValidator(this.titles)]],
+      description: ['', Validators.required]
+    });
+  }
+
+
 
   forbiddenTitleValidator(titles: string[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {

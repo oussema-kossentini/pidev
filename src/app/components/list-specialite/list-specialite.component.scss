@@ -1,4 +1,5 @@
 
+
 /* Container and Table 3D effect */
 .container {
     perspective: 1000px; /* Enhances the 3D effect by adding perspective. */
@@ -82,34 +83,33 @@
     border-collapse: separate;
     border-spacing: 0 15px; /* Creates space between rows */
   }
-  
+
   .table .thead-dark th {
     border-radius: 0.25rem 0.25rem 0 0; /* Rounds the top corners of the header */
   }
-  
+
   .table tbody tr {
     background-color: #fff; /* Card background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for the card effect */
   }
-  
+
   .table tbody td {
     border-top: hidden; /* Hides the top border to maintain the card effect */
     border-bottom: hidden; /* Optional: hides the bottom border for a cleaner look */
   }
-  
+
   .table tbody tr:first-child td:first-child {
     border-top-left-radius: 0.25rem; /* Rounds the top left corner */
   }
-  
+
   .table tbody tr:first-child td:last-child {
     border-top-right-radius: 0.25rem; /* Rounds the top right corner */
   }
-  
+
   .table tbody tr:last-child td:first-child {
     border-bottom-left-radius: 0.25rem; /* Rounds the bottom left corner */
   }
-  
+
   .table tbody tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem; /* Rounds the bottom right corner */
   }
-  

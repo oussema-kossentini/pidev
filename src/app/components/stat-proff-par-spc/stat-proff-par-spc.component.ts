@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import {SpecialiteService} from "../../Service/specialite.service";
+import {SpecialiteService} from "../../service/specialite.service";
 import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isPlatformBrowser} from "@angular/common";

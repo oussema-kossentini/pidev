@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {Route, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
-import {SpecialiteService} from "../../Service/specialite.service";
+import {SpecialiteService} from "../../service/specialite.service";
 
 @Component({
   selector: 'app-nav-etudiant-spec',

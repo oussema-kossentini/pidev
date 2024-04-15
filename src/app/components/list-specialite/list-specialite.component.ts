@@ -1,9 +1,9 @@
 
-import { SpecialiteService } from '../../Service/specialite.service';
+import { SpecialiteService } from '../../service/specialite.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component,OnInit ,ViewChild} from '@angular/core';
-import { ClasseService } from '../../Service/classe.service';
+import { ClasseService } from '../../service/classe.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {saveAs} from "file-saver";

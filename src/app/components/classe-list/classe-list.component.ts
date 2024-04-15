@@ -1,5 +1,5 @@
 import { Component,OnInit ,ViewChild} from '@angular/core';
-import { ClasseService } from '../../Service/classe.service';
+import { ClasseService } from '../../service/classe.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,10 +19,10 @@ export class ClasseListComponent implements OnInit {
   constructor(
     private classeService: ClasseService,
     private formBuilder: FormBuilder,
-    private router: Router  
+    private router: Router
   ) {
-    this.loadClass(); 
-    this.loadLevels(); 
+    this.loadClass();
+    this.loadLevels();
   }
 
   editClass(classId: string) {
@@ -56,12 +56,12 @@ export class ClasseListComponent implements OnInit {
     }
   }
 
-  
+
   editClasse(classe: any): void {
     classe.editing = true; // Activate edit mode for the user
-    alert(`Editing class: ${classe.name}`); 
+    alert(`Editing class: ${classe.name}`);
   }
-  
+
 
   saveChanges(classe: any): void {
     classe.editing = false; // Deactivate edit mode for the user

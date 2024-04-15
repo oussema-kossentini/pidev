@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CourseService } from '../../cours-service.service';
+import { CourseService } from '../../service/cours-service.service';
 import { Router } from '@angular/router';
 import { Contenu } from '../../contenu';
 @Component({
@@ -10,7 +10,7 @@ import { Contenu } from '../../contenu';
 export class AddContenuComponent {
   courses: any[] = [];
 
-  
+
   Contenu = new Contenu();
   showAlert = false;
   constructor(private CourseService: CourseService , private router: Router) { }

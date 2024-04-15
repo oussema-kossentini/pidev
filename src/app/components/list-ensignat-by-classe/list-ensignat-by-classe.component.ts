@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ClasseService } from '../../Service/classe.service';
+import { ClasseService } from '../../service/classe.service';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class ListEnsignatByClasseComponent {
    private router: Router ,
    private route:ActivatedRoute
   ) {
-    this.loadEnsignat(); 
+    this.loadEnsignat();
     // this.loadTitels();
   }
 

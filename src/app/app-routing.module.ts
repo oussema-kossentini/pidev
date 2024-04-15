@@ -23,16 +23,16 @@ import {ListEtudiantToAffComponent} from "./components/list-etudiant-to-aff/list
 import {ListEnseignatToAffComponent} from "./components/list-enseignat-to-aff/list-enseignat-to-aff.component";
 import {StatEtudiantParSpeComponent} from "./components/stat-etudiant-par-spe/stat-etudiant-par-spe.component";
 import {StatProffParSpcComponent} from "./components/stat-proff-par-spc/stat-proff-par-spc.component";
-import {EngToShComponent} from "./eng-to-sh/eng-to-sh.component";
-import {FinalSComponent} from "./final-s/final-s.component";
-import {FinalCLASSComponent} from "./final-class/final-class.component";
-import {SessionCLASSComponent} from "./session-class/session-class.component";
-import {SessionPROFComponent} from "./session-prof/session-prof.component";
+import {EngToShComponent} from "./components/eng-to-sh/eng-to-sh.component";
+import {FinalSComponent} from "./components/final-s/final-s.component";
+import {FinalCLASSComponent} from "./components/final-class/final-class.component";
+import {SessionCLASSComponent} from "./components/session-class/session-class.component";
+import {SessionPROFComponent} from "./components/session-prof/session-prof.component";
 import {NavEtudiantSpecComponent} from "./components/nav-etudiant-spec/nav-etudiant-spec.component";
-import {SesionSchComponent} from "./sesion-sch/sesion-sch.component";
-import {ScheduleComponent} from "./schedule/schedule.component";
-import {SessionComponent} from "./session/session.component";
-import {EmploiComponent} from "./emploi/emploi.component";
+import {SesionSchComponent} from "./components/sesion-sch/sesion-sch.component";
+import {ScheduleComponent} from "./components/schedule/schedule.component";
+import {SessionComponent} from "./components/session/session.component";
+import {EmploiComponent} from "./components/emploi/emploi.component";
 import {EvaluationComponent} from "./components/evaluation/evaluation.component";
 import {EvaluationAssessmentComponent} from "./components/evaluation-assessment/evaluation-assessment.component";
 import {AddEvaluationComponent} from "./components/add-evaluation/add-evaluation.component";
@@ -131,7 +131,7 @@ const routes: Routes = [
   { path: 'comment', component: CommentComponent },
 //testlel iptihel
 
-  { path: 'addCours', component: CoursComponent },
+  { path: 'coursjasser', component: CoursComponent },
   { path: 'coursDetails', component: CoursDetailsComponent },
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
   { path: 'contentUpdate/:id', component: UpdateContentComponent },

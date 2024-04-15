@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CourseService } from '../../cours-service.service';
+import { CourseService } from '../../service/cours-service.service';
 
 @Component({
   selector: 'app-cours-update',
@@ -52,7 +52,7 @@ export class CoursUpdateComponent {
     this.router.navigate(['/coursDetails']);
   }
 
-  
-  
+
+
 
 }

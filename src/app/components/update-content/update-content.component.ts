@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CourseService } from '../../cours-service.service';
+import { CourseService } from '../../service/cours-service.service';
 
 @Component({
   selector: 'app-update-content',
@@ -40,7 +40,7 @@ export class UpdateContentComponent {
     this.courseService.updateContenu(this.contentId, this.Contenu).subscribe(
       (data) => {
         console.log('content updated successfully', data);
-      
+
       },
       (error) => {
         console.log('Error updating content:', error);
@@ -49,6 +49,6 @@ export class UpdateContentComponent {
     this.router.navigate(['/contenuCours']);
   }
 
-  
+
 
 }

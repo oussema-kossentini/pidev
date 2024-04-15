@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SpecialiteService } from '../Service/specialite.service';
+//import { SpecialiteService } from '../../service/specialite.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ScheduleServiceServiceService } from '../Service/schedule-service-service.service';
-import { ClasseService } from '../Service/classe.service';
+import { ScheduleServiceServiceService } from '../../service/schedule-service-service.service';
+import { ClasseService } from '../../service/classe.service';
 
 @Component({
   selector: 'app-eng-to-sh',
@@ -62,7 +62,7 @@ export class EngToShComponent implements OnInit {
     }
 
 
-    
+
   }
 
 
