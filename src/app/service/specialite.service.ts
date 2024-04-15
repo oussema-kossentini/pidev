@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import {Observable, catchError, throwError, tap} from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,11 +22,24 @@ export class SpecialiteService {
   // }
 
  // Méthode pour ajouter une classe
- addspecialite(classeDatas: any): Observable<any> {
+
+  addspecialite(classeDatas: any): Observable<any> {
   return this.http.post(`${this.baseUrl}/add/specialite`, classeDatas);
 }
 
 
+  /*addspecialite(classeDatas: any, token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post(`${this.baseUrl}/add/specialite`, classeDatas, { headers ,responseType: 'text'})
+      .pipe(
+        catchError(error => {
+          console.error('Failed to add specialite: ', error);
+          return throwError(() => new Error('Failed to add specialite'));
+        })
+      );
+  }
+*/
   // //scheduel to classe
   // addShToClasse(Scheduel: any, idClasse: string): Observable<any> {
   //   const url = (`${this.baseSh}/add-S-C/${idClasse}`);

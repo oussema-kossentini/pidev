@@ -20,7 +20,7 @@ import { UserInfoResponse } from '../models/UserInfoResponse ';
   providedIn: 'root'
 })
 export class ServiceFazzetregisterService {
-  private fetchUserInfoSubscription: Subscription = new Subscription();
+
   // constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) { }
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient,private router: Router) {
     if (isPlatformBrowser(this.platformId)) {
@@ -38,7 +38,6 @@ export class ServiceFazzetregisterService {
 
 
   }
-
 
   private readonly TOKEN_KEY = 'token';
 
@@ -269,7 +268,7 @@ private getuserinfo ='http://localhost:8085/courszello/api/auth/userinfo/{idUser
       return this.http.post(this.apiAddUser, formData).pipe(
         tap((response: any) => {
           localStorage.setItem('authToken', response.token); // Store the token
-        //  this.updateUserStatus('ONLINE').subscribe();
+          this.updateUserStatus('ONLINE').subscribe();
         })
       );;
     }
@@ -803,8 +802,7 @@ private userInfoSource = new BehaviorSubject<any>(this.loadInitialData());
   public userInfo$ = this.userInfoSource.asObservable();
 
   private loadInitialData() {
-
-     if (isPlatformBrowser(this.platformId)) { return {
+    return {
       firstName: localStorage.getItem('firstName'),
       lastName: localStorage.getItem('lastName'),
       email: localStorage.getItem('email'),
@@ -813,14 +811,7 @@ private userInfoSource = new BehaviorSubject<any>(this.loadInitialData());
       phone: localStorage.getItem('phone'),
       profilePicture: localStorage.getItem('profilePicture')
     };
-
-
-
-   }
-
-  }
-
-   /*
+  }/*
 
 fetchUserInfoPeriodically() {
   interval(1000) // Exécute la fonction toutes les 20 secondes
@@ -856,10 +847,11 @@ fetchUserInfoPeriodically() {
       }
     });
 }
-*/
-fetchUserInfoPeriodically() {
+*/private fetchUserInfoSubscription: Subscription = new Subscription();
 
-  this.fetchUserInfoSubscription = interval(10000000).subscribe(() => {
+fetchUserInfoPeriodically() {
+  // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
+  this.fetchUserInfoSubscription = interval(10000).subscribe(() => {
     const token = localStorage.getItem('token');
     if (token) {
       this.fetchUserInfo(token).subscribe(
@@ -873,14 +865,6 @@ fetchUserInfoPeriodically() {
       );
     }
   });
-
-
-  throw new Error('Method not implemented.');
-}
-
-fetchUserInfoPeriodicallyy() {
-  // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
-
 }
 fetchUserInfo(token: string) {
   const userId = this.decodeJwt(token).userId;

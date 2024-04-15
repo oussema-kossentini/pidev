@@ -14,7 +14,7 @@ export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Vérifier si on est dans un navigateur avant d'accéder à sessionStorage
     if (isPlatformBrowser(this.platformId)) {
-      const jwtToken = sessionStorage.getItem('token'); // L'accès à sessionStorage se fait ici
+      const jwtToken = localStorage.getItem('token'); // L'accès à sessionStorage se fait ici
 
       if (jwtToken) {
         const cloned = req.clone({

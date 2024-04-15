@@ -51,7 +51,14 @@ import {
 import {DeletePublicationComponent} from "./components/publicationn/delete-publication/delete-publication.component";
 import {ListPublicationComponent} from "./components/publicationn/list-publication/list-publication.component";
 import {CommentComponent} from "./components/comments/comment/comment.component";
+import {CoursComponent} from "./components/cours/cours.component";
+import {CoursDetailsComponent} from "./components/cours-details/cours-details.component";
+import {CoursUpdateComponent} from "./components/cours-update/cours-update.component";
+import {UpdateContentComponent} from "./components/update-content/update-content.component";
+import {ContenuCoursComponent} from "./components/contenu-cours/contenu-cours.component";
+import {AddContenuComponent} from "./components/add-contenu/add-contenu.component";
 //import { AuthGuard } from './service/auth.guard';
+//import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
 
    { path: 'home', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
@@ -121,8 +128,15 @@ const routes: Routes = [
   { path: 'retrive-publication', component: RetrievePublicationComponent },
   { path: 'delete-publication', component: DeletePublicationComponent },
   { path: 'list', component: ListPublicationComponent },
-  { path: 'comment', component: CommentComponent }
-  
+  { path: 'comment', component: CommentComponent },
+
+
+  { path: 'addCours', component: CoursComponent },
+  { path: 'coursDetails', component: CoursDetailsComponent },
+  { path: 'coursUpdate/:id', component: CoursUpdateComponent },
+  { path: 'contentUpdate/:id', component: UpdateContentComponent },
+  { path: 'contenuCours', component: ContenuCoursComponent },
+  { path: 'addContenu', component: AddContenuComponent }
 ];
 
 

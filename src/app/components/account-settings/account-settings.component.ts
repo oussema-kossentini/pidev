@@ -37,6 +37,7 @@ event :any;
     this.loadNationalities();
   }
 
+
   loadNationalities() {
     this.authService.getNationalities().subscribe(
       data => {
@@ -105,6 +106,7 @@ event :any;
       //  this.extractCountryCode();
         this.cdr.markForCheck();
         this.randomColor = this.getRandomColor();
+
       });
     }
   }
@@ -146,7 +148,7 @@ event :any;
 
   //awel etape
  //temchi li componnenet mtaak
- // tzid appel lel service mtaai fi constructeurru 
+ // tzid appel lel service mtaai fi constructeurru
 
 
 

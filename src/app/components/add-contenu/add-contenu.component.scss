@@ -1,0 +1,11 @@
+.dropdown-with-indicator {
+    position: relative;
+}
+
+.dropdown-indicator {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}

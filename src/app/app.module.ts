@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { CoursComponent } from './components/cours/cours.component';
 import { RegisterComponent } from './components/register/register.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatButtonModule } from '@angular/material/button';
@@ -100,6 +99,12 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MenubarModule} from "primeng/menubar";
 import {AvatarModule} from "primeng/avatar";
+import {CoursComponent} from "./components/cours/cours.component";
+import {CoursDetailsComponent} from "./components/cours-details/cours-details.component";
+import {CoursUpdateComponent} from "./components/cours-update/cours-update.component";
+import {ContenuCoursComponent} from "./components/contenu-cours/contenu-cours.component";
+import {AddContenuComponent} from "./components/add-contenu/add-contenu.component";
+import {UpdateContentComponent} from "./components/update-content/update-content.component";
 
 //import{user}
 @NgModule({
@@ -109,7 +114,7 @@ import {AvatarModule} from "primeng/avatar";
     HomeComponent,
     FooterComponent,
 
-    CoursComponent,
+
 
 
 
@@ -178,6 +183,13 @@ import {AvatarModule} from "primeng/avatar";
     FouterComponent,
     CommentComponent,
 
+
+    CoursComponent,
+    CoursDetailsComponent,
+    CoursUpdateComponent,
+    ContenuCoursComponent,
+    AddContenuComponent,
+    UpdateContentComponent,
 
 
   ],
@@ -268,7 +280,19 @@ NgxCaptchaModule,
     MatListModule,
     MenubarModule,
     ButtonModule,
-    AvatarModule
+    AvatarModule,
+
+    BrowserModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
 
   ],
   providers: [

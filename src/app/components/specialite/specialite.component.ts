@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-//import { SpecialiteService } from '../../service/specialite.service';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { SpecialiteService } from '../../service/specialite.service';
-
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from "@angular/common/http";
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
+import { ServiceFazzetregisterService } from '../../service/service-fazzetregister-service.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-specialite',
@@ -17,16 +17,23 @@ export class SpecialiteComponent implements OnInit {
   errorMessage: string | null = null;
   forbiddenTitle : any;
   alertMessage: string | null = null; // Add this line
-
+  isBrowser :Boolean;
 
   constructor(
     private specialiteService: SpecialiteService,
+    public authService: ServiceFazzetregisterService,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+
+
+
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
-    this.loadTitles();
+    //this.loadTitles();
   }
 
   loadTitles(): void {
@@ -48,37 +55,31 @@ export class SpecialiteComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (!this.specialiteForm) {
-      console.error("Form Group is not initialized.");
-      return;
-    }
-    console.log("Submitting form", this.specialiteForm.value);
-
+  onSubmit(): void {alert('');
+    // Reset alertMessage each time form is submitted
+    token=thqi
     this.alertMessage = null;
-    const titleControl = this.specialiteForm.get('title');
 
+    // Check for the forbiddenTitle error specifically
+    const titleControl = this.specialiteForm.get('title');
     if (titleControl.errors?.forbiddenTitle) {
+      // Set the alert message
       this.alertMessage = titleControl.errors.forbiddenTitle.message;
-      console.error("Form submission halted due to forbidden title:", this.alertMessage);
-      return;
+      return; // Stop the form submission process
     }
 
     if (this.specialiteForm.valid) {
       this.specialiteService.addspecialite(this.specialiteForm.value).subscribe({
         next: (response) => {
-          console.log('Specialty added successfully:', response);
+          console.log('La spécialité a été créée avec succès:', response);
           this.router.navigate(['/list-specialite']);
         },
         error: (error: HttpErrorResponse) => {
           this.handleError(error);
         }
       });
-    } else {
-      console.error("Form is invalid:", this.specialiteForm.errors);
     }
   }
-
 
   forbiddenTitleValidator(titles: string[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
