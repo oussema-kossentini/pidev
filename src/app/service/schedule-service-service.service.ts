@@ -2,164 +2,121 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Session } from 'inspector';
+import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
+//
 export class ScheduleServiceServiceService {
 
-  private baseApiUrl = 'http://localhost:8085/api/schedule'; // URL de base pour les API de gestion des horaires
-  private baseApiUrli = 'http://localhost:8085/api/session';
-  private baseUrl = 'http://localhost:8085/api/users';
-  private classe = 'http://localhost:8085/api/classes';
-  private subject = 'http://localhost:8085/api';
-  private profuser = 'http://localhost:8085/api/specilite';
+  private baseApiUrl = 'http://localhost:8085/courszello/api/schedule'; // URL de base pour les API de gestion des horaires
+  private baseApiUrli = 'http://localhost:8085/courszello/api/session';
+  private baseUrl = 'http://localhost:8085/courszello/api/users';
+  private classe = 'http://localhost:8085/courszello/api/classes';
+  private subject = 'http://localhost:8085/courszello/api';
+  private profuser = 'http://localhost:8085/courszello/api/specilite';
 
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: ServiceFazzetregisterService) {}
 
   getByIdClass(idClasse: any): Observable<any> {
-    return this.http.get(`${this.classe}/retrieve-all-classe/${idClasse}`);
+    const url = `${this.classe}/retrieve-all-classe/${idClasse}`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-
-
-
-
-  //affecter classe au scheduel
-  addStoClasseaa(session: any, idClasse: string): Observable<any> {
-    // Utilisez idClasse comme partie du chemin de l'URL, pas comme un paramètre de requête
-    const url = (`${this.baseApiUrl}/add-S-C/${idClasse}`);
-    return this.http.post(url, session);
-  }
   addStoClasse(session: any, idClasse: string): Observable<any> {
-    // Utilisez idClasse comme partie du chemin de l'URL, pas comme un paramètre de requête
-    const url = (`${this.baseApiUrl}/add-to-classe/${idClasse}`);
-    return this.http.post(url, session);
+    const url = `${this.baseApiUrl}/add-to-classe/${idClasse}`;
+    return this.authService.requestWithToken('POST', url, session);
   }
 
   getAllSchedules(): Observable<any> {
-
-    return this.http.get(`${this.baseApiUrl}/retrieve-all-scheduels`);
+    const url = `${this.baseApiUrl}/retrieve-all-scheduels`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-  //delete Scheduel
   deleteSched(idScheduel: string): Observable<any> {
-
-    return this.http.delete(`${this.baseApiUrl}/remove-scheduel/${idScheduel}`);
+    const url = `${this.baseApiUrl}/remove-scheduel/${idScheduel}`;
+    return this.authService.requestWithToken('DELETE', url);
   }
 
-  //update
   update(id: any, data: any): Observable<any> {
-    return this.http.put(`${this.baseApiUrl}/modify-scheduel/${id}`, data);
+    const url = `${this.baseApiUrl}/modify-scheduel/${id}`;
+    return this.authService.requestWithToken('PUT', url, data);
   }
 
-  // getbyId scheduel
   getByIdScheduel(id: any): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/${id}`);
+    const url = `${this.baseApiUrl}/${id}`;
+    return this.authService.requestWithToken('GET', url);
   }
-
-  //*********/
-
 
   addSchedSS(session: any, idScheduel: string, idSubject: string): Observable<any> {
-    // Ajout du paramètre idSubject à l'URL
     const url = `${this.baseApiUrli}/add/session?idScheduel=${idScheduel}&idSubject=${idSubject}`;
-    return this.http.post(url, session);
+    return this.authService.requestWithToken('POST', url, session);
   }
 
-
-
-
-  //all session
   getAllSessions(): Observable<any> {
-    // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
-    return this.http.get(`${this.baseApiUrli}/retrieve-all-Session`);
+    const url = `${this.baseApiUrli}/retrieve-all-Session`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-  //getbyid session
   getByIdSS(idSession: any): Observable<any> {
-    return this.http.get(`${this.baseApiUrli}/${idSession}`);
+    const url = `${this.baseApiUrli}/${idSession}`;
+    return this.authService.requestWithToken('GET', url);
   }
-  //delete session
+
   deleteSession(idSession: string): Observable<any> {
-
-    return this.http.delete(`${this.baseApiUrli}/remove-session/${idSession}`);
+    const url = `${this.baseApiUrli}/remove-session/${idSession}`;
+    return this.authService.requestWithToken('DELETE', url);
   }
-  //update session
+
   updateSession(id: any, data: any): Observable<any> {
-    return this.http.put(`${this.baseApiUrli}/modify-session/${id}`, data);
+    const url = `${this.baseApiUrli}/modify-session/${id}`;
+    return this.authService.requestWithToken('PUT', url, data);
   }
 
-  //getbyid classe
-
-
-  //getall clases
   getAllClasses(): Observable<any> {
-    // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
-    return this.http.get(`${this.classe}/retrieve-all-classe`);
+    const url = `${this.classe}/retrieve-all-classe`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-  //subject to session
   addSubjecttosession(session: any, idSubject: string): Observable<any> {
-    // Utilisez idClasse comme partie du chemin de l'URL, pas comme un paramètre de requête
-    const url = (`${this.baseApiUrli}/add-to-subject/${idSubject}`);
-    return this.http.post(url, session);
+    const url = `${this.baseApiUrli}/add-to-subject/${idSubject}`;
+    return this.authService.requestWithToken('POST', url, session);
   }
 
-
-
-
-
-
-
-
-  //scheduel to classe
   addShToClasse(Scheduel: any, idClasse: string): Observable<any> {
-    const url = (`${this.baseApiUrl}/add-S-C/${idClasse}`);
-    return this.http.post(url, Scheduel);
+    const url = `${this.baseApiUrl}/add-S-C/${idClasse}`;
+    return this.authService.requestWithToken('POST', url, Scheduel);
   }
 
-
-  //subject to session
   addShToSession(Session: any, idScheduel: string): Observable<any> {
-    const url = (`${this.baseApiUrli}/add-S-SH/${idScheduel}`);
-    return this.http.post(url, Session);
+    const url = `${this.baseApiUrli}/add-S-SH/${idScheduel}`;
+    return this.authService.requestWithToken('POST', url, Session);
   }
-
-
-
-
-
-
 
   getAllSubject(): Observable<any> {
-    // Utilisation correcte de l'URL de base avec le chemin spécifique pour récupérer tous les horaires
-    return this.http.get(`${this.subject}/subject/retrieve-all-subjects`);
+    const url = `${this.subject}/subject/retrieve-all-subjects`;
+    return this.authService.requestWithToken('GET', url);
   }
+
   getByIdSubject(idSubject: any): Observable<any> {
-    return this.http.get(`${this.subject}/${idSubject}`);
+    const url = `${this.subject}/${idSubject}`;
+    return this.authService.requestWithToken('GET', url);
   }
-
-
-
-
-
 
   getUserById(idUser: string): Observable<any> {
     const url = `${this.baseUrl}/${idUser}`;
-    return this.http.get<any>(url);
+    return this.authService.requestWithToken('GET', url);
   }
-
-
 
   getSpecialiteAndClasseFromProfesseur(idUser: string): Observable<any> {
-    return this.http.get(`${this.profuser}/getSpecialiteAndClasseFromProfesseur/${idUser}`);
+    const url = `${this.profuser}/getSpecialiteAndClasseFromProfesseur/${idUser}`;
+    return this.authService.requestWithToken('GET', url);
   }
-
 
 
 }
