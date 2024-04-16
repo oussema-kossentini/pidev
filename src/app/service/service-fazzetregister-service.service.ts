@@ -263,18 +263,26 @@ private getuserinfo ='http://localhost:8085/courszello/api/auth/userinfo/{idUser
     getNationalities(): Observable<any[]> {
       return this.http.get<any[]>(`${this.baseUrl}/nationalities`);
     }
-    createUser(formData :FormData): Observable<any> {
+  /*  createUser(formData :FormData): Observable<any> {
 
       return this.http.post(this.apiAddUser, formData).pipe(
         tap((response: any) => {
           localStorage.setItem('authToken', response.token); // Store the token
           this.updateUserStatus('ONLINE').subscribe();
         })
-      );;
-    }
+      );
+    }*/
 
 
-
+  createUser(formData: FormData): Observable<any> {
+    return this.http.post(this.apiAddUser, formData).pipe(
+      tap((response: any) => {
+        localStorage.setItem('authToken', response.token); // Store the token
+        // Optional: Update user status after registration
+        this.updateUserStatus('ONLINE').subscribe();
+      })
+    );
+  }
 
      addTokenToHeaders(headers: HttpHeaders = new HttpHeaders()): HttpHeaders {
       const token = this.getJwtToken();

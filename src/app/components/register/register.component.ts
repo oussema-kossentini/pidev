@@ -7,6 +7,7 @@ import { passwordResponce } from '../register/register.module';
  import { replace } from 'feather-icons';
  import zxcvbn from 'zxcvbn';
  import { Router } from '@angular/router';
+import {Role} from "./role.enum";
 
 @Component({
   selector: 'app-register',
@@ -152,7 +153,7 @@ export class RegisterComponent {
       nationality: '',
       phone: '',
       phoneCodes:'',
-      role:'',
+      role: 'USER',
       statue:'',
       profilePicture: null as File | null,
     };
@@ -232,7 +233,7 @@ export class RegisterComponent {
     passwordMismatch = false;
 
 
-    createUser(event: Event) {
+    /*createUser(event: Event) {
       event.preventDefault(); // Prevent the default form submission behavior
       //event.stopPropagation(); // Stop the event from propagating
 
@@ -274,10 +275,65 @@ export class RegisterComponent {
     }
 
 
+*/
+  createUser(event: Event) {
+    event.preventDefault();
+
+    if (this.registerFormCustom.password !== this.registerFormCustom.confirmPassword) {
+      this.passwordMismatch = true;
+      return;
+    }
+
+    this.passwordMismatch = false;
+    const fullPhoneNumber = `${this.registerFormCustom.phoneCodes}${this.registerFormCustom.phone}`;
+    this.registerFormCustom.phone = fullPhoneNumber;
+    this.registerFormCustom.role = Role.USER;
 
 
+    const formData = new FormData();
+    formData.append('request', new Blob([JSON.stringify(this.registerFormCustom)], { type: "application/json" }));
+    if (this.registerFormCustom.profilePicture) {
+      formData.append('profilePicture', this.registerFormCustom.profilePicture);
+    }
 
+
+    formData.append('role', Role.USER);
+    formData.append('firstName', this.registerFormCustom.firstName || '');
+    formData.append('lastName', this.registerFormCustom.lastName || '');
+    formData.append('email', this.registerFormCustom.email || '');
+    formData.append('password', this.registerFormCustom.password || '');
+    formData.append('dateOfBirth', this.registerFormCustom.dateOfBirth || '');
+    formData.append('nationality', this.registerFormCustom.nationality || '');
+    formData.append('phone', this.registerFormCustom.phone || '');
+
+    // formData.append('role', Role.USER);
+    // Example setting
+
+    //formData.append('role', this.registerFormCustom.role);
+
+    this.serviceFazzetregisterService.createUser(formData).subscribe(
+      response => {
+        console.log('User successfully created!', response);
+        const token = response.headers.get('Authorization');
+        if (token) {
+          // Save the token and fetch user info
+          this.serviceFazzetregisterService.saveToken(token);
+          this.serviceFazzetregisterService.fetchUserInfo(token);
+          this.router.navigate(['/account-settings']);
+        } else {
+          console.error('No token found in response headers');
+          // Handle the case where the token is not present in the response
+        }
+
+        // Implement additional logic as needed
+      },
+      error => {
+        console.error('Failed to create user', error);
+      }
+    );
   }
+
+}
 
 
 
