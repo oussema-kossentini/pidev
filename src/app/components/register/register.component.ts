@@ -314,16 +314,17 @@ export class RegisterComponent {
     this.serviceFazzetregisterService.createUser(formData).subscribe(
       response => {
         console.log('User successfully created!', response);
-        const token = response.headers.get('Authorization');
+        this.router.navigate(['/account-settings']);
+       /* const token = response.headers.get('Authorization');
         if (token) {
           // Save the token and fetch user info
-          this.serviceFazzetregisterService.saveToken(token);
+
           this.serviceFazzetregisterService.fetchUserInfo(token);
           this.router.navigate(['/account-settings']);
         } else {
           console.error('No token found in response headers');
           // Handle the case where the token is not present in the response
-        }
+        }*/
 
         // Implement additional logic as needed
       },
