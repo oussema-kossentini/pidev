@@ -53,4 +53,9 @@ export class EvaluationService {
 assignEvaluationToUser(userId:any,evaluationId:any){
       return this.http.post(`${this.apiUrl}/assign-evaluation-to-user/${userId}/${evaluationId}`,null)
 }
+
+countEvaluationsByCategory(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/count-evaluations-by-category`)
+    .pipe(catchError(this.handleError));
+}
 }
