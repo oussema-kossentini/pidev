@@ -929,8 +929,29 @@ updateProfilePicture(file: File, token: string) {
 }
 
 
+  requestWithToken(method: string, url: string, body?: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getJwtToken()}`
+    });
+
+    return this.http.request(method, url, {
+      body,
+      headers
+    });
+  }
 
 
+  removeUser(id: string): Observable<any> {
+    const url = `${this.baseUrl}/remove-user/${id}`;
+    return this.requestWithToken('DELETE', url, { responseType: 'text' });
+  }
+
+ /* removeUser(id: String): Observable<any> {
+
+    return this.http.delete(`${this.baseUrl}/remove-user/${id}`,{ responseType: 'text' });
+
+  }*/
 
 
 getUserInfo(): any {
@@ -1321,11 +1342,7 @@ getUsers(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-users`);
 }
 
-  removeUser(id: String): Observable<any> {
 
-    return this.http.delete(`${this.baseUrl}/remove-user/${id}`,{ responseType: 'text' });
-
-  }
 
   }
 
