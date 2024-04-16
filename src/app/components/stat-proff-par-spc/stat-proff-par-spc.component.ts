@@ -39,7 +39,7 @@ export class StatProffParSpcComponent implements OnInit {
     const ctx = this.verticalChart.nativeElement.getContext('2d');
 
     if (ctx) {
-      this.specialiteService.statEnseignatParSpecialite().subscribe(
+      this.specialiteService.statEnseignantParSpecialite().subscribe(
         data => {
           this.MapList = data;
 

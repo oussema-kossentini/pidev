@@ -126,26 +126,28 @@ getObjetById(id: string): Observable<any> {
 }
 
 
-gettingSpecialite(id: any): Observable<any> {
-  return this.http.get(`${this.baseUrl}${id}`); // Assurez-vous que le chemin correspond à celui défini dans votre contrôleur Spring Boot
-}
+  gettingSpecialite(id: any): Observable<any> {
+    const url = `${this.baseUrl}/${id}`; // Correction du chemin pour inclure un slash avant l'ID
+    return this.authService.requestWithToken('GET', url);
+  }
 
+  getSpecialiteById2(id: any): Observable<any[]> {
+    const url = `${this.baseUrl}/getclasseBySpecialite/${id}`;
+    return this.authService.requestWithToken('GET', url);
+  }
 
-//Methode affichage par classes detailer
-getSpecialiteById2(id:any): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/getclasseBySpecialite/${id}`);
-}
+  statEtudiantParSpecialite(): Observable<any> {
+    const url = `${this.baseUrl}/statEtudiantParSpecialite`;
+    return this.authService.requestWithToken('GET', url);
+  }
 
-
-statEtudiantParSpecialite(): Observable<any>{
-    return this.http.get<any>(`${this.baseUrl}/statEtudiantParSpecialite`);
-}
-  statEnseignatParSpecialite(): Observable<any>{
-    return this.http.get<any>(`${this.baseUrl}/statProfesseurParSpecialite`);
+  statEnseignantParSpecialite(): Observable<any> {
+    const url = `${this.baseUrl}/statProfesseurParSpecialite`;
+    return this.authService.requestWithToken('GET', url);
   }
 
   getAllTitles(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/titles`);
-
+    const url = `${this.baseUrl}/titles`;
+    return this.authService.requestWithToken('GET', url);
   }
 }
