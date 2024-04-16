@@ -143,15 +143,15 @@ export class SessionCLASSComponent implements OnInit {
     if (this.registerFormCustom.valid) {
         const { day, debutHour, endHour } = this.registerFormCustom.value;
         const idScheduel = this.id;
-        const idSubject = this.selectedTutorial.idSubject;
-        const subjectName = this.selectedTutorial.subjectName;
+        const courseId = this.selectedTutorial.courseId;
+        const title = this.selectedTutorial.title;
 
         // Vérification pour s'assurer qu'on n'ajoute pas une session déjà existante
         const existingSession = this.session[day]?.[debutHour]?.idScheduel === idScheduel &&
-                                this.session[day]?.[debutHour]?.idSubject === idSubject;
+                                this.session[day]?.[debutHour]?.courseId === courseId;
 
         if (!existingSession) {
-            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idSubject).subscribe(
+            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, courseId).subscribe(
                 (response) => {
                     console.log("posttttttt", response);
 
@@ -163,15 +163,15 @@ export class SessionCLASSComponent implements OnInit {
                     this.session[day][debutHour] = {
                         idSession: response.idSession,
                         idScheduel,
-                        idSubject: response.idSubject,
-                        name: subjectName
+                      courseId: response.courseId,
+                        title: title
                     };
 
                     this.session[day][endHour] = {
                         idSession: response.idSession,
                         idScheduel,
-                        idSubject: response.idSubject,
-                        name: subjectName
+                      courseId: response.courseId,
+                        title: title
                     };
 
                     this.saveScheduleToLocalStorage();
@@ -184,7 +184,7 @@ export class SessionCLASSComponent implements OnInit {
                 }
             );
         } else {
-            console.error('Une session avec les mêmes idScheduel et idSubject existe déjà.');
+            console.error('Une session avec les mêmes idScheduel et courseId existe déjà.');
         }
     } else {
         console.error('Le formulaire n\'est pas valide.');

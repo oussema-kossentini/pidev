@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container">
     <form [formGroup]="registerFormCustom" (ngSubmit)="onSubmit()" class="form-container">
 
@@ -8,7 +9,7 @@
                 <mat-label>Enter Title subject</mat-label>
                 <mat-select [(value)]="selectedTutorial" (selectionChange)="onSelect($event.value)" id="titleSubject">
                     <mat-option *ngFor="let tutorial of TEST" [value]="tutorial">
-                        {{ tutorial.subjectName }}
+                        {{ tutorial.title }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -19,7 +20,7 @@
 
 
 
-        <!-- 
+        <!--
          <div formGroupName="schedule">
     <input formControlName="title" placeholder="Schedule Title">
   </div> -->
@@ -64,8 +65,8 @@
                         <!-- Affichage de la matière pour cette heure -->
                         <ng-container *ngIf="getSubjectForTime(day, hour) as sessionInfo">
                             <!-- Affichage de la matière pour cette heure -->
-                            {{ sessionInfo.subjectName }}
-                
+                            {{ sessionInfo.title }}
+
                         <button *ngIf="getSubjectForTime(day, hour)" class="delete-button"
                             (click)="onDeleteSession(getSubjectForTime(day, hour).idSession, day, hour)">✖</button>
                         <button *ngIf="getSubjectForTime(day, hour)" class="modify-button"
@@ -112,3 +113,4 @@
 
 
 </div>
+<app-footer></app-footer>

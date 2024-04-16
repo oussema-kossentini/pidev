@@ -976,23 +976,9 @@ updateProfilePicture(file: File, token: string) {
       })
     );
 }
-  requestWithToken(method: string, url: string, body?: any, params?: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getJwtToken()}`
-    });
-
-    const options = {
-      headers,
-      body,
-      params
-    };
-
-    return this.http.request(method, url, options);
-  }
 
 
- /* requestWithToken(method: string, url: string, body?: any): Observable<any> {
+  requestWithToken(method: string, url: string, body?: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.getJwtToken()}`
@@ -1002,7 +988,7 @@ updateProfilePicture(file: File, token: string) {
       body,
       headers
     });
-  }*/
+  }
 //
 
   removeUser(id: string): Observable<any> {

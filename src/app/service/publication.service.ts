@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Publication} from './publication.model';
+import { Publication} from '../components/publicationn/publication.model';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({

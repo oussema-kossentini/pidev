@@ -150,4 +150,9 @@ getObjetById(id: string): Observable<any> {
     const url = `${this.baseUrl}/titles`;
     return this.authService.requestWithToken('GET', url);
   }
+
+  getNavUser(): Observable<any> {
+    const url = `${this.baseUrl}/getNavUser`;
+    return this.authService.requestWithToken('GET', url);
+  }
 }

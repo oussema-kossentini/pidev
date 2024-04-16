@@ -143,8 +143,8 @@ export class EmploiComponent implements OnInit {
     if (this.registerFormCustom.valid) {
         const { day, debutHour, endHour } = this.registerFormCustom.value;
         const idScheduel = this.id;
-        const idSubject = this.selectedTutorial.idSubject;
-        const subjectName = this.selectedTutorial.subjectName;
+        const courseId = this.selectedTutorial.courseId;
+        const title = this.selectedTutorial.title;
 
       // Idem pour 'this.selectedTutorial.nameClasse'
 
@@ -164,13 +164,13 @@ export class EmploiComponent implements OnInit {
       // Appel au service pour ajouter une session à l'horaire
 
 
-            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idSubject).subscribe(
+            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, courseId).subscribe(
                 (response) => {
                   // Ajout de la session aux tableaux pour les heures de début et de fin si elles sont différentes
           const sessionInfo = {
             idSession: response.idSession, // Supposons que votre API retourne un objet avec 'idSession'
             idScheduel: idScheduel,
-            subjectName: subjectName
+            title: title
           };
 
           this.session[day][debutHour].push(sessionInfo);

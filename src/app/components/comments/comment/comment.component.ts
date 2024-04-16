@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommentService } from '../CommentService';
+import { CommentService } from '../../../service/CommentService';
 import { Comment } from '../Comment';
 
 @Component({
@@ -8,6 +8,6 @@ import { Comment } from '../Comment';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent {
-  
+
 
 }

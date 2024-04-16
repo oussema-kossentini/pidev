@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PublicationService } from '../publication.service';
+import { PublicationService } from '../../../service/publication.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ export class RetrievePublicationComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog, // Injection de MatDialog
     private sanitizer: DomSanitizer
-  ) {    
+  ) {
   }
 
   imageFile!: File;
@@ -59,7 +59,7 @@ export class RetrievePublicationComponent implements OnInit {
 
 
   loadPublications(): void {
- 
+
 this.publicationService.getPublications().subscribe(
   (data: any[]) => {
     this.PublicationList = data.map(publication => {
@@ -72,7 +72,7 @@ this.publicationService.getPublications().subscribe(
       };
     });
 
- 
+
   },
   error => {
     console.error('Error loading publications:', error);
@@ -81,9 +81,9 @@ this.publicationService.getPublications().subscribe(
 );
   }
 
-  
- 
-  
+
+
+
 
   deletePublication(id: string): void {
     if (confirm('Are you sure to delete this class?')) {
@@ -113,6 +113,6 @@ this.publicationService.getPublications().subscribe(
       }
     });
   }
-  
- 
+
+
 }

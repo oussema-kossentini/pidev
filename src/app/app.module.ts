@@ -105,6 +105,7 @@ import {CoursUpdateComponent} from "./components/cours-update/cours-update.compo
 import {ContenuCoursComponent} from "./components/contenu-cours/contenu-cours.component";
 import {AddContenuComponent} from "./components/add-contenu/add-contenu.component";
 import {UpdateContentComponent} from "./components/update-content/update-content.component";
+import { ProfesseurnavComponent } from './components/professeurnav/professeurnav.component';
 
 //import{user}
 @NgModule({
@@ -190,6 +191,7 @@ import {UpdateContentComponent} from "./components/update-content/update-content
     ContenuCoursComponent,
     AddContenuComponent,
     UpdateContentComponent,
+    ProfesseurnavComponent,
 
 
   ],

@@ -53,10 +53,11 @@ export class ScheduleServiceServiceService {
     return this.authService.requestWithToken('GET', url);
   }
 
-  addSchedSS(session: any, idScheduel: string, idSubject: string): Observable<any> {
-    const url = `${this.baseApiUrli}/add/session?idScheduel=${idScheduel}&idSubject=${idSubject}`;
+  addSchedSS(session: any, idScheduel: string, idCourse: string): Observable<any> {
+    const url = `${this.baseApiUrli}/add/session?idScheduel=${idScheduel}&idCourse=${idCourse}`;
     return this.authService.requestWithToken('POST', url, session);
   }
+
 
   getAllSessions(): Observable<any> {
     const url = `${this.baseApiUrli}/retrieve-all-Session`;
@@ -99,12 +100,12 @@ export class ScheduleServiceServiceService {
   }
 
   getAllSubject(): Observable<any> {
-    const url = `${this.subject}/subject/retrieve-all-subjects`;
+    const url = `${this.subject}/courses/retrieve-all-courses`;
     return this.authService.requestWithToken('GET', url);
   }
 
-  getByIdSubject(idSubject: any): Observable<any> {
-    const url = `${this.subject}/${idSubject}`;
+  getByIdSubject(courseId: any): Observable<any> {
+    const url = `${this.subject}/courses/${courseId}`; // Utilise l'URL correcte pour accéder aux cours
     return this.authService.requestWithToken('GET', url);
   }
 

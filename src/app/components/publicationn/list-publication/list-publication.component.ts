@@ -1,9 +1,9 @@
 import { Component, ElementRef, HostListener, TemplateRef, ViewChild } from '@angular/core';
-import { PublicationService } from '../publication.service';
+import { PublicationService } from '../../../service/publication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Comment } from '../../comments/Comment';
-import { CommentService } from '../../comments/CommentService';
+import { CommentService } from '../../../service/CommentService';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 import { Publication } from '../publication.model';
 import { FormControl } from '@angular/forms';
@@ -31,7 +31,7 @@ Publications: any[]=[];
   selectedPublication: any;
 
   constructor(public publicationService: PublicationService,public dialog: MatDialog ,    private router: Router, private commentService: CommentService ) {
-    
+
   }
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -65,44 +65,44 @@ Publications: any[]=[];
      width: '50%', // Ajustez la largeur selon vos besoins
 
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       // Traitez les données ou effectuez d'autres actions après la fermeture de la boîte de dialogue
     });
   }
-  
+
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
     // Hauteur de la fenêtre du navigateur
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-  
+
     // Hauteur totale de la page
     const docHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
-  
+
     // Position actuelle de la fenêtre par rapport au haut de la page
     const windowBottom = windowHeight + window.pageYOffset;
-  
+
     // Si l'utilisateur a atteint le bas de la page et qu'aucun chargement n'est en cours
     if (windowBottom >= docHeight && !this.isLoading) {
       this.loadMorePublications(); // Charger plus de publications
     }
   }
-  
-  
+
+
   allPublicationsLoaded: boolean = false;
 
   toggleComments(publication: any): void {
     publication.showComments = !publication.showComments;
   }
-  
+
   loadPublications(): void {
     this.isLoading = true;
     this.publicationService.getPublications().subscribe(
       (data: any[]) => {
         // Trier les publications par date de création (la plus récente d'abord)
         data.sort((a, b) => new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime());
-  
+
         this.PublicationList = data.slice(0, 10).map(publication => {
           // Traitement des données et chargement des commentaires
           const creationDate = new Date(publication.creationDate);
@@ -113,12 +113,12 @@ Publications: any[]=[];
             comments: []
           };
         });
-  
+
         // Charger les commentaires pour chaque publication
         this.PublicationList.forEach(publication => {
           this.loadCommentsForPublication(publication.idPublication);
         });
-  
+
         this.isLoading = false;
       },
       error => {
@@ -127,7 +127,7 @@ Publications: any[]=[];
       }
     );
   }
-  
+
 
   loadCommentsForPublication(publicationId: string): void {
     this.commentService.getCommentsForPublication(publicationId).subscribe(
@@ -144,17 +144,17 @@ Publications: any[]=[];
       }
     );
   }
-  
+
   showComments(publication: any): void {
     if (!publication.comments || publication.comments.length === 0) {
       // Charger les commentaires de la publication uniquement si la liste des commentaires est vide
       this.loadCommentsForPublication(publication.idPublication);
     }
     publication.showComments = !publication.showComments;
-  
+
   }
-  
-  
+
+
   loadMorePublications(): void {
     this.isLoading = true;
     this.currentPage++;
@@ -179,7 +179,7 @@ Publications: any[]=[];
       }
     );
   }
-  
+
    // Méthode pour supprimer un commentaire
    deleteComment(commentId: string) {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire?')) {
@@ -198,11 +198,11 @@ Publications: any[]=[];
       );
     }
   }
-  
-  
- 
-  
-  
+
+
+
+
+
 
   editPublication(Publications: any): void {
     Publications.editing = true; // Activate edit mode for the user
@@ -222,7 +222,7 @@ Publications: any[]=[];
       }
     });
   }
- 
+
   animateBox(event: any) {
     // Animer la box lors du survol en augmentant sa taille et en changeant sa couleur de fond
     event.target.style.transform = 'scale(1.1)'; // Augmenter la taille de la box
@@ -240,7 +240,7 @@ Publications: any[]=[];
       content: content,
       creationDate: new Date(), // Utilisation de 'new Date()' pour obtenir la date actuelle
     };
-  
+
     this.commentService.addCommentToPublication(idPublication, newComment)
       .subscribe(
         () => {
@@ -257,11 +257,11 @@ Publications: any[]=[];
         }
       );
   }
-  
+
   showCommentInput(publication: any): void {
     publication.showCommentInput = true; // Afficher la zone de commentaire pour cette publication
   }
-  
+
   addComment(publication: any): void {
     if (publication.idPublication) { // Vérifiez que l'ID de la publication est défini
       const content = publication.newComment.trim();
@@ -283,7 +283,7 @@ Publications: any[]=[];
   saveChanges(comment: any): void {
     // Désactiver le mode d'édition du commentaire
     comment.editing = false;
-  
+
     // Appeler le service pour enregistrer les modifications du commentaire
     this.commentService.modifyComment(comment).subscribe({
       next: () => {
@@ -321,7 +321,7 @@ Publications: any[]=[];
   closeOptions(): void {
     this.showOptions = false; // Fermer la liste d'options
   }
-  
+
   deletePublication(id: string): void {
     // Afficher une alerte de confirmation avec SweetAlert2
     Swal.fire({
@@ -399,7 +399,7 @@ Publications: any[]=[];
 
     isEditClicked: boolean = false;
     isDeleteClicked: boolean = false;
-  
+
     // Méthode pour basculer l'état du clic entre true et false
     toggleClickedState(type: string): void {
       if (type === 'edit') {
@@ -412,8 +412,8 @@ Publications: any[]=[];
         this.isEditClicked = false;
       }
     }
-  
-  
+
+
 searchTitle: string = '';
 searchPublicationsByTitle(): void {
   if (this.searchTitle.trim() === '') {
