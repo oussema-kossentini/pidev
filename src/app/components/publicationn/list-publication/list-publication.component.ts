@@ -3,7 +3,7 @@ import { PublicationService } from '../../../service/publication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Comment } from '../../comments/Comment';
-import { CommentService } from '../../../service/CommentService';
+import { CommentService } from '../../../service/comment.service';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 import { Publication } from '../publication.model';
 import { FormControl } from '@angular/forms';

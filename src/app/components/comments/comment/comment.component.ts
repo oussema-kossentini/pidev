@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommentService } from '../../../service/CommentService';
+import { CommentService } from '../../../service/comment.service';
 import { Comment } from '../Comment';
 
 @Component({
