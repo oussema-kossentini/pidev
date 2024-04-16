@@ -10,17 +10,17 @@ export class CourseService {
 
   private apiUrl = 'http://localhost:8089/api/courses';
   private emailUrl = 'http://localhost:8089/send-email';
-  private apiUrll = 'http://localhost:8089/api/Content'; 
+  private apiUrll = 'http://localhost:8089/api/Content';
 
   constructor(private http: HttpClient) { }
-
+///njareb fi faza
   // Create
   addCourse(course: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/add/course`, course)
       .pipe(
         tap(() => {
           this.sendEmail().subscribe(
-            () => console.log('Email sent successfully'), 
+            () => console.log('Email sent successfully'),
             error => console.error('Error sending email:', error)
           );
         })
@@ -52,7 +52,7 @@ export class CourseService {
   }
 
 
-  //Add Content 
+  //Add Content
   addContenu(course: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrll}/add/Content`, course);
   }
