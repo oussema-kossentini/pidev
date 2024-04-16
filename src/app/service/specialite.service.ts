@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, catchError, throwError, tap} from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SpecialiteService {
 
  private session = 'http://localhost:8085/courszello/api/session'
 //private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/specialite';
-  constructor(private http: HttpClient) { } // Injectez HttpClient ici
+  constructor(private http: HttpClient, private authService: ServiceFazzetregisterService) {} // Injectez HttpClient ici
 
   // getTitels(): Observable<any[]> {
   //   // Utilisez des backticks pour la chaîne de template
