@@ -131,7 +131,7 @@ const routes: Routes = [
   { path: 'comment', component: CommentComponent },
 //testlel iptihel
 
-  { path: 'coursjasser', component: CoursComponent },
+  { path: 'addCours', component: CoursComponent },
   { path: 'coursDetails', component: CoursDetailsComponent },
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
   { path: 'contentUpdate/:id', component: UpdateContentComponent },

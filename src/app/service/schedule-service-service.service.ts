@@ -42,7 +42,7 @@ export class ScheduleServiceServiceService {
   }
 
   getAllSchedules(): Observable<any> {
- 
+
     return this.http.get(`${this.baseApiUrl}/retrieve-all-scheduels`);
   }
 

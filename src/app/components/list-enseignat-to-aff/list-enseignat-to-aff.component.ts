@@ -35,7 +35,7 @@ export class ListEnseignatToAffComponent {
   }
 
   loadlistEnseignats() {
-    this.classeService.getEnseignat().subscribe(
+    this.classeService.getEnseignant().subscribe(
       data => {
         this.EnseignatLists = data;
         console.log(data, "ttttttttttttttttttttttttttttttttt");

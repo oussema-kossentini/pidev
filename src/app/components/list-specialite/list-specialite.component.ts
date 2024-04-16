@@ -2,12 +2,13 @@
 import { SpecialiteService } from '../../service/specialite.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,OnInit ,ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import { ClasseService } from '../../service/classe.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {saveAs} from "file-saver";
-
+import { ServiceFazzetregisterService } from '../../service/service-fazzetregister-service.service';
+import {isPlatformBrowser} from "@angular/common";
 @Component({
   selector: 'app-list-specialite',
   templateUrl: './list-specialite.component.html',
@@ -22,14 +23,18 @@ export class ListSpecialiteComponent {
   errorMessage: string = '';
   titels: any[] = [];
   specialite:any[] = [];
+  isBrowser :Boolean;
   constructor(
     private specialiteService: SpecialiteService,
     private ClasseService:ClasseService,
+    public authService: ServiceFazzetregisterService,
     private formBuilder: FormBuilder ,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router
   ) {
     this.loadSpecialite();
     // this.loadTitels();
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
 
@@ -38,15 +43,29 @@ export class ListSpecialiteComponent {
 
   }
   loadSpecialite() {
-    this.specialiteService.getAllSpecialite().subscribe(
-      data => {
+    // Reset errorMessage each time the method is called
+    this.errorMessage = '';
+
+    // Récupération du token JWT via le service d'authentification
+    const token = this.authService.getJwtToken();
+
+    if (token == null) {
+      this.errorMessage = 'Token not found';
+      console.error(this.errorMessage);
+      return;  // Arrêter le chargement si le token n'est pas trouvé
+    }
+
+    this.specialiteService.getAllSpecialite(token).subscribe({
+      next: (data) => {
         this.SpecList = data;
       },
-      (error: HttpErrorResponse) => {
-        this.errorMessage = 'Une erreur s\'est produite lors du chargement des classes: ' + error.message;
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Une erreur s\'est produite lors du chargement des spécialités: ' + error.message;
+        console.error(this.errorMessage);
       }
-    );
+    });
   }
+
 
   // loadTitels() {
   //   this.specialiteService.getTitels().subscribe(
@@ -58,16 +77,30 @@ export class ListSpecialiteComponent {
   // }
 
   deleteClass(id: string) {
-    if(confirm('Are you sure to delete this class?')) {
-      this.specialiteService.deleteSpecialit(id).subscribe(
+    if (confirm('Are you sure to delete this class?')) {
+      // Récupérer le token JWT via le service d'authentification
+      const token = this.authService.getJwtToken();
+
+      if (token == null) {
+        console.error('Token not found');
+        return;  // Arrêter la suppression si le token n'est pas trouvé
+      }
+
+      this.specialiteService.deleteSpecialite(id, token).subscribe(
         () => {
           console.log('Class deleted successfully');
           this.loadSpecialite();
+          console.log('Class  ');
         },
         error => console.log('Error during class deletion', error)
       );
     }
+
+
   }
+
+
+
 
 
   editSpecialite(specialite: any): void {
@@ -123,7 +156,9 @@ export class ListSpecialiteComponent {
   }
 
 
-  ExportPdf() {
+  ExportPdf(): void {
+    // Dans cette fonction, vous devriez appeler la méthode appropriée de votre service pour exporter en PDF
+    // Par exemple :
     this.ClasseService.exportUniversitesPdf().subscribe(
       (blob: Blob) => {
         const fileName = 'classes_etudiants.pdf';
@@ -134,6 +169,7 @@ export class ListSpecialiteComponent {
       }
     );
   }
+
 
 
 }

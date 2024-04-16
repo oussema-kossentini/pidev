@@ -1,128 +1,91 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
-import { Classe } from '../classe';
-//import { Classe } from 'src/app/classe.model'; // Corrigez le chemin si nécessaire
-import { HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClasseService {
-  private baseUrl = 'http://localhost:8085/api/classes';
+  private baseUrl = 'http://localhost:8085/courszello/api/classes';
 
-  constructor(private http: HttpClient) { } // Injectez HttpClient ici
+  constructor(private http: HttpClient, private authService: ServiceFazzetregisterService) {}
 
   getLevel(): Observable<any[]> {
-    // Utilisez des backticks pour la chaîne de template
-    return this.http.get<any[]>(`${this.baseUrl}/level`);
+    const url = `${this.baseUrl}/level`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-/////
-///
-
   getClassesByUserId(id: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/classes/${id}`);
+    const url = `${this.baseUrl}/classes/${id}`;
+    return this.authService.requestWithToken('GET', url);
   }
 
   addClasse(classe: any, idSpecialite: string): Observable<any> {
-    // Assuming your backend expects the schedule ID as a query parameter
-    const url = `${this.baseUrl}add/classe?idSpecialite=${idSpecialite}`;
-    return this.http.post(url, classe);
+    const url = `${this.baseUrl}/add/classe?idSpecialite=${idSpecialite}`;
+    return this.authService.requestWithToken('POST', url, classe);
   }
 
   ajouterFoyerEtAffecterAUniversite(classe: any, idSpecialite: string): Observable<any> {
-    // Assuming your backend expects the schedule ID as a query parameter
     const url = `${this.baseUrl}/ajouter-affecter/${idSpecialite}`;
-    return this.http.post(url, classe);
+    return this.authService.requestWithToken('POST', url, classe);
   }
 
-  //Methode affichage
   getAllClasse(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-classe`);
+    const url = `${this.baseUrl}/retrieve-all-classe`;
+    return this.authService.requestWithToken('GET', url);
   }
-
-  /********************************Delete Contrat************************************/
-  // deleteContrat(id:number):Observable<any>{
-  // return this.http.delete(`${this.baseUrl+"deleteById"}/${id}`, {responseType: 'text'});
-  // }
-
-  // *********************************************************
 
   deleteClass(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/remove-classes/${id}`, { responseType: 'text' })
-
+    const url = `${this.baseUrl}/remove-classes/${id}`;
+    return this.authService.requestWithToken('DELETE', url);
   }
-
-
-  //modification mta3 classe
-  // editClass(id: string, classData: any): Observable<any> {
-  //   return this.http.put(`${this.baseUrl}/modify-classe/${id}`, classData, { responseType: 'json' });
-  // }
 
   modifyClasse(classe: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/modify-classe`, classe);
+    const url = `${this.baseUrl}/modify-classe`;
+    return this.authService.requestWithToken('PUT', url, classe);
   }
+
   getObjetById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}${id}`); // Assurez-vous que le chemin correspond à celui défini dans votre contrôleur Spring Boot
+    const url = `${this.baseUrl}/${id}`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-  // getById(id: any): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/${id}`);
-  //     }
-
-  // affectationSpecialite(formData: any, idSpecialite: string): Observable<any> {
-  //   // Créez un objet avec les données de classeData et idSpecialite
-  //   const updatedClasseData = {
-  //     ...formData,
-  //     idSpecialite: idSpecialite
-  //   };
-
-  //   // Envoyez une requête POST à l'URL spécifiée avec les données mises à jour
-  //   return this.http.post<any>(`${this.baseUrl}/ajouter-affecter`, updatedClasseData).pipe(
-  //     catchError(error => {
-  //       console.error('Une erreur s\'est produite lors de la requête:', error);
-  //       throw error; // Renvoie l'erreur pour qu'elle soit gérée par le code appelant
-  //     })
-  //   );
-  // }
-
-
-  //Methode affichage par classes detailer
   getEtudiantFromClass(idClasse: any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/getEtudiantFromClass/${idClasse}`);
+    const url = `${this.baseUrl}/getEtudiantFromClass/${idClasse}`;
+    return this.authService.requestWithToken('GET', url);
   }
+
   getProfessorFromClass(idClasse: any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/getProfessorFromClass/${idClasse}`);
+    const url = `${this.baseUrl}/getProfessorFromClass/${idClasse}`;
+    return this.authService.requestWithToken('GET', url);
   }
 
   affecterUserInClass(idUser: any, idClasse: any): Observable<any> {
-    // Assuming your backend expects the schedule ID as a query parameter
     const url = `${this.baseUrl}/affecterUserInClass/${idUser}/${idClasse}`;
-    return this.http.post(url, null);
+    return this.authService.requestWithToken('POST', url);
   }
 
-  //Methode affichage par classes detailer
+
+  //Methode affichage par classes détaillé
   getEtudiant(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/getEtudiant`);
+    const url = `${this.baseUrl}/getEtudiant`;
+    return this.authService.requestWithToken('GET', url);
   }
 
-  getEnseignat(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/getEnsignat`);
+  getEnseignant(): Observable<any[]> {
+    const url = `${this.baseUrl}/getEnsignat`;
+    return this.authService.requestWithToken('GET', url);
   }
+
 
   deleteClasseParSpecialite(idClasse: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deleteAndUnassignSpecialite/${idClasse}`, { responseType: 'text' })
-
+    const url = `${this.baseUrl}/deleteAndUnassignSpecialite/${idClasse}`;
+    return this.authService.requestWithToken('DELETE', url);
   }
 
   exportUniversitesPdf(): Observable<Blob> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/pdf' }),
-      responseType: 'blob' as 'json' // Spécifiez le type de réponse en tant que blob
-    };
-
-    return this.http.get<Blob>(this.baseUrl + '/pdf', httpOptions);
+    const url = `${this.baseUrl}/pdf`;
+    return this.authService.requestWithToken('GET', url, { responseType: 'blob' as 'json' });
   }
-
 }

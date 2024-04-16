@@ -76,13 +76,29 @@ gettingSpecialite(idSpecialite: any): void {
 
 
   getObjetByIds(): void {
-    this.specialiteService.getAllSpecialite().subscribe({
+    // Reset errorMessage each time the method is called
+    this.errorMessage = '';
+
+    // Récupération du token JWT via le service d'authentification
+    const token = this.authService.getJwtToken();
+
+    if (token == null) {
+      this.errorMessage = 'Token not found';
+      console.error(this.errorMessage);
+      return;  // Stop further execution if the token is not found
+    }
+
+    this.specialiteService.getAllSpecialite(token).subscribe({
       next: (data) => {
-        this.titres = data.map((specialite) => specialite); // Assuming 'title' is the property containing the titles
+        // This assumes that the structure of 'specialite' includes directly the titles
+        // If each 'specialite' object actually contains a 'title' property you need to extract it:
+        // this.titres = data.map(specialite => specialite.title);
+        this.titres = data.map(specialite => specialite);
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage = `Une erreur s'est produite lors du chargement des spécialités: ${error.message}`;
-        // Vous pouvez aussi envisager d'afficher cette erreur à l'utilisateur d'une manière plus conviviale
+        console.error(this.errorMessage);
+        // Consider displaying this error to the user in a more user-friendly way
       }
     });
   }

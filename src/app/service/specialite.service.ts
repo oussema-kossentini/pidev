@@ -13,7 +13,7 @@ export class SpecialiteService {
   private baseSh = 'http://localhost:8085/courszello/api/schedule'
 
  private session = 'http://localhost:8085/courszello/api/session'
-private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/specialite';
+//private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/specialite';
   constructor(private http: HttpClient) { } // Injectez HttpClient ici
 
   // getTitels(): Observable<any[]> {
@@ -42,7 +42,7 @@ private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/spec
 */
   addspecialite(specialiteData: any, token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(this.addspecialti, specialiteData, {headers, responseType: 'text'})
+    return this.http.post(`${this.baseUrl}/add/specialite`, specialiteData, {headers, responseType: 'text'})
       .pipe(
         catchError(error => {
           console.error('Failed to add specialite: ', error);
@@ -74,19 +74,43 @@ private  addspecialti =' http://localhost:8085/courszello/api/specilite/add/spec
 
 
 //Methode affichage
+  /*
 getAllSpecialite(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-specialities`);
 }
 
+*/
+  getAllSpecialite(token: string): Observable<any[]> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-specialities`, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Failed to retrieve all specialities: ', error);
+          return throwError(() => new Error('Failed to retrieve all specialities'));
+        })
+      );
+  }
 
 
 
 
-deleteSpecialit(id: string): Observable<any> {
+ /*
+  deleteSpecialit(id: string): Observable<any> {
   return this.http.delete(`${this.baseUrl}/remove-specialite/${id}`, { responseType: 'text' })
 
 }
 
+*/
+  deleteSpecialite(id: string, token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.baseUrl}/remove-specialite/${id}`, { headers, responseType: 'text' })
+      .pipe(
+        catchError(error => {
+          console.error('Failed to delete specialite: ', error);
+          return throwError(() => new Error('Failed to delete specialite'));
+        })
+      );
+  }
 
 //modification mta3 classe
 // editClass(id: string, classData: any): Observable<any> {
