@@ -24,7 +24,7 @@ import { LoginComponentComponent } from './components/login-component/login-comp
 //import { ListuseruComponentComponent } from './components/listuseru-component/listuseru-component.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
-import { NgxPasswordStrengthModule } from 'ngx-password-strength';
+//import { NgxPasswordStrengthModule } from 'ngx-password-strength';
 //import{ListuseruComponentComponent}from'./components/user-list-component/user-list-component.component;
 import { UserListComponentComponent } from './components/user-list-component/user-list-component.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -200,7 +200,7 @@ import {UpdateContentComponent} from "./components/update-content/update-content
     HttpClientModule, // Utilisez withFetch() ici
     //HttpClientModule,
    // BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    NgxPasswordStrengthModule,
+    //NgxPasswordStrengthModule,
     SocialLoginModule,
     AppRoutingModule,
     MatButtonModule,
