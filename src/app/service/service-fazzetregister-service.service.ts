@@ -940,7 +940,7 @@ updateProfilePicture(file: File, token: string) {
       headers
     });
   }
-
+//
 
   removeUser(id: string): Observable<any> {
     const url = `${this.baseUrl}/remove-user/${id}`;
