@@ -7,7 +7,10 @@ import { ServiceFazzetregisterService } from './service-fazzetregister-service.s
 @Injectable({
   providedIn: 'root'
 })
+
+//test lel jsser
 export class CourseService {
+  /*
   private apiUrl = 'http://localhost:8085/courszello/api/courses'; // URL pour les cours
   private apiUrll = 'http://localhost:8085/courszello/api/Content'; // URL pour les contenus
   private emailUrl = 'http://localhost:8085/courszello/send-email';
@@ -83,4 +86,5 @@ export class CourseService {
     const url = `${this.apiUrll}/${id}`;
     return this.authService.requestWithToken('GET', url);
   }
+  */
 }
