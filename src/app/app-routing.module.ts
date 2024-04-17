@@ -147,7 +147,7 @@ const routes: Routes = [
   { path: 'profnav', component: ProfesseurnavComponent },
   { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent },
   { path: 'coursEtudient', component: InterfaceCoursEtudientComponent },
-  //dd
+  //ddd
 
 ];
 
