@@ -153,5 +153,10 @@ localStorage.removeItem('lastName');
     this.authService.resetState();
   }
 
-
+  redirectToAddCours() {
+    this.router.navigate(['/addCours']);
+  }
+  redirectToCoursList() {
+    this.router.navigate(['/coursDetails']);
+  }
 }
