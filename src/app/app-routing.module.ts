@@ -58,6 +58,12 @@ import {UpdateContentComponent} from "./components/update-content/update-content
 import {ContenuCoursComponent} from "./components/contenu-cours/contenu-cours.component";
 import {AddContenuComponent} from "./components/add-contenu/add-contenu.component";
 import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.component";
+import {
+  InterfaceContenuEtudientComponent
+} from "./components/interface-contenu-etudient/interface-contenu-etudient.component";
+import {
+  InterfaceCoursEtudientComponent
+} from "./components/interface-cours-etudient/interface-cours-etudient.component";
 //import { AuthGuard } from './service/auth.guard';
 //import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
@@ -138,7 +144,9 @@ const routes: Routes = [
   { path: 'contentUpdate/:id', component: UpdateContentComponent },
   { path: 'contenuCours', component: ContenuCoursComponent },
   { path: 'addContenu', component: AddContenuComponent },
-  { path: 'profnav', component: ProfesseurnavComponent }
+  { path: 'profnav', component: ProfesseurnavComponent },
+  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent },
+  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent },
 
 ];
 
