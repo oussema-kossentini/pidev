@@ -1326,28 +1326,7 @@ login(email: string, password: string): Observable<any> {
 }
   return false;
 }*/
-  private pollingSubscription: Subscription | undefined;
-  startPollingRole() {
-    this.pollingSubscription = interval(10000) // 5 minutes
-      .subscribe(() => {
-        this.getUserRole().subscribe(); // Récupérer le rôle et mettre à jour localStorage
-      });
-  }
-
-  stopPollingRole() {
-    if (this.pollingSubscription) {
-      this.pollingSubscription.unsubscribe();
-    }
-  }
-
-  getUserRole(): Observable<string> {
-    const url = 'http://localhost:8085/courszello/api/auth/roleuser';
-    return this.http.get<string>(url).pipe(
-      tap(role => localStorage.setItem('userRole', role))
-    );
-  }
-
-  /*hasRole(requiredRole: string): boolean {
+  hasRole(requiredRole: string): boolean {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       if (token) {
@@ -1361,7 +1340,7 @@ login(email: string, password: string): Observable<any> {
       }
     }
     return false;
-  }*/
+  }
 
 updateIsAdminStatus(): void {
   const token = this.getJwtToken();

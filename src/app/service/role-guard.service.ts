@@ -14,7 +14,6 @@ export class RoleGuardService implements CanActivate {
     if (this.authService.isLoggedIn() && requiredRoles.some(role => this.authService.hasRole(role))) {
       return true;
     }
-    //route mtaa erreru
     this.router.navigate(['/evaluation']);
     return false;
   }
