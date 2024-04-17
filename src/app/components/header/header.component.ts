@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
 
-
+    this.authService.verifyUserRole();
 
 // this.isAdmin = JSON.parse(localStorage.getItem('isAdmin') || 'false');
 // this.isTeacher=JSON.parse(localStorage.getItem('isTeacher') || 'false');
@@ -116,6 +116,7 @@ this.isUser=JSON.parse(localStorage.getItem('isUser') || 'false');
 // });
 
 this.userInfo = this.authService.getUserInfo();
+
   }
 }
 

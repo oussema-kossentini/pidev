@@ -471,7 +471,30 @@ logoutUser(): Observable<any> {
     })
   );
 }
-
+//5  mn hia 300000
+  verifyUserRole(): void {
+    interval(300000) // Toutes les 5 minutes
+      .pipe(
+        switchMap(() => this.http.get(`${this.jwtbaseurl}/roleuser`, {
+          headers: new HttpHeaders({
+            'Authorization': `Bearer ${this.getJwtToken()}`
+          })
+        })),
+        catchError(error => {
+          console.error("Error retrieving user role:", error);
+          return throwError(() => new Error('Error retrieving user role'));
+        })
+      )
+      .subscribe({
+        next: (roleData: any) => {
+          const localRole = localStorage.getItem('roles');
+          if (roleData.role !== localRole) {
+            this.logoutUser().subscribe();
+          }
+        },
+        error: (error) => console.error('Error in role verification:', error)
+      });
+  }
 /*
 logoutUser(): Observable<any> {
   const token = this.getJwtToken();
@@ -936,7 +959,7 @@ fetchUserInfoPeriodically() {
 
 fetchUserInfoPeriodically() {
   // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
-  this.fetchUserInfoSubscription = interval(1000000000000000).subscribe(() => {
+  this.fetchUserInfoSubscription = interval(100000000000).subscribe(() => {
     const token = localStorage.getItem('token');
     if (token) {
       this.fetchUserInfo(token).subscribe(

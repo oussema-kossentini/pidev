@@ -114,7 +114,12 @@ export class AccountSettingsComponent  implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.authService.fetchUserInfoPeriodically()
+     // this.authService.fetchUserInfoPeriodically()
+      const tkt = this.authService.getJwtToken();
+      if(tkt !=null) {
+        this.authService.fetchUserInfo(tkt).subscribe();
+
+      }
       this.authService.userInfo$.subscribe(data => {
         this.userInfo = data;
         this.userInfo.dateOfBirth = this.formatDate(this.userInfo.dateOfBirth);
