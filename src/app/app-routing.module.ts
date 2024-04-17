@@ -77,7 +77,7 @@ const routes: Routes = [
   { path: 'ForgetPassword', component: ForgetPasswordComponent},
   { path: 'google-callback', component: GoogleCallbackComponent },
 
-  { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { requiredRole:'ADMINISTRATOR'} },
+  { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { roles:'ADMINISTRATOR'} },
   { path: 'login', component: LoginComponentComponent, canActivate: [AuthGardService] },
   { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGardService] },
  /* { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
