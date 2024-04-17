@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
+
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuardService  implements CanActivate{
-
+export class RoleGuardService implements CanActivate {
 
   constructor(private authService: ServiceFazzetregisterService, private router: Router) {}
 
-  canActivate(): boolean {
-    if (this.authService.isLoggedIn() && this.authService.isAdmin) {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const requiredRoles = route.data['roles'] as Array<string>;
+    if (this.authService.isLoggedIn() && requiredRoles.some(role => this.authService.hasRole(role))) {
       return true;
     }
+    //route mtaa erreru
     this.router.navigate(['/evaluation']);
     return false;
   }
 }
-
-

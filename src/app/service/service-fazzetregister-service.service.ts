@@ -1316,7 +1316,7 @@ login(email: string, password: string): Observable<any> {
 //       }
 //     }
 
-hasRole(requiredRole: string): boolean {
+/*hasRole(requiredRole: string): boolean {
   if (isPlatformBrowser(this.platformId)) {
   const token = localStorage.getItem('token'); // ou localStorage, selon où vous stockez le token
   if (token) {
@@ -1325,7 +1325,22 @@ hasRole(requiredRole: string): boolean {
   }
 }
   return false;
-}
+}*/
+  hasRole(requiredRole: string): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken: any = this.decodeJwt(token); // Using any type, ideally define an interface
+          return decodedToken.roles && decodedToken.roles.includes(requiredRole);
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          return false;
+        }
+      }
+    }
+    return false;
+  }
 
 updateIsAdminStatus(): void {
   const token = this.getJwtToken();

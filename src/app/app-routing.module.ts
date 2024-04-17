@@ -136,15 +136,31 @@ const routes: Routes = [
   { path: 'list', component: ListPublicationComponent },
   { path: 'comment', component: CommentComponent },
 //testlel iptihel
+//teacher admin
+  /*{ path: 'addCours', component: CoursComponent },
 
-  { path: 'addCours', component: CoursComponent },
+  //teacher admin
   { path: 'coursDetails', component: CoursDetailsComponent },
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
   { path: 'contentUpdate/:id', component: UpdateContentComponent },
+
+  //teacher admin
   { path: 'contenuCours', component: ContenuCoursComponent },
   { path: 'addContenu', component: AddContenuComponent },
+  //admin etudiant
   { path: 'coursEtudient', component: InterfaceCoursEtudientComponent },
-  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent }
+  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent },
+  */
+  //
+  { path: 'addCours', component: CoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursDetails', component: CoursDetailsComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursUpdate/:id', component: CoursUpdateComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'contentUpdate/:id', component: UpdateContentComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'contenuCours', component: ContenuCoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'addContenu', component: AddContenuComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
+  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } }
+  //
 ];
 
 
