@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ServiceFazzetregisterService } from '../../service/service-fazzetregister-service.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -6,18 +6,26 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { environment } from './environment';
+import { HttpClient } from '@angular/common/http';
 
+declare const FB: any;
+declare global {
+  interface Window {
+    handleCredentialResponse: any;
+  }
+}
 @Component({
   selector: 'app-login-component',
   templateUrl: './login-component.component.html',
   styleUrls: ['./login-component.component.scss']
 })
-export class LoginComponentComponent implements OnInit {
+export class LoginComponentComponent implements OnInit,AfterViewInit  {
   loginForm: FormGroup;
   passwordVisible = false;
   isBrowser :Boolean;
 
   constructor(
+    private http: HttpClient,
     private formBuilder: FormBuilder,
     private authService: ServiceFazzetregisterService,
     private router: Router,
@@ -34,20 +42,79 @@ export class LoginComponentComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnInit() {
 
+  ngAfterViewInit() {
+    window.handleCredentialResponse = this.handleCredentialResponse.bind(this);
   }
+
+
+  handleCredentialResponse(response: any) {
+    // Log the entire response object
+    console.log('Google Sign-In Response:', response);
+    // Extract the ID token from the response
+    const token = response.credential;
+
+    // Now, you can send this token to your backend for authentication
+    this.sendTokenToBackend(token);
+  }
+
+  sendTokenFacebookToBackend(token: string) {
+    this.http.post(`http://localhost:8085/courszello/api/auth/facebook`,  token ).subscribe(
+      (data:any) => {
+        // handle successful response here
+        console.log(data);
+        const email = data.email;
+        this.authService.siginWithGoogle(email).subscribe(
+          data => {
+            // handle successful login here
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/account-settings';
+            this.router.navigateByUrl(returnUrl);
+          },
+          error => {
+            // handle error here
+          }
+        );
+      }
+    );
+  }
+
+  sendTokenToBackend(token: string) {
+    this.http.post(`http://localhost:8085/courszello/api/auth/google`,  token ).subscribe(
+      (data:any) => {
+        // handle successful response here
+        console.log(data);
+        const email = data.email;
+        this.authService.siginWithGoogle(email).subscribe(
+          data => {
+            // handle successful login here
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/account-settings';
+            this.router.navigateByUrl(returnUrl);
+          },
+          error => {
+            // handle error here
+          }
+        );
+      }
+    );
+  }
+  ngOnInit(): void {
+    (window as any).fbAsyncInit = function() {
+      FB.init({
+        appId      : '304807085822295',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v13.0'
+      });
+    };
+  }
+
+
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
   }
 
-  loginWithGoogle() {
-    // URL pour la demande d'authentification Google OAuth2
-    const googleLoginURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${environment.googleClientId}&redirect_uri=${environment.redirectUri}&response_type=code&scope=email profile&access_type=online`;
 
-    window.location.href = googleLoginURL;
-  }
 
   onLogin() {
     if (this.loginForm.valid) {
@@ -55,10 +122,10 @@ export class LoginComponentComponent implements OnInit {
       this.authService.login(email, password).subscribe(
         data => {
           // handle successful login here
-        //  this.router.navigate(['/evaluation']);
-        // Après connexion réussie
-const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/account-settings';
-this.router.navigateByUrl(returnUrl);
+          //  this.router.navigate(['/evaluation']);
+          // Après connexion réussie
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/account-settings';
+          this.router.navigateByUrl(returnUrl);
 
         },
         error => {
@@ -83,5 +150,20 @@ this.router.navigateByUrl(returnUrl);
 
   handleSuccess(event: string) {
     console.log('reCAPTCHA success', event);
+  }
+
+  loginWithFacebook(){
+    FB.login((response: any) => {
+      if (response.authResponse) {
+        console.log('Welcome!  Fetching your information.... ');
+        const accessToken = response.authResponse.accessToken;
+
+        console.log(accessToken);
+        this.sendTokenFacebookToBackend(accessToken);
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
+
   }
 }

@@ -78,7 +78,7 @@ const routes: Routes = [
   { path: 'ForgetPassword', component: ForgetPasswordComponent},
   { path: 'google-callback', component: GoogleCallbackComponent },
 
-  { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { roles:'ADMINISTRATOR'} },
+  { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR'] } },
   { path: 'login', component: LoginComponentComponent, canActivate: [AuthGardService] },
   { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGardService] },
  /* { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
@@ -138,15 +138,14 @@ const routes: Routes = [
   { path: 'comment', component: CommentComponent },
 //testlel iptihel
 
-  { path: 'addCours', component: CoursComponent },
-  { path: 'coursDetails', component: CoursDetailsComponent },
-  { path: 'coursUpdate/:id', component: CoursUpdateComponent },
-  { path: 'contentUpdate/:id', component: UpdateContentComponent },
-  { path: 'contenuCours', component: ContenuCoursComponent },
-  { path: 'addContenu', component: AddContenuComponent },
-  { path: 'profnav', component: ProfesseurnavComponent },
-  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent },
-  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent },
+  { path: 'addCours', component: CoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursDetails', component: CoursDetailsComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursUpdate/:id', component: CoursUpdateComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'contentUpdate/:id', component: UpdateContentComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'contenuCours', component: ContenuCoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'addContenu', component: AddContenuComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
+  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
+  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } }
   //dddd
 
 ];

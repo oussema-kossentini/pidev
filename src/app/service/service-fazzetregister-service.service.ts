@@ -311,7 +311,40 @@ private getuserinfo ='http://localhost:8085/courszello/api/auth/userinfo/{idUser
       })
     );
   }
+  siginWithGoogle(email:String):Observable<any>{
+    return this.http.post("http://localhost:8085/courszello/api/auth/authenticateGoogle",{email}).pipe(
+      tap((response: any) => {
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);}
+        const decodedToken = this.decodeJwt(response.token);
+        const roles = decodedToken.roles || [];
+        // Autres traitements nécessaires avec le token
+      }),
+      switchMap(response => {
+        // Ici, vous utilisez switchMap pour continuer avec la récupération des informations de l'utilisateur
+        return this.fetchUserInfo(response.token).pipe(
+          tap(userInfo => {
+            if (isPlatformBrowser(this.platformId)) {
+              this.storeUserInfo(userInfo);  // Stockage des informations de l'utilisateur
 
+              const decodedToken = this.decodeJwt(response.token);
+              const roles = decodedToken.roles || [];
+              localStorage.setItem('roles', JSON.stringify(roles));
+              this.updateUserRoleState(roles);
+            } }),
+          catchError(error => {
+            console.error('Failed to fetch user info', error);
+            return of(null);  // Gérer l'erreur éventuellement autrement
+          })
+        );
+      }),
+      catchError(error => {
+        console.error('Login failed', error);
+        return of(null);  // Gérer l'erreur de connexion
+      })
+    );
+
+  }
   /*
 
 
