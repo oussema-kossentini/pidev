@@ -43,9 +43,9 @@ export class SessionCLASSComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder,
-    private scheduleServiceService: ScheduleServiceServiceService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+              private scheduleServiceService: ScheduleServiceServiceService,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
 
 
@@ -141,55 +141,80 @@ export class SessionCLASSComponent implements OnInit {
 
   onSubmit() {
     if (this.registerFormCustom.valid) {
-        const { day, debutHour, endHour } = this.registerFormCustom.value;
-        const idScheduel = this.id;
-        const courseId = this.selectedTutorial.courseId;
-        const title = this.selectedTutorial.title;
+      const { day, debutHour, endHour } = this.registerFormCustom.value;
+      const idScheduel = this.id;
+      const idCourse = this.selectedTutorial.idCourse;
+      const title = this.selectedTutorial.title;
 
-        // Vérification pour s'assurer qu'on n'ajoute pas une session déjà existante
-        const existingSession = this.session[day]?.[debutHour]?.idScheduel === idScheduel &&
-                                this.session[day]?.[debutHour]?.courseId === courseId;
+      // Idem pour 'this.selectedTutorial.nameClasse'
 
-        if (!existingSession) {
-            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, courseId).subscribe(
-                (response) => {
-                    console.log("posttttttt", response);
+      // Initialisation de 'this.session[day]' comme un objet si ce n'est pas déjà fait
+      if (!this.session[day]) {
+        this.session[day] = {};
+      }
 
-                    // Assurez-vous de vérifier l'existence du jour et de l'heure avant d'attribuer la valeur
-                    if (!this.session[day]) {
-                        this.session[day] = {};
-                    }
+      // Assurez-vous que 'this.session[day][debutHour]' et 'this.session[day][endHour]' sont des tableaux
+      if (!Array.isArray(this.session[day][debutHour])) {
+        this.session[day][debutHour] = [];
+      }
+      if (endHour !== debutHour && !Array.isArray(this.session[day][endHour])) {
+        this.session[day][endHour] = [];
+      }
 
-                    this.session[day][debutHour] = {
-                        idSession: response.idSession,
-                        idScheduel,
-                      courseId: response.courseId,
-                        title: title
-                    };
+      // Appel au service pour ajouter une session à l'horaire
 
-                    this.session[day][endHour] = {
-                        idSession: response.idSession,
-                        idScheduel,
-                      courseId: response.courseId,
-                        title: title
-                    };
 
-                    this.saveScheduleToLocalStorage();
-                    this.registerFormCustom.reset();
+      this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idCourse).subscribe(
+        (response) => {
+          // Ajout de la session aux tableaux pour les heures de début et de fin si elles sont différentes
+          const sessionInfo = {
+            idSession: response.idSession, // Supposons que votre API retourne un objet avec 'idSession'
+            idScheduel: idScheduel,
+            title: title
+          };
 
-                    console.log('Session ajoutée avec succès.');
-                },
-                (error) => {
-                    console.log('Erreur lors de l\'ajout de la session:', error);
-                }
-            );
-        } else {
-            console.error('Une session avec les mêmes idScheduel et courseId existe déjà.');
+          this.session[day][debutHour].push(sessionInfo);
+
+          if (endHour !== debutHour) {
+            this.session[day][endHour].push(sessionInfo);
+          }
+
+          // Sauvegarde de l'état local, si nécessaire
+          // this.saveScheduleToLocalStorage(); // Implémentez cette méthode selon vos besoins
+
+          this.saveScheduleToLocalStorage();
+          this.registerFormCustom.reset();
+          //  this.router.navigate(['SessionCLASS/:id', idScheduel]);
+          console.log('Session ajoutée avec succès',sessionInfo);
+        },
+        (error) => {
+          console.log('Erreur lors de l\'ajout de la session:', error);
+          if (error.status === 400) {
+            alert('Choisissez une autre date car elle est déjà remplie.');
+          } else {
+
+            alert('Choisissez une autre date car elle est déjà remplie.');
+          }
         }
+      );
     } else {
-        console.error('Le formulaire n\'est pas valide.');
+      // Gestion du cas où le formulaire n'est pas valide
+      console.error('Le formulaire n\'est pas valide.');
     }
-}
+  }
+
+  getSubjectForTime(day: string, hour: string): any {
+
+    const sessions = this.session[day]?.[hour];
+
+    if (sessions && Array.isArray(sessions) && sessions.length) {
+
+      const foundSession = sessions.find(session => session.idScheduel === this.id);
+
+      return foundSession || null;
+    }
+    return null;
+  }
 
 
   isSessionAlreadyAdded(day: string, debutHour: string, endHour: string, idScheduel: string): boolean {
@@ -300,14 +325,7 @@ export class SessionCLASSComponent implements OnInit {
 
   }
 
-  getSubjectForTime(day: string, hour: string): any {
-    const session = this.session[day]?.[hour];
-    if (session && session.idScheduel === this.id &&  session && session.idSession[1]
-) {
-      return session;
-    }
-    return null;
-  }
+
 
 
   //Initialise l'emploi du temps avec des valeurs par défaut.
@@ -388,5 +406,4 @@ export class SessionCLASSComponent implements OnInit {
     //   let endMinutes = totalTime % 60;
     //   return `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
   }
-
 }

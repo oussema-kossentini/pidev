@@ -143,7 +143,7 @@ export class EmploiComponent implements OnInit {
     if (this.registerFormCustom.valid) {
         const { day, debutHour, endHour } = this.registerFormCustom.value;
         const idScheduel = this.id;
-        const courseId = this.selectedTutorial.courseId;
+        const idCourse = this.selectedTutorial.idCourse;
         const title = this.selectedTutorial.title;
 
       // Idem pour 'this.selectedTutorial.nameClasse'
@@ -164,7 +164,7 @@ export class EmploiComponent implements OnInit {
       // Appel au service pour ajouter une session à l'horaire
 
 
-            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, courseId).subscribe(
+            this.scheduleServiceService.addSchedSS({ day, debutHour, endHour }, idScheduel, idCourse).subscribe(
                 (response) => {
                   // Ajout de la session aux tableaux pour les heures de début et de fin si elles sont différentes
           const sessionInfo = {
@@ -184,6 +184,7 @@ export class EmploiComponent implements OnInit {
 
           this.saveScheduleToLocalStorage();
           this.registerFormCustom.reset();
+                //  this.router.navigate(['SessionCLASS/:id', idScheduel]);
           console.log('Session ajoutée avec succès',sessionInfo);
         },
                 (error) => {
