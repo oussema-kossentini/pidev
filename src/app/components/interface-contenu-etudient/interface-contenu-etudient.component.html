@@ -1,0 +1,65 @@
+<app-header></app-header>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+
+<section class="section">
+  <div class="container">
+    <!-- Search Bar -->
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2" [(ngModel)]="searchTerm" (input)="filterContents()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button> <!-- You can change the icon as per your preference -->
+      </div>
+    </div>
+
+     <div class="justify-content-center row">
+      <div class="col-lg-12">
+        <div class="candidate-list-widgets mb-4">
+          <form action="#" class="">
+            <div class="g-2 row">
+              <!-- Your form content here -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="candidate-list">
+          <div *ngFor="let content of filteredContents" class="candidate-list-box card mt-4">
+            <div class="p-2 card-body">
+              <div class="align-items-center row">
+                <div class="col-auto">
+                  <div class="candidate-list-images">
+                    <img src="https://www.kelclass.com//images/bannieres_annonces/cours-particulier-mathematiques-19350-1601050483.png" alt="" class="avatar-md img-thumbnail rounded-circle" />
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <div class="candidate-list-content mt-3 mt-lg-0">
+                    <h2 style="font-size: 14px;">{{ content.title }}</h2> <!-- Adjust font size here -->
+                  </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- Emojis for delete and modify -->
+                <div class="col-auto">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button  class="btn btn-sm btn-warning">&#9998;Read Chapter</button> <!-- Unicode for pencil emoji -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>
