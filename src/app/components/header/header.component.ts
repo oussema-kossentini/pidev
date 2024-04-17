@@ -159,4 +159,7 @@ localStorage.removeItem('lastName');
   redirectToCoursList() {
     this.router.navigate(['/coursDetails']);
   }
+  redirectToCoursEtudientList() {
+    this.router.navigate(['/coursEtudient']);
+  }
 }
