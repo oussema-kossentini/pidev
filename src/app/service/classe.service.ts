@@ -86,6 +86,6 @@ export class ClasseService {
 
   exportUniversitesPdf(): Observable<Blob> {
     const url = `${this.baseUrl}/pdf`;
-    return this.authService.requestWithToken('GET', url, { responseType: 'blob' as 'json' });
+    return this.authService.requestWithToken('GET', url, { responseType: 'blob'});
   }
 }

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import {SpecialiteService} from "../../service/specialite.service";
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     public authService: ServiceFazzetregisterService,
     public router: Router,
+    private specialiteService: SpecialiteService,
     private cdr: ChangeDetectorRef
   ) {
 

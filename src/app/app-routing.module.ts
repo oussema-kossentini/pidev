@@ -57,12 +57,6 @@ import {CoursUpdateComponent} from "./components/cours-update/cours-update.compo
 import {UpdateContentComponent} from "./components/update-content/update-content.component";
 import {ContenuCoursComponent} from "./components/contenu-cours/contenu-cours.component";
 import {AddContenuComponent} from "./components/add-contenu/add-contenu.component";
-import {
-  InterfaceCoursEtudientComponent
-} from "./components/interface-cours-etudient/interface-cours-etudient.component";
-import {
-  InterfaceContenuEtudientComponent
-} from "./components/interface-contenu-etudient/interface-contenu-etudient.component";
 //import { AuthGuard } from './service/auth.guard';
 //import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
@@ -136,31 +130,13 @@ const routes: Routes = [
   { path: 'list', component: ListPublicationComponent },
   { path: 'comment', component: CommentComponent },
 //testlel iptihel
-//teacher admin
-  /*{ path: 'addCours', component: CoursComponent },
 
-  //teacher admin
+  { path: 'addCours', component: CoursComponent },
   { path: 'coursDetails', component: CoursDetailsComponent },
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
   { path: 'contentUpdate/:id', component: UpdateContentComponent },
-
-  //teacher admin
   { path: 'contenuCours', component: ContenuCoursComponent },
-  { path: 'addContenu', component: AddContenuComponent },
-  //admin etudiant
-  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent },
-  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent },
-  */
-  //
-  { path: 'addCours', component: CoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'coursDetails', component: CoursDetailsComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'coursUpdate/:id', component: CoursUpdateComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'contentUpdate/:id', component: UpdateContentComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'contenuCours', component: ContenuCoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'addContenu', component: AddContenuComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'coursEtudient', component: InterfaceCoursEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
-  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } }
-  //
+  { path: 'addContenu', component: AddContenuComponent }
 ];
 
 
