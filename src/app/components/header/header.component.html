@@ -92,10 +92,16 @@
                                 <li *ngIf="authService.isAdmin || authService.isTeacher">
                                 <a href="#!" >Courses</a>
                                     <ul>
+
                                         <li><a (click)="redirectToAddCours()">Add Cours</a></li>
                                         <li><a (click)="redirectToCoursList()">Cours Managment</a></li>
                                         <li><a (click)="redirectToCoursEtudientList()">List Cours Etudient</a></li>
 <br>
+
+                                        <li><a href="courses-grid.html">Courses Grid</a></li>
+                                        <li><a href="courses-list.html">Courses List</a></li>
+                                        <li><a href="course-details.html">Courses Details</a></li>
+
                                     </ul>
                                 </li>
 
