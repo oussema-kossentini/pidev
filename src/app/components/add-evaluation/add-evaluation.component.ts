@@ -11,6 +11,9 @@ import { Evaluation, TypeEvaluation, Categorie } from '../../Models/evaluation.m
   templateUrl: './add-evaluation.component.html',
   styleUrls: ['./add-evaluation.component.scss']
 })
+
+
+///
 export class AddEvaluationComponent implements OnInit {
   evaluationForm!: FormGroup;
   isEditMode: boolean = false;
