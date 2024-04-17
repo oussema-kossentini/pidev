@@ -13,7 +13,7 @@ import {ServiceFazzetregisterService} from "./service-fazzetregister-service.ser
 export class PublicationService {
   private apiUrl = 'http://localhost:8085/courszello/api/publications';
   dataForm !: FormGroup; // Définissez la propriété dataForm
-  host :string = "http://localhost:8085";
+  host :string = "http://localhost:8085/courszello/";
 
   constructor(private http: HttpClient, private authService: ServiceFazzetregisterService) {}
   choixmenu : string  = 'A';

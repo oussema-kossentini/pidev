@@ -101,7 +101,7 @@ const routes: Routes = [
   {
     path: 'ajouterSession/:idScheduel', component: SesionSchComponent
   },
-
+  { path: 'profnav', component: ProfesseurnavComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'ss', component: SessionComponent },
   //{ path: 'modifS/:id', component: ModifscheduleComponent },
@@ -137,8 +137,8 @@ const routes: Routes = [
   { path: 'coursUpdate/:id', component: CoursUpdateComponent },
   { path: 'contentUpdate/:id', component: UpdateContentComponent },
   { path: 'contenuCours', component: ContenuCoursComponent },
-  { path: 'addContenu', component: AddContenuComponent },
-  { path: 'profnav', component: ProfesseurnavComponent }
+  { path: 'addContenu', component: AddContenuComponent }
+
 
 ];
 
