@@ -1,1 +1,32 @@
-<p>professeurnav works!</p>
+<app-header></app-header>
+
+<div class="content" *ngIf="specialites.length > 0">
+  <h2 class="centered-title">Liste des spécialités et classes :</h2>
+  <table class="table table-bordered border-primary">
+    <thead>
+    <tr>
+      <th>Spécialité</th>
+      <th>Classe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let specialite of specialites">
+      <td>{{ specialite.title }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let classe of specialite.classes">{{ classe }}</li>
+        </ul>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="specialites.length === 0 && !error">
+  <p>Aucune spécialité n'est disponible pour l'utilisateur actuel.</p>
+</div>
+
+<div *ngIf="error" class="error-message">{{ error }}</div>
+
+<app-footer></app-footer>
+

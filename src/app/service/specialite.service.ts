@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import {Observable, catchError, throwError, tap} from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
+import { SpecialiteDto } from './../models/SpecialiteDto';
+ // Assurez-vous d'ajuster le chemin selon l'emplacement réel de votre modèle
+import { ProfesseurnavComponent} from "../components/professeurnav/professeurnav.component";
 
 @Injectable({
   providedIn: 'root'
@@ -154,5 +157,12 @@ getObjetById(id: string): Observable<any> {
   getNavUser(): Observable<any> {
     const url = `${this.baseUrl}/getNavUser`;
     return this.authService.requestWithToken('GET', url);
+
   }
+  getSpecialiteAndClasseFromProfesseur(idUser: string): Observable<SpecialiteDto[]> {
+    const url = `${this.baseUrl}/getSpecialiteAndClasseFromProfesseur/${idUser}`;
+    return this.authService.requestWithToken('GET', url) as Observable<SpecialiteDto[]>;
+  }
+
+
 }

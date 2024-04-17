@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import {saveAs} from "file-saver";
 import { ServiceFazzetregisterService } from '../../service/service-fazzetregister-service.service';
 import {isPlatformBrowser} from "@angular/common";
+import { timeout } from 'rxjs/operators';
 @Component({
   selector: 'app-list-specialite',
   templateUrl: './list-specialite.component.html',
@@ -156,10 +157,10 @@ export class ListSpecialiteComponent {
   }
 
 
-  ExportPdf(): void {
-    // Dans cette fonction, vous devriez appeler la méthode appropriée de votre service pour exporter en PDF
-    // Par exemple :
-    this.ClasseService.exportUniversitesPdf().subscribe(
+  ExportPdf() {
+    this.ClasseService.exportUniversitesPdf().pipe(
+      timeout(30000) // Augmentez le délai d'attente à 30 secondes
+    ).subscribe(
       (blob: Blob) => {
         const fileName = 'classes_etudiants.pdf';
         saveAs(blob, fileName);
