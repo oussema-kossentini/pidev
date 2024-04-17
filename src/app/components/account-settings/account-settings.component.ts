@@ -17,13 +17,13 @@ export class AccountSettingsComponent  implements OnInit {
   isEditMode = false;
   nationalities: any[]=[];
   imgURL : any[]=[];
-event :any;
-    password= 'password';
-    show = true;
-    selectedFile: File | null = null;
-    uploadSuccess: boolean | null = null;
-    uploadMessage: string = '';
-    randomColor: string = '';
+  event :any;
+  password= 'password';
+  show = true;
+  selectedFile: File | null = null;
+  uploadSuccess: boolean | null = null;
+  uploadMessage: string = '';
+  randomColor: string = '';
 
   phoneCodes: any[];
   constructor(
@@ -46,24 +46,36 @@ event :any;
       error => console.log('Erreur lors du chargement des nationalités', error)
     );
   }
-  public registerFormCustom = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    dateOfBirth: '',
-    nationality: '',
-    phone: '',
-    phoneCodes:'',
-    role:'',
-    statue:'',
-    profilePicture: null as File | null,
-  };
+
   toggleEdit() {
     this.isEditMode = !this.isEditMode;
   }
-  saveChanges() {}
+  saveChanges() {
+
+
+      // Vous pouvez modifier userInfo directement si vous le souhaitez
+      this.authService.modifyUserCN(this.userInfo).subscribe(
+        response => {
+          console.log('Update successful', response);
+          const token = this.authService.getJwtToken();
+
+
+          if (token != null) {
+            this.authService.clearLocalStorageExceptToken();
+            this.authService.fetchUserInfo(token);
+            this.authService.storeUserInfo(token);
+
+          }
+          this.toggleEdit();  // Désactivez le mode édition
+        },
+        error => {
+          console.error('Failed to update user info', error);
+        }
+      );
+
+
+
+  }
   /*saveChanges() {
     // Call the backend API to save the changes
     // Then toggle the edit mode off
@@ -98,35 +110,38 @@ event :any;
 
     return `${year}-${month}-${day}`;
   }
+
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.authService.fetchUserInfoPeriodically()
       this.authService.userInfo$.subscribe(data => {
         this.userInfo = data;
         this.userInfo.dateOfBirth = this.formatDate(this.userInfo.dateOfBirth);
-      //  this.extractCountryCode();
+        //  this.extractCountryCode();
         this.cdr.markForCheck();
         this.randomColor = this.getRandomColor();
 
       });
     }
   }
- /* ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.authService.userInfo$.subscribe(data => {
-       this.userInfo = data;
-      this.registerFormCustom = { ...this.registerFormCustom, ...data };
-        this.userInfo.dateOfBirth = this.formatDate(this.userInfo.dateOfBirth);
+  /* ngOnInit(): void {
+     if (isPlatformBrowser(this.platformId)) {
+       this.authService.userInfo$.subscribe(data => {
+        this.userInfo = data;
+       this.registerFormCustom = { ...this.registerFormCustom, ...data };
+         this.userInfo.dateOfBirth = this.formatDate(this.userInfo.dateOfBirth);
 
-        this.extractCountryCode();
-        this.cdr.markForCheck();
+         this.extractCountryCode();
+         this.cdr.markForCheck();
 
 
 
-        // Assurez-vous que cette ligne est dans le subscribe pour être exécutée après la réception des données.
-      });
-      this.randomColor = this.getRandomColor();
-    }
-  }*/
+         // Assurez-vous que cette ligne est dans le subscribe pour être exécutée après la réception des données.
+       });
+       this.randomColor = this.getRandomColor();
+     }
+   }*/
   onFileSelect(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0] as File; // Directly cast here to avoid null in the next steps
@@ -147,8 +162,8 @@ event :any;
 
 
   //awel etape
- //temchi li componnenet mtaak
- // tzid appel lel service mtaai fi constructeurru
+  //temchi li componnenet mtaak
+  // tzid appel lel service mtaai fi constructeurru
 
 
 
@@ -195,43 +210,43 @@ event :any;
   }
 
 
-   /* ngOnInit(): void {
-      if (isPlatformBrowser(this.platformId)) {
+  /* ngOnInit(): void {
+     if (isPlatformBrowser(this.platformId)) {
 //this.userInfo = this.authService.getUserInfo();
 this.authService.userInfo$.subscribe(data => {
-  this.userInfo = data;
+ this.userInfo = data;
 });
 this.userInfo.dateOfBirth = this.formatDate(this.userInfo.dateOfBirth);
 console.log("Formatted date of birth is : ", this.userInfo.dateOfBirth);
 this.extractCountryCode();
 this.cdr.markForCheck();
 
-  }
+ }
 }
 */
 
-onTabChange(event: any) {
-  const activeTab = event.target; // L'onglet actif
-  console.log(activeTab.id + ' tab selected.');
-  // Vous pouvez ici ajouter d'autres logiques, comme charger des données spécifiques à l'onglet
-}
-
-selectedCountryCode: string = '';
-extractCountryCode() {
-  const phone = this.userInfo.phone;
-  if (!phone) {
-    return; // Handle empty phone number gracefully
+  onTabChange(event: any) {
+    const activeTab = event.target; // L'onglet actif
+    console.log(activeTab.id + ' tab selected.');
+    // Vous pouvez ici ajouter d'autres logiques, comme charger des données spécifiques à l'onglet
   }
 
-  // Regular expression to match most common phone number formats
-  const regex = /^\+?([0-9]{1,3})\)?[-.\s]?(.*)$/;
-  const match = phone.match(regex);
+  selectedCountryCode: string = '';
+  extractCountryCode() {
+    const phone = this.userInfo.phone;
+    if (!phone) {
+      return; // Handle empty phone number gracefully
+    }
 
-  if (match) {
-    this.selectedCountryCode = match[1]; // Country code is the first captured group
-  } else {
-    console.warn('Invalid phone number format. Country code could not be extracted.');
+    // Regular expression to match most common phone number formats
+    const regex = /^\+?([0-9]{1,3})\)?[-.\s]?(.*)$/;
+    const match = phone.match(regex);
+
+    if (match) {
+      this.selectedCountryCode = match[1]; // Country code is the first captured group
+    } else {
+      console.warn('Invalid phone number format. Country code could not be extracted.');
+    }
   }
-}
 
 }

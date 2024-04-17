@@ -31,7 +31,8 @@ export class ServiceFazzetregisterService {
         // Optionnel : Validation du token côté serveur ici
         this.updateIsAdminStatus();
          // Initialise l'état isAdmin basé sur le token
-         this.fetchUserInfoPeriodically();
+     //   this.clearLocalStorageExceptToken();
+       //  this.fetchUserInfoPeriodically();
         }
 
     }
@@ -290,6 +291,7 @@ private getuserinfo ='http://localhost:8085/courszello/api/auth/userinfo/{idUser
         return this.fetchUserInfo(response.token).pipe(
           tap(userInfo => {
             if (isPlatformBrowser(this.platformId)) {
+
               this.storeUserInfo(userInfo);  // Stockage des informations de l'utilisateur
 
               const decodedToken = this.decodeJwt(response.token);
@@ -898,9 +900,10 @@ fetchUserInfoPeriodically() {
 }
 */private fetchUserInfoSubscription: Subscription = new Subscription();
 
+
 fetchUserInfoPeriodically() {
   // Utilisez le gestionnaire d'abonnements pour arrêter l'intervalle proprement
-  this.fetchUserInfoSubscription = interval(1000000000).subscribe(() => {
+  this.fetchUserInfoSubscription = interval(1000000000000000).subscribe(() => {
     const token = localStorage.getItem('token');
     if (token) {
       this.fetchUserInfo(token).subscribe(
@@ -915,6 +918,14 @@ fetchUserInfoPeriodically() {
     }
   });
 }
+
+
+
+ /* modifyClasse(classe: any): Observable<any> {
+    const url = `${this.baseUrl}/modify-classe`;
+    return this.authService.requestWithToken('PUT', url, classe);
+  }*/
+
 fetchUserInfo(token: string) {
   const userId = this.decodeJwt(token).userId;
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -922,6 +933,7 @@ fetchUserInfo(token: string) {
 
   return this.http.get<any>(url, { headers }).pipe(
     tap(userInfo => {
+      //this.clearLocalStorageExceptToken();
       // Gestion de stockage dans le localStorage
       Object.keys(userInfo).forEach(key => {
         if (isPlatformBrowser(this.platformId)) {
@@ -991,10 +1003,10 @@ updateProfilePicture(file: File, token: string) {
   }
 //
 
-  removeUser(id: string): Observable<any> {
+ /* removeUser(id: string): Observable<any> {
     const url = `${this.baseUrl}/remove-user/${id}`;
     return this.requestWithToken('DELETE', url, { responseType: 'text' });
-  }
+  }*/
 
  /* removeUser(id: String): Observable<any> {
 
@@ -1022,6 +1034,14 @@ getUserInfo(): any {
   storeUserInfo(userInfo);
 }
 */
+  clearLocalStorageExceptToken() {
+    const token = localStorage.getItem('token');
+    localStorage.clear();
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+  }
+
 storeUserInfo(userInfo: any): void {
   Object.keys(userInfo).forEach(key => {
 
@@ -1100,6 +1120,7 @@ login(email: string, password: string): Observable<any> {
       return this.fetchUserInfo(response.token).pipe(
         tap(userInfo => {
           if (isPlatformBrowser(this.platformId)) {
+
           this.storeUserInfo(userInfo);  // Stockage des informations de l'utilisateur
 
           const decodedToken = this.decodeJwt(response.token);
@@ -1370,28 +1391,100 @@ isResetCodeVerified(): boolean {
     return this.http.post(endpoint, { email, newPassword },{ responseType: 'text' });
   }
 
+  modifyUserCN(user: any): Observable<any> {
+    const url = `${this.jwtbaseurl}/modifyInfoUserConnected`;
+    return this.requestWithTokenn('PUT', url,user, { responseType: 'text' });
+  //  return this.http.put(url, user);
+  }
 
-
+  removeUser(id: string): Observable<any> {
+    const url = `${this.baseUrl}/remove-user/${id}`;
+    return this.requestWithToken('DELETE', url, { responseType: 'text' });
+  }
   // Dans votre service Angular
+  requestWithTokenn<T extends 'text' | 'arraybuffer' | 'blob' | 'json' = 'json'>(
+    method: string,
+    url: string,
+    body?: any,
+    options?: { responseType: T }
+  ): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getJwtToken()}`
+    });
 
-  modifyUser(idUser: string, user: any, imageFile: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('userJson', JSON.stringify(user));
+    const httpOptions = {
+      headers: headers,
+      body: body,
+      responseType: options?.responseType || 'json'
+    };
 
-    if (imageFile) {
-      formData.append('image', imageFile, imageFile.name);
+    return this.http.request<T>(method, url, httpOptions as any);
+  }
+
+  requestWithToke1<T extends 'text' | 'arraybuffer' | 'blob' | 'json' = 'json'>(
+    method: string,
+    url: string,
+    body?: any,
+    options?: { responseType: T, headers?: HttpHeaders }
+  ): Observable<any> {
+    let headers = options?.headers || new HttpHeaders();
+    if (body instanceof FormData) {
+      headers = headers.set('Content-Type', 'multipart/form-data');
     }
+    const httpOptions = {
+      headers: headers,
+      body: body,
+      responseType: options?.responseType || 'json'
+    };
+    return this.http.request<T>(method, url, httpOptions as any);
+  }
 
-    return this.http.put<any>(`${this.baseUrl}/modify-user/${idUser}`, formData);
+
+  modifyUser1(idUser: string, user: any, imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+    if (imageFile) {
+      formData.append('imageFile', imageFile, imageFile.name);
+    }
+    const url = `${this.baseUrl}/update/${idUser}`;
+    return this.requestWithToke1('PUT', url, formData, { responseType: 'text' });
   }
 
 
 
-getUsers(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/retrieve-all-users`);
+
+  /*modifyUser1(idUser: string, user: any, imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('userJson', JSON.stringify(user));
+    if (imageFile) {
+      formData.append('image', imageFile, imageFile.name);
+    }
+    const url = `${this.baseUrl}/update/${idUser}`;
+    return this.requestWithTokenn('PUT', url, formData, { responseType: 'text' });
+  }*/
+
+  updateadminUSER(idUser: string, user: any, imageFile: File): Observable<any> {
+    const url = `${this.baseUrl}/modify-user/${idUser}`;
+
+    // Création d'un FormData pour inclure les données JSON et le fichier image
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+    formData.append('imageFile', imageFile);
+
+    return this.requestWithTokenn('PUT', url, formData, { responseType: 'text' });
+  }
+
+
+  getUsers(): Observable<any[]> {
+  const url =`${this.baseUrl}/retrieve-all-users`;
+  return this.requestWithToken('GET', url, { responseType: 'text' });
 }
 
-
+ /* ajouterFoyerEtAffecterAUniversite(classe: any, idSpecialite: string): Observable<any> {
+    const url = `${this.baseUrl}/ajouter-affecter/${idSpecialite}`;
+    return this.authService.requestWithToken('POST', url, classe);
+  }*/
 
   }
 

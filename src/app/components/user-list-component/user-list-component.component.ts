@@ -53,34 +53,51 @@ export class UserListComponentComponent implements OnInit {
     user.editing = true; // Activate edit mode for the user
   }
 
+
+/*
   saveChanges(user: any): void {
     user.editing = false; // Deactivate edit mode for the user
 
     const formData = new FormData();
-    formData.append('userJson', JSON.stringify(user));
+    formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
 
-    // Assurez-vous que le nom de l'attribut pour le fichier correspond à celui attendu par votre API.
-    // Dans l'exemple du contrôleur Spring, nous avons utilisé "image" comme paramètre pour le fichier.
-    // Changez "profilePicture" en "image" si c'est ce que votre backend s'attend à recevoir.
     if (user.selectedFile) {
-      formData.append('image', user.selectedFile, user.selectedFile.name);
+      formData.append('imageFile', user.selectedFile);
     }
 
-    // L'ID de l'utilisateur doit être inclus dans l'URL, pas dans le FormData,
-    // assurez-vous que l'URL est correcte et correspond à celle définie dans votre contrôleur Spring.
-    this.userService.modifyUser(user.idUser, user, user.selectedFile).subscribe({
+    this.userService.modifyUser1(user.idUser, formData).subscribe({
       next: (response: any) => {
         console.log('User modified successfully:', response);
-        // Handle successful response, e.g., display confirmation message
-        // Optionally, refresh the user list or update the UI to reflect the changes
-        this.loadU(); // Assuming you have a method loadU() to refresh the list of users
+        this.loadU(); // Refresh the list of users
       },
-      error: (error: any) => {
-        console.error('Error modifying user:', error);
-        // Handle error, e.g., display error message to user
+      error: (error: HttpErrorResponse) => {
+        console.error('Error modifying user:', error.message);
       }
     });
   }
+  */
+
+
+  saveChanges(user: any): void {
+    user.editing = false;
+
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+    if (user.selectedFile) {
+      formData.append('imageFile', user.selectedFile);
+    }
+
+    this.userService.modifyUser1(user.idUser, formData,user.selectedFile).subscribe({
+      next: (response: any) => {
+        console.log('User modified successfully:', response);
+        this.loadU();
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error modifying user:', error.message);
+      }
+    });
+  }
+
 
 
 

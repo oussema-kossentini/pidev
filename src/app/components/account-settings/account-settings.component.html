@@ -175,7 +175,8 @@ pretium blandit sapien.
 <label for="firstname">Firstname</label>
 
 <div class="d-flex align-items-center">
-  <input type="text" id="firstname" class="form-control" value="{{ userInfo.firstName }}"  [readonly]="!isEditMode" />
+  <input type="text" class="form-control" [(ngModel)]="userInfo.firstName" name="firstName" [readonly]="!isEditMode">
+
 
 </div>
 
@@ -183,8 +184,8 @@ pretium blandit sapien.
 
 <div class="form-group col-md-6">
 
-<label for="lastname">Lastname</label>
-<input type="text" id="firstname" class="form-control" value="{{ userInfo.lastName }}"  [readonly]="!isEditMode" />
+<label>Lastname</label>
+<input type="text" id="firstname" class="form-control" [(ngModel)]="userInfo.lastName " name="lastName" [readonly]="!isEditMode" />
 </div>
 
 
@@ -192,34 +193,34 @@ pretium blandit sapien.
 </div>
 
 <div class="form-group">
-<label for="inputEmail4">Email</label>
-<input type="email" id="Email" class="form-control" value="{{ userInfo.email }}"  [readonly]="!isEditMode" />
+<label>Email</label>
+<input type="email" id="Email" class="form-control" [(ngModel)]="userInfo.email" name="email" [readonly]="!isEditMode" />
 </div>
 
 <div class="form-group col-md-6">
   <label for="dateOfBirth">date of birth</label>
-  <input type="date" class="form-control" id="dateOfBirth" [value]="userInfo.dateOfBirth"  [readonly]="!isEditMode"/>
+  <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="userInfo.dateOfBirth" name="dateOfBirth"  [readonly]="!isEditMode"/>
 </div>
 
 
 
 <div class="form-row">
   <div class="form-group">
-    <label for="nationality">Nationality</label>
-    <select value="{{ userInfo.Nationality }}" name="nationality"  [readonly]="!isEditMode">
+    <label>Nationality</label>
+    <select [(ngModel)]="userInfo.Nationality" name="nationality"  [readonly]="!isEditMode">
       <option *ngFor="let nationality of nationalities" [value]="nationality">{{ nationality }} </option>
     </select>
   </div>
 
 <div class="form-group col-md-4">
-  <label for="phoneCodes">Country Code</label>
+  <label>Country Code</label>
   <select value="userInfo.phoneCodes" name="phoneCode" class="form-control"  [readonly]="!isEditMode">
     <option *ngFor="let code of phoneCodes" [value]="code.code">{{ code.name }} ({{ code.code }})</option>
   </select>
 </div>
 <div class="form-group">
-  <label for="phoneNumber">Phone Number</label>
-  <input type="text" class="form-control" [(ngModel)]="registerFormCustom.phone" [readonly]="!isEditMode" name="phone">
+  <label>Phone Number</label>
+  <input type="text" class="form-control" [(ngModel)]="userInfo.phone" [readonly]="!isEditMode" name="phone">
 </div>
 
 </div>
