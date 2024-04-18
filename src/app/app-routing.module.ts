@@ -70,7 +70,7 @@ const routes: Routes = [
 
    { path: 'home', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
     // Autres routes...
-
+//ggg
   {path :'4',component:HomeComponent},
 
   { path: 'register', component: RegisterComponent},

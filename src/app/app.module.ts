@@ -112,7 +112,7 @@ import {
   InterfaceContenuEtudientComponent
 } from "./components/interface-contenu-etudient/interface-contenu-etudient.component";
 import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.component";
-
+//
 //import{user}
 @NgModule({
   declarations: [
