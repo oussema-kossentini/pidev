@@ -1,3 +1,5 @@
+// bar-chart.component.ts
+
 import { Component } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 
@@ -11,13 +13,11 @@ export class BarChartComponent {
   view: [number, number] = [700, 300]; // for example, width=700, height=300
 
   // Define the data for the bar chart
-  barChartData: any[] = [
-    { name: 'DevsExisoon', value: 450 },
-    { name: 'Cilsboa', value: 350 },
-    { name: 'Informatique', value: 400 },
-    { name: 'Historique', value: 500 },
-    { name: 'Math', value: 400 },
-    // ... more data
+  barChartData = [
+    { name: 'Math', value: 10 },
+    { name: 'Science', value: 20 },
+    { name: 'Histoire', value: 15 },
+    { name: 'Informatique', value: 25 }
   ];
 
   // Define the color scheme for the chart

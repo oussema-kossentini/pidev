@@ -46,7 +46,8 @@ export class AddEvaluationComponent implements OnInit {
       endDate: [''],
       statue: ['', Validators.required],
       duration: '',
-      classe: ['']
+
+
     });
 
     if (this.isEditMode && this.data?.evaluation) {

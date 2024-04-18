@@ -32,10 +32,11 @@ export class AddQaComponent implements OnInit {
     }
     this.evaluationId = this.data?.evaluationId;
   }
-
+//new
   initializeForm(): void {
     this.qaForm = this.fb.group({
       question: ['', Validators.required],
+      correctResponse: ['', Validators.required],
       score: [0, [Validators.required, Validators.min(0)]],
       difficulty: ['', Validators.required],
       response: this.fb.array([], Validators.required),

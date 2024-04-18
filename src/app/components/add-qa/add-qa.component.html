@@ -5,6 +5,10 @@
         <mat-label>Question</mat-label>
         <input matInput formControlName="question" required>
       </mat-form-field>
+      <mat-form-field appearance="fill" class="qa-form-field">
+        <mat-label>Correct Response</mat-label>
+        <input matInput formControlName="correctResponse" required>
+      </mat-form-field>
 
       <mat-form-field appearance="fill" class="qa-form-field">
         <mat-label>Difficulté</mat-label>
@@ -22,7 +26,7 @@
           <button type="button" (click)="removeResponse(i)">Supprimer</button>
         </div>
       </div>
-    
+
       <button type="button" (click)="addResponse()" class="add-response-button">
         <mat-icon>add</mat-icon>
         Ajouter une réponse
@@ -32,7 +36,7 @@
         <mat-label>Score</mat-label>
         <input matInput type="number" formControlName="score" required>
       </mat-form-field>
-    
+
       <button mat-raised-button color="primary" type="submit" class="submit-button">
         <mat-icon>add</mat-icon> Ajouter
       </button>

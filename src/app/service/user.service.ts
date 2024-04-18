@@ -14,13 +14,6 @@ export class UserService {
 
   getAllUsers(): Observable<any[]> {
     const url = `${this.apiUrl}/retrieve-all-users`;
-    return this.authService.requestWithToken('GET', url)
-      .pipe(
-        catchError(this.handleError)  // Handle errors in a consistent way
-      );
-  }
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+    return this.authService.requestWithToken('GET', url);
   }
 }

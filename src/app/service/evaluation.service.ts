@@ -26,9 +26,14 @@ export class EvaluationService {
   }
 
   addEvaluation(evaluation: Evaluation): Observable<Evaluation> {
-    console.log(evaluation);
     const url = `${this.apiUrl}/addeval`;
-    return this.authService.requestWithToken('POST', url, evaluation);
+    return this.authService.requestWithToken('POST', url, evaluation)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Une erreur est survenue :', error);
+          return throwError(error.message || error);
+        })
+      );
   }
 
   updateEvaluation(id: number | string, evaluation: Evaluation): Observable<any> {
@@ -45,4 +50,19 @@ export class EvaluationService {
     const url = `${this.apiUrl}/assign-evaluation-to-user/${userId}/${evaluationId}`;
     return this.authService.requestWithToken('POST', url, null);
   }
+  addEvaluationAttempt(userId: any, evaluationId: any, score: any): Observable<any> {
+    const url = `${this.apiUrl}/addEvaluationAttempt?userId=${userId}&evaluationId=${evaluationId}&score=${score}`;
+    return this.authService.requestWithToken('POST', url, null);
+  }
+
+  getEvaluationAttemptsByUserId(idu: any): Observable<any[]> {
+    const url = `${this.apiUrl}/getEvaluationAttemptsByUserId/${idu}`;
+    return this.authService.requestWithToken('GET', url);
+  }
+
+  assignEvaluationtoClasse(idClasse: any, evaluationId: any): Observable<any> {
+    const url = `${this.apiUrl}/assign-evaluation-to-class/${idClasse}/${evaluationId}`;
+    return this.authService.requestWithToken('POST', url, null);
+  }
+
 }

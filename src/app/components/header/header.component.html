@@ -77,11 +77,11 @@
                                       <span class="label">Paramètres du Compte</span>
                                     </a>
                                   </li>
-                                  <li *ngIf="authService.isAdmin || authService.isTeacher">
-                                    <!-- <a href="#!" >Evaluation</a>
+                                  <li *ngIf="authService.isAdmin || authService.isTeacher || authService.isStudent">
+                                    <<a href="#!" >Evaluation</a>
                                     <ul>
                                         <li><a [routerLink]="['/add-evaluation']">Add Evaluation</a></li>
-                                    </ul> -->
+                                    </ul>
                                     <li *ngIf="authService.isAdmin || authService.isTeacher">
 
                                     <a [routerLink]="['/add-evaluation']">

@@ -67,7 +67,7 @@ import {AddQaComponent} from "./components/add-qa/add-qa.component";
 import {GradeListComponent} from "./components/grade-list/grade-list.component";
 import {QaListComponent} from "./components/qa-list/qa-list.component";
 import {EvaluationDetailsComponent} from "./components/evaluation/evaluation-details/evaluation-details.component";
-import {EvaluationAssessmentComponent} from "./components/evaluation-assessment/evaluation-assessment.component";
+
 import {UsersListComponent} from "./components/users-list/users-list.component";
 import {EvaluationAssignComponent} from "./components/evaluation-assign/evaluation-assign.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
@@ -112,6 +112,11 @@ import {
   InterfaceContenuEtudientComponent
 } from "./components/interface-contenu-etudient/interface-contenu-etudient.component";
 import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.component";
+import {ClasseEvalComponent} from "./components/classe-eval/classe-eval.component";
+import {
+  EvaluationAssignClasseComponent
+} from "./components/evaluation-assign-classe/evaluation-assign-classe.component";
+import { EvaluationAssessmentComponent } from './components/evaluation-assessment/evaluation-assessment.component';
 //
 //import{user}
 @NgModule({
@@ -125,18 +130,18 @@ import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.c
 
 
 
-      RegisterComponent,
+    RegisterComponent,
 
 
 
-      DashbordlatbarComponent,
-      LoginComponentComponent,
-      UserListComponentComponent,
+    DashbordlatbarComponent,
+    LoginComponentComponent,
+    UserListComponentComponent,
     //  ListuseruComponentComponent,
-      ForgetPasswordComponent,
-      ChangePasswordComponent,
-      GoogleCallbackComponent,
-      AccountSettingsComponent,
+    ForgetPasswordComponent,
+    ChangePasswordComponent,
+    GoogleCallbackComponent,
+    AccountSettingsComponent,
 
     ClasseComponent,
     SpecialiteComponent,
@@ -171,7 +176,7 @@ import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.c
     GradeListComponent,
     QaListComponent,
     EvaluationDetailsComponent,
-    EvaluationAssessmentComponent,
+
     UsersListComponent,
     EvaluationAssignComponent,
     DashboardComponent,
@@ -199,8 +204,14 @@ import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.c
     UpdateContentComponent,
     InterfaceCoursEtudientComponent,
     InterfaceContenuEtudientComponent,
+    ClasseEvalComponent,
 
-    ProfesseurnavComponent
+    EvaluationAssignClasseComponent,
+    EvaluationAssignComponent,
+
+
+    ProfesseurnavComponent,
+        EvaluationAssessmentComponent
   ],
   //hhhhhhhhhhhhhhhhhhhhhhhhhhhh
   imports: [
