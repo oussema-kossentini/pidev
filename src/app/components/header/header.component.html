@@ -1,8 +1,6 @@
 
 <header class="header-style1 menu_area-light">
-
-    <div class="navbar-default border-bottom border-color-light-white">
-
+  <div class="navbar-default border-bottom border-color-light-white">
         <!-- start top search -->
         <div class="top-search bg-primary">
             <div class="container">
@@ -17,11 +15,7 @@
                 </form>
             </div>
         </div>
-
-
-        <!-- end top search -->
-
-        <div class="container">
+        <!-- end top search --><div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-lg-12">
                     <div class="menu_area alt-font">
@@ -31,59 +25,35 @@
                                 <a href="index-2.html" class="navbar-brand"><img id="logo" src="assets/img/logos/logo-inner.png" alt="logo" /></a>
                                 <!-- end logo -->
                             </div>
-
                             <div class="navbar-toggler bg-primary"></div>
-
-
-
                             <!-- start menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
-                                <a [routerLink]="['']" >Home </a>
+                                <a [routerLink]="['/home']" >Home </a>
 
                                 <li>
-
-
-                                  <!-- <a  [routerLink]="['/4']">
-
-                                    <i class="fas fa-sign-out-alt icon-arrow before"> </i>
-                                      <span class="label">home lel test </span>
-
-                                  </a> -->
-                                      <!-- Si l'utilisateur n'est pas connecté, afficher Se Connecter -->
-
-
-                                      <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']">
+                                  <!-- Si l'utilisateur n'est pas connecté, afficher Se Connecter -->
+                                  <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']">
                                         <i class="fas fa-sign-in-alt icon-arrow before"></i>
-                                        <span class="label">Se Connecter</span>
+                                        <span class="label">Connecter</span>
                                     </a>
                                     <!-- Sinon, afficher Se Déconnecter -->
                                     <a *ngIf="authService.isLoggedIn()" (click)="logout()">
                                         <i class="fas fa-sign-out-alt icon-arrow before"></i>
-                                        <span class="label">Se Déconnecter</span>
+                                        <span class="label">Déconnecter</span>
                                     </a>
                                   </li>
-                                  <li *ngIf="authService.isLoggedIn()">
-                                    <a>
-                                        <span class="label">{{ userInfo.firstName }} {{ userInfo.lastName }}</span>
-                                    </a>
-                                </li>
-
 
                                   <li *ngIf="authService.isLoggedIn()">
                                     <a [routerLink]="['/account-settings']">
                                       <i class="fas fa-cog icon-arrow before"></i>
-
-
                                       <span class="label">Paramètres du Compte</span>
                                     </a>
                                   </li>
                                   <li *ngIf="authService.isAdmin || authService.isTeacher || authService.isStudent">
-                                    <<a href="#!" >Evaluation</a>
+                                    <a href="#!" >Evaluation</a>
                                     <ul>
                                       <li><a (click)="redirectToEvalution()">Evaluation</a></li>
                                     </ul>
-
-
                                 </li>
 
                               <li *ngIf="authService.isAdmin || authService.isTeacher">
@@ -99,16 +69,14 @@
                                 <a href="#!" >Cours</a>
                                 <ul>
                                   <li><a (click)="redirectToCoursEtudientList()">CoursList</a></li>
-
-
                                 </ul>
                               </li>
 
                                 <li *ngIf="authService.isAdmin">
-                                  <a [routerLink]="['/dadmin']">Dashboard Admin</a>
+                                  <a [routerLink]="['/dadmin']">DashAdmin</a>
                                   <ul>
-                                    <li><a [routerLink]="['/listUseur']">Liste des Utilisateurs</a></li>
-                                      <li> <a [routerLink]="['/affecteRole']" > affecterole</a> </li>
+                                    <li><a [routerLink]="['/listUseur']">show user</a></li>
+                                      <li> <a [routerLink]="['/affecteRole']" > affrole</a> </li>
                                     <li> <a [routerLink]="['/banuser']" > banuser</a> </li>
                                     <!-- Ajoutez d'autres liens de sous-menu ici si nécessaire -->
                                   </ul>
@@ -119,52 +87,27 @@
                               <a href="#!" >Scheduel</a>
                               <ul>
                                 <li><a (click)="redirectToScheduel()">student schedule</a></li>
-
-
                               </ul>
                             </li>
                               <li *ngIf=" authService.isTeacher || authService.isAdmin">
-                                <a href="#!" >Emploit</a>
+                                <a href="#!" >Emplp</a>
                                 <ul>
                                   <li><a (click)="redirectToProf()">emploit  prof</a></li>
-
 
                                 </ul>
                                 </li>
 
                               <li *ngIf=" authService.isAdmin || authService.isStudent">
-                                <a href="#!" >Emploit</a>
+                                <a href="#!" >Empl</a>
                                 <ul>
 
                                   <li><a (click)="redirectToclasse()">emploit classe</a></li>
 
                                 </ul>
                               </li>
-
-
-
-
-
-                              <li>
-
-                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
-                                    <a href="#!"  >Forum</a>
-                                    <ul>
-                                        <li><a [routerLink]="['/add-publication']">add publication</a>
-                                            <ul>
-                                                <li><a href="blog-grid-two-columns.html">2 Columns</a></li>
-                                                <li><a href="blog-grid-two-columns-left-sidebar.html">2 Col – Left Sidebar</a></li>
-                                                <li><a href="blog-grid-two-columns-right-sidebar.html">2 Col – Right Sidebar</a></li>
-                                                <li><a href="blog-grid.html">3 Columns - Standard</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="blog-list.html" >Blog List</a></li>
-                                        <li><a href="blog-details.html" >Blog Details</a></li>
-                                    </ul>
-                                </li>
                                 <li>
                                     <li *ngIf="authService.isAdmin">
-                                <a href="#!" >Speciality</a>
+                                <a href="#!" >SPLY</a>
                                 <ul>
                                   <li><a (click)="redirectToSpecialte()">ADDSpeciality</a></li>
                                   <li><a (click)="redirectToListSpecialte()">ListSpeciality</a></li>
@@ -177,8 +120,6 @@
                                 <a href="#!" >Speciality</a>
                                 <ul>
                                   <li><a (click)="redirectTonavSpecialite()">ShowSpeciality</a></li>
-
-
                                 </ul>
                               </li>
                               <li>
@@ -186,12 +127,13 @@
                                 <a href="#!" >ShowClasse</a>
                                 <ul>
                                   <li><a (click)="redirectToProfnav()">ShowClasse</a></li>
-
-
                                 </ul>
                               </li>
-
-
+                              <li *ngIf="authService.isLoggedIn()">
+                                <a>
+                                  <span class="label">{{ userInfo.firstName }} {{ userInfo.lastName }}</span>
+                                </a>
+                              </li>
                             </ul>
                             <!-- end menu area -->
 
