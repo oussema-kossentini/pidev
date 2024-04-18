@@ -73,7 +73,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
   // Autres routes...
 //mohamedddsnssjsss
-  {path :'4',component:HomeComponent},
+
 
   { path: 'register', component: RegisterComponent},
   // { path: 'login', component: LoginComponentComponent},

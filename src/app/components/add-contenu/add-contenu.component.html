@@ -25,13 +25,16 @@
                     </div>
                   </div>
 
+
+
                 <div class="form-group">
-                    <label for="file">Upload File</label>
-                    <input [(ngModel)]="Contenu.fileData" type="file" class="form-control-file" id="file" name="file">
+                <label for="Contenu">Contenu:</label>
+                <textarea  [(ngModel)]="Contenu.body" id="Contenu" name="Contenu" rows="5" cols="40" placeholder="Enter your Content here..."></textarea>
                 </div>
 
 
-                <button  (click)="saveStudent()" class="btn btn-primary">Save</button>
+
+              <button  (click)="saveStudent()" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
