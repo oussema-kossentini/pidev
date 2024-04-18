@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CourseService } from '../../service/cours-service.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-chapitre-read',
@@ -54,4 +55,15 @@ export class ChapitreReadComponent {
       }
     );
   }
+  downloadAsPdf(): void {
+    const doc = new jsPDF();
+
+    // Add content title and body to the PDF
+    doc.text(this.content.title, 10, 10); // (text, x, y)
+    doc.text(this.content.body, 10, 20); // Adjust x, y positions as needed
+
+    // Trigger PDF download
+    doc.save(`${this.content.title}.pdf`);
+  }
+
 }
