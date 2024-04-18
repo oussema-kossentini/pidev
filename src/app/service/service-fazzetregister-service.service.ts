@@ -1494,6 +1494,42 @@ isResetCodeVerified(): boolean {
 
     return this.http.request<T>(method, url, httpOptions as any);
   }
+  requestWithToke3<T extends 'text' | 'arraybuffer' | 'blob' | 'json' = 'json'>(
+    method: string,
+    url: string,
+    params?: any,
+    options?: { responseType: T }
+  ): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getJwtToken()}`
+    });
+
+    const httpOptions = {
+      headers: headers,
+      params: params,
+      responseType: options?.responseType || 'json'
+    };
+
+    return this.http.request<T>(method, url, httpOptions as any);
+  }
+
+  affecterRole(userEmail: string, newRole: string): Observable<any> {
+    const params = { userEmail: userEmail, userRole: newRole };
+    const url ='http://localhost:8085/courszello/api/auth/affecterRole';
+    return this.requestWithToke3('PUT', url, params);
+  }
+
+
+  updateBanStatus(userEmail: string, status: boolean): Observable<any> {
+    // Construct the URL with query parameters
+    const params = { userEmail: userEmail, status: status };
+    //const url = `/api/users/updateStatus?email=${encodeURIComponent(email)}&status=${status}`;
+    const url = `http://localhost:8085/courszello/api/auth/updateStatus`;
+
+    return this.requestWithToke3('PUT', url, params);
+  }
+
 
   requestWithToke1<T extends 'text' | 'arraybuffer' | 'blob' | 'json' = 'json'>(
     method: string,
