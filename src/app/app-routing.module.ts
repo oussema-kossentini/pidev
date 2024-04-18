@@ -82,7 +82,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponentComponent, canActivate: [AuthGardService] },
   { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGardService] },
  /* { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-//hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+//hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgggggg
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [RoleGuard], data: { requiredRole: 'ADMIN' } }*/
 {path:'change-password',component:ChangePasswordComponent, canActivate: [ResetPasswordGuardService]},
 //jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
