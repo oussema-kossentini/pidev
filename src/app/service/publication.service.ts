@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Publication} from '.././models/publication';
+import { Publication} from '../models/publication.model';
 
 import { FormGroup } from '@angular/forms';
 import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';

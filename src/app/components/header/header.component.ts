@@ -184,7 +184,9 @@ localStorage.removeItem('lastName');
   }
 
 
-
+  redirectToEvalution () {
+    this.router.navigate(['/evaluation']);
+  }
 
   redirectToScheduel() {
     this.router.navigate(['/schedule']);

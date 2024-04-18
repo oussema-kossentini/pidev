@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from  '@angular/common/http';
-import { Comment } from "../components/comments/Comment";
+import { Comment } from "../models/Comment";
 import { Observable } from "rxjs";
 import { ServiceFazzetregisterService } from './service-fazzetregister-service.service';
 @Injectable({

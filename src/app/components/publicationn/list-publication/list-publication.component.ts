@@ -2,10 +2,10 @@ import { Component, ElementRef, HostListener, TemplateRef, ViewChild } from '@an
 import { PublicationService } from '../../../service/publication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Comment } from '../../comments/Comment';
+import { Comment } from '../../../models/Comment';
 import { CommentService } from '../../../service/comment.service';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
-import { Publication } from '../publication.model';
+import { Publication } from '../../../models/publication.model';
 import { FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 @Component({
