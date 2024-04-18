@@ -13,7 +13,7 @@ export class ProfesseurnavComponent implements OnInit{
   error: string | null = null;
 
   constructor(private specialiteService: SpecialiteService, public authService: ServiceFazzetregisterService) { }
-
+//ibtiii
   ngOnInit(): void {
     const x = localStorage.getItem("token");
     if (x) {

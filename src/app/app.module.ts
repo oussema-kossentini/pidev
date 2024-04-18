@@ -202,6 +202,7 @@ import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.c
 
     ProfesseurnavComponent
   ],
+  //hhhhhhhhhhhhhhhhhhhhhhhhhhhh
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     TabsModule.forRoot(),
