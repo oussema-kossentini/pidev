@@ -143,14 +143,34 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
+                                    <li *ngIf="authService.isAdmin">
                                 <a href="#!" >Speciality</a>
                                 <ul>
+                                  <li><a (click)="redirectToSpecialte()">ADDSpeciality</a></li>
+                                  <li><a (click)="redirectToListSpecialte()">ListSpeciality</a></li>
+                                  <li><a (click)="redirectTonavSpecialite()">ShowSpeciality</a></li>
 
-                                    <li><a [routerLink]="['/specialite']">Speciality</a></li>
-                                    <li><a [routerLink]="['/class']">class</a></li>
                                 </ul>
                                 </li>
+                              <li>
+                              <li *ngIf=" authService.isTeacher || authService.isStudent">
+                                <a href="#!" >Speciality</a>
+                                <ul>
+                                  <li><a (click)="redirectTonavSpecialite()">ShowSpeciality</a></li>
+
+
+                                </ul>
+                              </li>
+                              <li>
+                              <li *ngIf=" authService.isTeacher || authService.isStudent">
+                                <a href="#!" >ShowClasse</a>
+                                <ul>
+                                  <li><a (click)="redirectToProfnav()">ShowClasse</a></li>
+
+
+                                </ul>
+                              </li>
+
 
                             </ul>
                             <!-- end menu area -->

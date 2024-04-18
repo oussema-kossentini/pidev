@@ -164,7 +164,7 @@ toggleEmojis() {
         this.publicationService.createData(formData).subscribe({
           next: () => {
             // Ajouter la nouvelle publication à PublicationList
-            this.PublicationList.push(publicationData);
+            //this.PublicationList.push(publicationData);
 
             // Afficher une alerte de succès avec SweetAlert2
             Swal.fire({

@@ -10,12 +10,12 @@ export class CommentService{
   private apiUrl = 'http://localhost:8085/courszello/api/comments';
   constructor(private http: HttpClient, private authService: ServiceFazzetregisterService){}
   addCommentToPublication(publicationId: string, comment: Comment): Observable<any> {
-    return this.authService.requestWithToken('POST', `${this.apiUrl}/${publicationId}/comments`, comment);
+    return this.authService.requestWithToken('POST', `${this.apiUrl}/${publicationId}`, comment);
   }
 
   // Obtenir tous les commentaires pour une publication spécifique
   getCommentsForPublication(publicationId: string): Observable<Comment[]> {
-    return this.authService.requestWithToken('GET', `${this.apiUrl}/${publicationId}/comments`);
+    return this.authService.requestWithToken('GET', `${this.apiUrl}/${publicationId}`);
   }
 
   // Supprimer un commentaire spécifique
