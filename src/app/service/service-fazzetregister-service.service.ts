@@ -1027,6 +1027,7 @@ ngOnDestroy() {
     this.fetchUserInfoSubscription.unsubscribe();
   }
 }
+//
 updateimageurl ='http://localhost:8085/courszello/api/auth/update-image'
 
 updateProfilePicture(file: File, token: string) {

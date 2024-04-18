@@ -28,6 +28,9 @@ export class BanuserComponent implements OnInit {
     //this.loadRoles();
   }
 
+ // x:any[] =[];
+
+
   loadUsers() {
     this.userService.getUsers().pipe(
       catchError(error => {

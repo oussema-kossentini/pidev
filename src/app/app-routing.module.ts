@@ -71,6 +71,8 @@ import {ChapitreReadComponent} from "./components/chapitre-read/chapitre-read.co
 //import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
 
+
+
   { path: 'home', component: HomeComponent }, // Assurez-vous que HomeComponent est importé
   // Autres routes...
 //mohamedddsnssjsss
