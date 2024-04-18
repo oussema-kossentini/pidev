@@ -197,4 +197,10 @@ localStorage.removeItem('lastName');
   redirectToclasse() {
     this.router.navigate(['/Finalclass']);
   }
+  redirectToforum() {
+    this.router.navigate(['/list']);
+  }
+  redirectToforumP() {
+    this.router.navigate(['/retrive-publication']);
+  }
 }

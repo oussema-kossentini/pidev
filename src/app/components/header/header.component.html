@@ -28,25 +28,23 @@
                             <div class="navbar-toggler bg-primary"></div>
                             <!-- start menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
-                                <a [routerLink]="['/home']" >Home </a>
-
                                 <li>
                                   <!-- Si l'utilisateur n'est pas connecté, afficher Se Connecter -->
                                   <a *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']">
                                         <i class="fas fa-sign-in-alt icon-arrow before"></i>
-                                        <span class="label">Connecter</span>
+                                        <span class="label">connect</span>
                                     </a>
                                     <!-- Sinon, afficher Se Déconnecter -->
                                     <a *ngIf="authService.isLoggedIn()" (click)="logout()">
                                         <i class="fas fa-sign-out-alt icon-arrow before"></i>
-                                        <span class="label">Déconnecter</span>
+                                        <span class="label">logout</span>
                                     </a>
                                   </li>
 
                                   <li *ngIf="authService.isLoggedIn()">
                                     <a [routerLink]="['/account-settings']">
                                       <i class="fas fa-cog icon-arrow before"></i>
-                                      <span class="label">Paramètres du Compte</span>
+                                      <span class="label">Settings</span>
                                     </a>
                                   </li>
                                   <li *ngIf="authService.isAdmin || authService.isTeacher || authService.isStudent">
@@ -87,27 +85,27 @@
                               <a href="#!" >Scheduel</a>
                               <ul>
                                 <li><a (click)="redirectToScheduel()">student schedule</a></li>
+                                <li><a (click)="redirectToProf()">Scheduel  prof</a></li>
+                                <li><a (click)="redirectToclasse()">Scheduel classe</a></li>
                               </ul>
                             </li>
-                              <li *ngIf=" authService.isTeacher || authService.isAdmin">
-                                <a href="#!" >Emplp</a>
+                              <li *ngIf=" authService.isTeacher ">
+                                <a href="#!" >SchP</a>
                                 <ul>
-                                  <li><a (click)="redirectToProf()">emploit  prof</a></li>
-
+                                  <li><a (click)="redirectToProf()">Scheduel  prof</a></li>
                                 </ul>
                                 </li>
 
-                              <li *ngIf=" authService.isAdmin || authService.isStudent">
-                                <a href="#!" >Empl</a>
+                              <li *ngIf="  authService.isStudent">
+                                <a href="#!" >SchC</a>
                                 <ul>
-
-                                  <li><a (click)="redirectToclasse()">emploit classe</a></li>
+                                  <li><a (click)="redirectToclasse()">Scheduel classe</a></li>
 
                                 </ul>
                               </li>
                                 <li>
                                     <li *ngIf="authService.isAdmin">
-                                <a href="#!" >SPLY</a>
+                                <a href="#!" >Speciality</a>
                                 <ul>
                                   <li><a (click)="redirectToSpecialte()">ADDSpeciality</a></li>
                                   <li><a (click)="redirectToListSpecialte()">ListSpeciality</a></li>
@@ -115,6 +113,14 @@
 
                                 </ul>
                                 </li>
+                              <li *ngIf=" authService.isAdmin|| authService.isStudent||authService.isTeacher">
+                                <a href="#!" >Forum</a>
+                                <ul>
+                                  <li><a (click)="redirectToforum()">Forum</a></li>
+                                  <li><a (click)="redirectToforumP()">ShowRetri</a></li>
+
+                                </ul>
+                              </li>
                               <li>
                               <li *ngIf=" authService.isTeacher || authService.isStudent">
                                 <a href="#!" >Speciality</a>
