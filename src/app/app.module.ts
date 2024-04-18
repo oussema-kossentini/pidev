@@ -114,6 +114,7 @@ import {
 import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.component";
 import { AffecterRoleComponent } from './components/affecter-role/affecter-role.component';
 import { BanuserComponent } from './components/banuser/banuser.component';
+import { ChapitreReadComponent } from './components/chapitre-read/chapitre-read.component';
 //
 //import{user}
 @NgModule({
@@ -204,7 +205,8 @@ import { BanuserComponent } from './components/banuser/banuser.component';
 
     ProfesseurnavComponent,
       AffecterRoleComponent,
-      BanuserComponent
+      BanuserComponent,
+      ChapitreReadComponent
   ],
   //hhhhhhhhhhhhhhhhhhhhhhhhhhhh
   imports: [

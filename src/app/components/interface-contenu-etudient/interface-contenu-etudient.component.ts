@@ -67,4 +67,13 @@ export class InterfaceContenuEtudientComponent {
       content.title.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
+
+  redirectToContenu(contenuId: any): void {
+    if (contenuId) { // Check if courseId is defined
+      // Navigate to the modification form for the selected course
+      this.router.navigate(['/chapitreEtudient', contenuId]);
+    } else {
+      console.error('content id is undentified.');
+    }
+  }
 }

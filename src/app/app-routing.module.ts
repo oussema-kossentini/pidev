@@ -66,6 +66,7 @@ import {
 import {
   InterfaceCoursEtudientComponent
 } from "./components/interface-cours-etudient/interface-cours-etudient.component";
+import {ChapitreReadComponent} from "./components/chapitre-read/chapitre-read.component";
 //import { AuthGuard } from './service/auth.guard';
 //import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
@@ -151,7 +152,8 @@ const routes: Routes = [
   { path: 'contenuCours', component: ContenuCoursComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
   { path: 'addContenu', component: AddContenuComponent, canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
   { path: 'coursEtudient', component: InterfaceCoursEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
-  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } }
+  { path: 'contenuEtudient', component: InterfaceContenuEtudientComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
+  { path: 'chapitreEtudient/:id', component: ChapitreReadComponent, canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR','TEACHER','STUDENT'] } }
   //dddd
 
 ];
