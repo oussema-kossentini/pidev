@@ -1,18 +1,17 @@
-<app-header></app-header>
 <div class="container">
     <form [formGroup]="registerFormCustom" (ngSubmit)="onSubmit()" class="form-container">
 
 
 
-
+        <h1>**********AJOUTER Session************</h1>
 
 
 
 
         <div class="form-group">
-            <label for="titleSubject">Name Classe :</label>
+            <label for="titleSubject">Classe :</label>
             <mat-form-field appearance="fill">
-                <mat-label>Enter Name classe</mat-label>
+                <mat-label>Enter classe</mat-label>
                 <mat-select [(value)]="clasess" (selectionChange)="onSelect($event.value)" id="titleSubject">
                     <mat-option *ngFor="let tutorial of hadirs" [value]="tutorial">
                         {{ tutorial.nameClasse}}
@@ -73,38 +72,8 @@
                         <ng-container *ngIf="getSubjectForTime(day, hour) as sessionInfo">
                             <!-- Affichage de la matière pour cette heure -->
                             {{ sessionInfo.nameClasse }}
-
+                
                             <button class="delete-button" (click)="onDeleteSession(sessionInfo.idSession, day, hour)">✖</button>
-
-
-
-
-
-                          <style>
-                            .delete-button {
-                              color: red;
-                              /* Couleur du texte et du symbole */
-                              background: transparent;
-                              /* Fond transparent */
-                              border: none;
-                              /* Pas de bordure */
-                              cursor: pointer;
-                              /* Change le curseur pour indiquer qu'il s'agit d'un bouton */
-                            }
-
-                            .modify-button {
-                              color: blue;
-                              /* Couleur différente pour le distinguer du bouton de suppression */
-                              background: transparent;
-                              /* Fond transparent */
-                              border: none;
-                              /* Pas de bordure */
-                              cursor: pointer;
-                              /* Change le curseur pour indiquer qu'il s'agit d'un bouton */
-                            }
-                          </style>
-
-
                         </ng-container>
                     </td>
 
@@ -117,4 +86,3 @@
 
 
 </div>
-<app-footer></app-footer>

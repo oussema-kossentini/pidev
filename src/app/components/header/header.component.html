@@ -93,10 +93,9 @@
                                 <a href="#!" >Courses</a>
                                     <ul>
 
-                                        <li><a (click)="redirectToAddCours()">Add Cours</a></li>
-                                        <li><a (click)="redirectToCoursList()">Cours Managment</a></li>
-                                        <li><a (click)="redirectToCoursEtudientList()">List Cours Etudient</a></li>
-
+                                        <li><a href="courses-grid.html">Courses Grid</a></li>
+                                        <li><a href="courses-list.html">Courses List</a></li>
+                                        <li><a href="course-details.html">Courses Details</a></li>
 
 
 
@@ -113,20 +112,38 @@
                                 </li>
 
                                 <li>
-                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
-                                    <a href="#!" >Scheduel</a>
-                                    <ul>
-                                        <li><a href="#!"  >Portfolio Grid</a>
-                                            <ul>
-                                                <li><a href="portfolio-two-columns.html">2 Columns</a></li>
-                                                <li><a href="portfolio.html">3 Columns - Standard</a></li>
-                                                <li><a href="portfolio-four-columns.html">4 Columns</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="portfolio-details.html" >Portfolio Details</a></li>
-                                    </ul>
+                                    <li *ngIf="authService.isAdmin ">
+                              <a href="#!" >Scheduel</a>
+                              <ul>
+                                <li><a (click)="redirectToScheduel()">student schedule</a></li>
+
+
+                              </ul>
+                            </li>
+                              <li *ngIf=" authService.isTeacher || authService.isAdmin">
+                                <a href="#!" >Emploit</a>
+                                <ul>
+                                  <li><a (click)="redirectToProf()">emploit  prof</a></li>
+
+
+                                </ul>
                                 </li>
-                                <li>
+
+                              <li *ngIf=" authService.isAdmin || authService.isStudent">
+                                <a href="#!" >Emploit</a>
+                                <ul>
+
+                                  <li><a (click)="redirectToclasse()">emploit classe</a></li>
+
+                                </ul>
+                              </li>
+
+
+
+
+
+                              <li>
+
                                     <li *ngIf="authService.isAdmin || authService.isTeacher">
                                     <a href="#!"  >Forum</a>
                                     <ul>

@@ -52,7 +52,7 @@ import {SessionComponent} from "./components/session/session.component";
 import {EmploiComponent} from "./components/emploi/emploi.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
 import {ModifscheduleComponent} from "./components/modifschedule/modifschedule.component";
-import {FinalSComponent} from "./components/final-s/final-s.component";
+
 import {FinalCLASSComponent} from "./components/final-class/final-class.component";
 import {SessionCLASSComponent} from "./components/session-class/session-class.component";
 import {SessionPROFComponent} from "./components/session-prof/session-prof.component";
@@ -117,7 +117,8 @@ import {
   EvaluationAssignClasseComponent
 } from "./components/evaluation-assign-classe/evaluation-assign-classe.component";
 import { EvaluationAssessmentComponent } from './components/evaluation-assessment/evaluation-assessment.component';
-//
+import {FinalProfComponent} from "./final-prof/final-prof.component";
+
 //import{user}
 @NgModule({
   declarations: [
@@ -162,7 +163,7 @@ import { EvaluationAssessmentComponent } from './components/evaluation-assessmen
     EmploiComponent,
     ScheduleComponent,
     ModifscheduleComponent,
-    FinalSComponent,
+FinalProfComponent,
     FinalCLASSComponent,
     SessionCLASSComponent,
     SessionPROFComponent,
@@ -333,7 +334,7 @@ NgxCaptchaModule,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('896713448835-jmsg22uggotbi02tm66voprbv75ruqih.apps.googleusercontent.com')
+            provider: new GoogleLoginProvider('VotreClientIDGoogle')
           }
         ]
       } as SocialAuthServiceConfig,

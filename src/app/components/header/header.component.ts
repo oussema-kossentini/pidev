@@ -182,4 +182,17 @@ localStorage.removeItem('lastName');
   redirectToProfnav() {
     this.router.navigate(['/profnav']);
   }
+
+
+
+
+  redirectToScheduel() {
+    this.router.navigate(['/schedule']);
+  }
+  redirectToProf() {
+    this.router.navigate(['/EMPLOIT']);
+  }
+  redirectToclasse() {
+    this.router.navigate(['/Finalclass']);
+  }
 }

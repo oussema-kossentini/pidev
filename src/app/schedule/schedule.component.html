@@ -13,12 +13,12 @@
       </mat-select>
     </mat-form-field>
   </div> -->
-  <h1>**********Create a new scheduel***********</h1>
+
 
   <div class="form-group">
-    <label for="title" class="form-label">Enter Name Class</label>
+    <label for="title" class="form-label">Titre</label>
     <mat-form-field appearance="fill">
-      <mat-label>add name class</mat-label>
+      <mat-label>Entrez le titre</mat-label>
       <mat-select [(ngModel)]="selectedId" (selectionChange)="onSelect($event.value)">
         <mat-option *ngFor="let tutorial of tutorialss" [value]="tutorial.idClasse">
           {{ tutorial.nameClasse }}
@@ -64,7 +64,7 @@
 
 
 <div *ngIf="hadirs; else loading">
-  <h2>List Schedule of classes</h2>
+  <h2>List of Schedules</h2>
   <table class="table">
     <thead>
       <tr>

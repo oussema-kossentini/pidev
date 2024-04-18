@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinalSComponent } from './final-s.component';
+import { SessionPROFComponent } from './session-prof.component';
 
-describe('FinalSComponent', () => {
-  let component: FinalSComponent;
-  let fixture: ComponentFixture<FinalSComponent>;
+describe('SessionPROFComponent', () => {
+  let component: SessionPROFComponent;
+  let fixture: ComponentFixture<SessionPROFComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FinalSComponent]
+      declarations: [SessionPROFComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FinalSComponent);
+    fixture = TestBed.createComponent(SessionPROFComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,33 +2,10 @@
 
 <!-- Utilisation de (ngSubmit)="onSubmitsch()" pour appeler la bonne méthode lors de la soumission du formulaire -->
 <form [formGroup]="registerFormCustom" (ngSubmit)="onSubmitsch()" class="form-container">
-  <!-- <div class="form-group">
-    <label for="class" class="form-label">Select Class</label>
-    <mat-form-field appearance="fill">
-      <mat-label>Choose Class</mat-label>
-      <mat-select formControlName="class">
-        <mat-option *ngFor="let classOption of classOptions" [value]="classOption.value">
-          {{ classOption.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div> -->
-  <h1>**********Create a new scheduel***********</h1>
-
-  <div class="form-group">
-    <label for="title" class="form-label">Enter Name Class</label>
-    <mat-form-field appearance="fill">
-      <mat-label>add name class</mat-label>
-      <mat-select [(ngModel)]="selectedId" (selectionChange)="onSelect($event.value)">
-        <mat-option *ngFor="let tutorial of tutorialss" [value]="tutorial.idClasse">
-          {{ tutorial.nameClasse }}
-        </mat-option>
-      </mat-select>
-      <input matInput formControlName="title">
-    </mat-form-field>
-  </div>
 
 
+
+  <h1>**********AJOUTER schedule************</h1>
 
 
   <div class="form-group">
@@ -59,27 +36,25 @@
   </button>
 </form>
 
-
-
-
-
-<div *ngIf="hadirs; else loading">
-  <h2>List Schedule of classes</h2>
+<div *ngIf="hadirs">
+  <h2>List of Schedules</h2>
   <table class="table">
     <thead>
       <tr>
         <!-- <th>id</th> -->
-        <th>Title</th>
+        <th>name</th>
         <th>Start DATE</th>
         <th>End DATE</th>
-        <th>Actions</th>
+        <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let tutorial of hadirs">
-        <!-- <td>{{ tutorial.idScheduel }}</td> -->
-        <td>{{ tutorial.classe?.nameClasse }}</td>
+      <tr *ngFor="let tutorial of hadirs; let i = index">
+
+
+
+        <td>{{ tutorial.classe?.usersIds }}</td>
 
         <td>{{ tutorial.startDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ tutorial.endDate | date:'dd/MM/yyyy' }}</td>
@@ -87,16 +62,15 @@
 
         <td>
 
-          <a [routerLink]="['/modifS', tutorial.idScheduel]" class="button-like-link">update</a>
-          <span style="margin-right: 20px;"></span> <!-- Espace -->
-          <!-- Lien Supprimer -->
+
+          <button [routerLink]="['/ajouterSession', tutorial.idScheduel]">Ajouter
+            Session</button>
           <a (click)="deleteSchedule(tutorial.idScheduel)" class="button-like-link supprimer">delete</a>
           <span style="margin-right: 20px;"></span> <!-- Espace -->
-
-          <a [routerLink]="['/emp', tutorial.idScheduel]" class="button-like-link">get schedule</a>
-
-
         </td>
+
+
+
 
 
       </tr>
@@ -104,7 +78,7 @@
   </table>
 </div>
 
-<ng-template #loading>
-  <p>Chargement en cours...</p>
-</ng-template>
+
+
+
 <app-footer></app-footer>
