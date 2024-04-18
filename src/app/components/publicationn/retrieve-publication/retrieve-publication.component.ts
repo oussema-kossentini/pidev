@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Publication } from '../publication.model';
+import { Publication } from '../../../models/publication.model';
 @Component({
   selector: 'app-retrieve-publication',
   templateUrl: './retrieve-publication.component.html',

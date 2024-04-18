@@ -80,27 +80,29 @@
                                   <li *ngIf="authService.isAdmin || authService.isTeacher || authService.isStudent">
                                     <<a href="#!" >Evaluation</a>
                                     <ul>
-                                        <li><a [routerLink]="['/add-evaluation']">Add Evaluation</a></li>
+                                      <li><a (click)="redirectToEvalution()">Evaluation</a></li>
                                     </ul>
-                                    <li *ngIf="authService.isAdmin || authService.isTeacher">
 
-                                    <a [routerLink]="['/add-evaluation']">
-                                        <span class="label">Add Evaluation</span>
-                                      </a>
 
                                 </li>
-                                <li *ngIf="authService.isAdmin || authService.isTeacher">
+
+                              <li *ngIf="authService.isAdmin || authService.isTeacher">
                                 <a href="#!" >Courses</a>
-                                    <ul>
+                                <ul>
 
-                                        <li><a href="courses-grid.html">Courses Grid</a></li>
-                                        <li><a href="courses-list.html">Courses List</a></li>
-                                        <li><a href="course-details.html">Courses Details</a></li>
+                                  <li><a (click)="redirectToAddCours()">Add Cours</a></li>
+                                  <li><a (click)="redirectToCoursList()">Cours Managment</a></li>
+
+                                </ul>
+                              </li>
+                              <li *ngIf=" authService.isStudent">
+                                <a href="#!" >Cours</a>
+                                <ul>
+                                  <li><a (click)="redirectToCoursEtudientList()">CoursList</a></li>
 
 
-
-                                    </ul>
-                                </li>
+                                </ul>
+                              </li>
 
                                 <li *ngIf="authService.isAdmin">
                                   <a [routerLink]="['/dadmin']">Dashboard Admin</a>
