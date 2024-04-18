@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+
+    <!--  new-->
+
+    <div class="col-md-10">
+      <h1>{{evaluation.title}}</h1>
+      <p>{{evaluation.description}}</p>
+    </div>
+    <div *ngIf="accessibleEval " class="col-md-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584l.013-.012.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354-.012.012A6.97 6.97 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0"/>
+      </svg>
+      {{remainingTime}}<span>s</span>
+    </div>
+  </div>
+  <div *ngIf="!accessibleEval ;else accessible" class="alert alert-danger" role="alert">
+    <div class="row">
+      <div class="col-10">
+        Evaluation is Expired !
+      </div>
+      <div class="col-2">
+        <button [routerLink]="['/evaluation']" class="btn btn btn-danger">Go back to home !</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #accessible>
+    <hr>
+    <div class="container">
+      <form #chosenAnswersForm="ngForm">
+        <div *ngFor="let question of evaluation.qas">
+          <div class="card mt-3">
+            <div class="card-header">
+              {{question.question}}
+            </div>
+            <div class="card-body">
+              <div *ngFor="let answer of question.response">
+                <div class="form-check">
+                  <input type="radio" id="{{ question.question }}_{{ answer }}" name="{{ question.question }}" [value]="answer" [(ngModel)]="question.selectedAnswer">
+                  <label class="form-check-label" for="{{ question.question }}_{{ answer }}">
+                    {{answer}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+          </div>
+          <div class="col-md-2">
+            <button (click)="calculateAndSubmitResponse(chosenAnswersForm.value)" class="btn btn-primary mt-2">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+</div>
