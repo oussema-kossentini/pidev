@@ -50,7 +50,7 @@ export class LoginComponentComponent implements OnInit,AfterViewInit  {
 
   handleCredentialResponse(response: any) {
     // Log the entire response object
-    console.log('Google Sign-In Response:', response);
+    console.log('Google Sign-In Response:', response.credential);
     // Extract the ID token from the response
     const token = response.credential;
 
@@ -79,9 +79,13 @@ export class LoginComponentComponent implements OnInit,AfterViewInit  {
   }
 
   sendTokenToBackend(token: string) {
-    this.http.post(`http://localhost:8085/courszello/api/auth/google`,  token ).subscribe(
+
+    this.http.post('http://localhost:8085/courszello/api/auth/google', token)
+      .subscribe(
       (data:any) => {
         // handle successful response here
+
+
         console.log(data);
         const email = data.email;
         this.authService.siginWithGoogle(email).subscribe(

@@ -1241,7 +1241,9 @@ login(email: string, password: string): Observable<any> {
     exchangeGoogleCodeForToken(code: string): Observable<any> {
       const payload = { code }; // L'objet que votre backend attend
       return this.http.post(`${this.jwtbaseurl}/google`, payload).pipe(
+
         tap((response: any) => {
+
           if (isPlatformBrowser(this.platformId)) {
             // Stocker les informations retournées par le backend
             localStorage.setItem('token', response.token);

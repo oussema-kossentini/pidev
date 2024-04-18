@@ -321,7 +321,7 @@ NgxCaptchaModule,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('VotreClientIDGoogle')
+            provider: new GoogleLoginProvider('896713448835-jmsg22uggotbi02tm66voprbv75ruqih.apps.googleusercontent.com')
           }
         ]
       } as SocialAuthServiceConfig,
