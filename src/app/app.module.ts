@@ -52,7 +52,7 @@ import {SessionComponent} from "./components/session/session.component";
 import {EmploiComponent} from "./components/emploi/emploi.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
 import {ModifscheduleComponent} from "./components/modifschedule/modifschedule.component";
-
+//import {FinalSComponent} from "./components/final-s/final-s.component";
 import {FinalCLASSComponent} from "./components/final-class/final-class.component";
 import {SessionCLASSComponent} from "./components/session-class/session-class.component";
 import {SessionPROFComponent} from "./components/session-prof/session-prof.component";
@@ -67,7 +67,7 @@ import {AddQaComponent} from "./components/add-qa/add-qa.component";
 import {GradeListComponent} from "./components/grade-list/grade-list.component";
 import {QaListComponent} from "./components/qa-list/qa-list.component";
 import {EvaluationDetailsComponent} from "./components/evaluation/evaluation-details/evaluation-details.component";
-
+import {EvaluationAssessmentComponent} from "./components/evaluation-assessment/evaluation-assessment.component";
 import {UsersListComponent} from "./components/users-list/users-list.component";
 import {EvaluationAssignComponent} from "./components/evaluation-assign/evaluation-assign.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
@@ -112,13 +112,9 @@ import {
   InterfaceContenuEtudientComponent
 } from "./components/interface-contenu-etudient/interface-contenu-etudient.component";
 import {ProfesseurnavComponent} from "./components/professeurnav/professeurnav.component";
-import {ClasseEvalComponent} from "./components/classe-eval/classe-eval.component";
-import {
-  EvaluationAssignClasseComponent
-} from "./components/evaluation-assign-classe/evaluation-assign-classe.component";
-import { EvaluationAssessmentComponent } from './components/evaluation-assessment/evaluation-assessment.component';
-import {FinalProfComponent} from "./final-prof/final-prof.component";
-
+import { AffecterRoleComponent } from './components/affecter-role/affecter-role.component';
+import { BanuserComponent } from './components/banuser/banuser.component';
+//
 //import{user}
 @NgModule({
   declarations: [
@@ -131,18 +127,18 @@ import {FinalProfComponent} from "./final-prof/final-prof.component";
 
 
 
-    RegisterComponent,
+      RegisterComponent,
 
 
 
-    DashbordlatbarComponent,
-    LoginComponentComponent,
-    UserListComponentComponent,
+      DashbordlatbarComponent,
+      LoginComponentComponent,
+      UserListComponentComponent,
     //  ListuseruComponentComponent,
-    ForgetPasswordComponent,
-    ChangePasswordComponent,
-    GoogleCallbackComponent,
-    AccountSettingsComponent,
+      ForgetPasswordComponent,
+      ChangePasswordComponent,
+      GoogleCallbackComponent,
+      AccountSettingsComponent,
 
     ClasseComponent,
     SpecialiteComponent,
@@ -163,7 +159,7 @@ import {FinalProfComponent} from "./final-prof/final-prof.component";
     EmploiComponent,
     ScheduleComponent,
     ModifscheduleComponent,
-FinalProfComponent,
+   // FinalSComponent,
     FinalCLASSComponent,
     SessionCLASSComponent,
     SessionPROFComponent,
@@ -177,7 +173,7 @@ FinalProfComponent,
     GradeListComponent,
     QaListComponent,
     EvaluationDetailsComponent,
-
+    EvaluationAssessmentComponent,
     UsersListComponent,
     EvaluationAssignComponent,
     DashboardComponent,
@@ -205,14 +201,10 @@ FinalProfComponent,
     UpdateContentComponent,
     InterfaceCoursEtudientComponent,
     InterfaceContenuEtudientComponent,
-    ClasseEvalComponent,
-
-    EvaluationAssignClasseComponent,
-    EvaluationAssignComponent,
-
 
     ProfesseurnavComponent,
-        EvaluationAssessmentComponent
+      AffecterRoleComponent,
+      BanuserComponent
   ],
   //hhhhhhhhhhhhhhhhhhhhhhhhhhhh
   imports: [
@@ -334,7 +326,7 @@ NgxCaptchaModule,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('VotreClientIDGoogle')
+            provider: new GoogleLoginProvider('896713448835-jmsg22uggotbi02tm66voprbv75ruqih.apps.googleusercontent.com')
           }
         ]
       } as SocialAuthServiceConfig,

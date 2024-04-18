@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<!-- fichier: user-role.component.html -->
+<form [formGroup]="form" (ngSubmit)="assignRole()">
+  <select formControlName="userEmail">
+    <option *ngFor="let user of users" [value]="user.email">{{ user.email }}</option>
+  </select>
+  <select formControlName="userRole">
+    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+  </select>
+  <button type="submit">Affecter</button>
+</form>
+
+
+<app-footer></app-footer>

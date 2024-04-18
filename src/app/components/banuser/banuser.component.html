@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<!-- fichier: user-status.component.html -->
+<form [formGroup]="form" (ngSubmit)="updateBanStatus()">
+  <select formControlName="userEmail">
+    <option *ngFor="let user of users" [value]="user.email">{{ user.email }}</option>
+  </select>
+  <select formControlName="userStatus">
+    <option [value]="true">Unban</option>
+    <option [value]="false">Ban</option>
+  </select>
+  <button type="submit">Update Status</button>
+</form>
+
+<app-footer></app-footer>

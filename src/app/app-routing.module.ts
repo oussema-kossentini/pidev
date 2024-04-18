@@ -24,7 +24,8 @@ import {ListEnseignatToAffComponent} from "./components/list-enseignat-to-aff/li
 import {StatEtudiantParSpeComponent} from "./components/stat-etudiant-par-spe/stat-etudiant-par-spe.component";
 import {StatProffParSpcComponent} from "./components/stat-proff-par-spc/stat-proff-par-spc.component";
 import {EngToShComponent} from "./components/eng-to-sh/eng-to-sh.component";
-
+//import {FinalSComponent} from "./components/final-s/final-s.component";
+import {AffecterRoleComponent} from "./components/affecter-role/affecter-role.component";
 import {FinalCLASSComponent} from "./components/final-class/final-class.component";
 import {SessionCLASSComponent} from "./components/session-class/session-class.component";
 import {SessionPROFComponent} from "./components/session-prof/session-prof.component";
@@ -39,6 +40,7 @@ import {AddEvaluationComponent} from "./components/add-evaluation/add-evaluation
 import {EvaluationDetailsComponent} from "./components/evaluation/evaluation-details/evaluation-details.component";
 import {EvaluationListComponent} from "./components/evaluation-list/evaluation-list.component";
 import {AddGradeComponent} from "./components/add-grade/add-grade.component";
+import  {BanuserComponent} from "./components/banuser/banuser.component";
 import {AddQaComponent} from "./components/add-qa/add-qa.component";
 import {GradeListComponent} from "./components/grade-list/grade-list.component";
 import {QaListComponent} from "./components/qa-list/qa-list.component";
@@ -64,7 +66,6 @@ import {
 import {
   InterfaceCoursEtudientComponent
 } from "./components/interface-cours-etudient/interface-cours-etudient.component";
-import {FinalProfComponent} from "./final-prof/final-prof.component";
 //import { AuthGuard } from './service/auth.guard';
 //import  {AccountSettingsComponent} from "./components/account-settings/account-settings.component";
 const routes: Routes = [
@@ -78,7 +79,8 @@ const routes: Routes = [
   // { path: 'login', component: LoginComponentComponent},
   { path: 'ForgetPassword', component: ForgetPasswordComponent},
   { path: 'google-callback', component: GoogleCallbackComponent },
-
+  { path: 'banuser', component: BanuserComponent ,canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR'] } },
+  { path: 'affecteRole', component: AffecterRoleComponent ,canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR'] } },
   { path: 'listUseur', component: UserListComponentComponent ,canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR'] } },
   { path: 'login', component: LoginComponentComponent, canActivate: [AuthGardService] },
   { path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGardService] },
@@ -99,31 +101,23 @@ const routes: Routes = [
   { path: 'list-enseignat-to-aff/:idClasse', component: ListEnseignatToAffComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
   { path: 'statEtudiant', component: StatEtudiantParSpeComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
   { path: 'statEnseignat', component: StatProffParSpcComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
-
-
-  //HAAAADIIIIIIIIIIIRRR
-  { path: 'schedule', component: ScheduleComponent ,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
-  { path: 'emp/:id', component: EmploiComponent ,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
   { path: 'ajouterEtoS/:idClasse', component: EngToShComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
-  {path: 'ajouterSession/:idScheduel', component: SesionSchComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR'] } },
-  { path: 'Finalclass', component: FinalCLASSComponent , canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
-  { path: 'SessionCLASS/:id', component: SessionCLASSComponent , canActivate: [RoleGuardService], data: { roles: ['ADMINISTRATOR', 'STUDENT'] } },
-  { path: 'SessionPROF/:idScheduel', component: SessionPROFComponent , canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-  { path: 'EMPLOIT', component: FinalProfComponent , canActivate: [RoleGuardService], data: { roles: ['TEACHER', 'ADMINISTRATOR'] } },
-
-
+ // { path: 'EMPLOIT', component: FinalSComponent },
+  { path: 'Finalclass', component: FinalCLASSComponent },
+  { path: 'SessionCLASS/:id', component: SessionCLASSComponent },
+  { path: 'SessionPROF/:idScheduel', component: SessionPROFComponent },
   { path: 'specialitenavetudiant', component: NavEtudiantSpecComponent,canActivate: [RoleGuardService], data: { roles: [ 'ADMINISTRATOR','TEACHER','STUDENT'] }},
 
 
-
-
   { path: 'profnav', component: ProfesseurnavComponent,canActivate: [RoleGuardService], data: { roles: [ 'TEACHER'] }},
+  {
+    path: 'ajouterSession/:idScheduel', component: SesionSchComponent
+  },
 
-
-
+  { path: 'schedule', component: ScheduleComponent },
   { path: 'ss', component: SessionComponent },
   //{ path: 'modifS/:id', component: ModifscheduleComponent },
-
+  { path: 'emp/:id', component: EmploiComponent },
 
 
 
