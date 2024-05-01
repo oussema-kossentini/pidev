@@ -4,7 +4,7 @@
     <mat-card class="publication-card" aos="fade-up" aos-duration="8000">
       <mat-card-content>
         <!-- Form container -->
-        <form [formGroup]="publicationForm" (ngSubmit)="publish()" enctype="multipart/form-data" class="publication-form">
+        <form [formGroup]="publicationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="publication-form">
           <!-- Title input -->
           <mat-form-field class="title-field" appearance="fill">
             <mat-label>Title</mat-label>
@@ -30,7 +30,7 @@
               <i class="fas fa-file-upload"></i>
             </label>
             <!-- Input file caché -->
-            <input id="fileInput" type="file" accept="image/*" (change)="onSelectedFile($event)">
+            <input type="file" #fileInput (change)="onSelectedFile($event)" />
 
 
             <img [src]="imgURL" height="200" *ngIf="imgURL">

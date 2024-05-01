@@ -22,7 +22,15 @@ export class PublicationService {
   addPublication(publication: Publication): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/add`, publication);
   }
+  private baseUrl = 'http://localhost:8085/courszello/api/publications/add'; // Assurez-vous que cette URL est correcte
+  createPublication(publication: any, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('publication', JSON.stringify(publication));
+    formData.append('file', file);
 
+    // Vous n'avez pas besoin de définir le 'Content-Type' dans les en-têtes car le navigateur le fera automatiquement avec FormData
+    return this.http.post(this.baseUrl, formData).toPromise();
+  }
   createData(formData: FormData): Observable<any> {
     const url = `${this.apiUrl}/add`;
     return this.authService.requestWithToken('POST', url, formData);

@@ -190,7 +190,58 @@ toggleEmojis() {
       });
     }
   }
+  onSubmit() {
+    // Vérifiez d'abord si le formulaire est valide
+    if (this.publicationForm.valid) {
+      const publicationData = this.publicationForm.value;
+      // Vérifiez si un fichier a été sélectionné
+      const file = this.fileInput?.nativeElement.files?.[0];
+      // Vérifiez également si le fichier est valide
+      if (file && file.size > 0) { // Vérifiez si le fichier est défini et qu'il a une taille supérieure à 0
+        // Création d'un FileReader pour lire le contenu du fichier
+        const reader = new FileReader();
+        reader.onload = (event: any) => {
+          // Le contenu du fichier est maintenant disponible dans event.target.result
+          console.log(event.target.result);
 
+          // Ajoutez ici la logique pour envoyer le contenu du fichier au serveur
+          // ...
+
+          // Exemple d'envoi de données au serveur
+          this.publicationService.createPublication(publicationData, file).then(
+            (response) => {
+              // Traitement en cas de succès
+              console.log('Publication ajoutée avec succès', response);
+            },
+            (error) => {
+              // Traitement en cas d'erreur
+              console.error('Erreur lors de l\'ajout de la publication', error);
+              this.snackBar.open('Erreur lors de l\'envoi de la publication', 'Fermer', {
+                duration: 3000,
+              });
+            }
+          );
+        };
+        reader.onerror = (error) => {
+          // Gestion de l'erreur de lecture du fichier
+          console.error('Erreur lors de la lecture du fichier', error);
+        };
+
+        // Déclenche la lecture du fichier
+        reader.readAsDataURL(file);
+      } else {
+        // Affichez un message d'erreur si aucun fichier n'est sélectionné ou si le fichier est vide
+        this.snackBar.open('Veuillez sélectionner un fichier valide.', 'Fermer', {
+          duration: 3000,
+        });
+      }
+    } else {
+      // Affichez un message d'erreur si le formulaire est invalide
+      this.snackBar.open('Le formulaire est invalide. Veuillez remplir tous les champs requis.', 'Fermer', {
+        duration: 3000,
+      });
+    }
+  }
   imageUrls:string[]=[];
 
 
