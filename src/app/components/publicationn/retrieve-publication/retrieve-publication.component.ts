@@ -59,27 +59,28 @@ export class RetrievePublicationComponent implements OnInit {
 
 
   loadPublications(): void {
-
-this.publicationService.getPublications().subscribe(
-  (data: any[]) => {
-    this.PublicationList = data.map(publication => {
-      const creationDate = new Date(publication.creationDate);
-      return {
-        ...publication,
-        formattedCreationDate: creationDate.toLocaleString(),
-        showComments: false, // Ajouter une propriété pour contrôler l'affichage des commentaires
-        comments: [] // Initialiser la liste des commentaires vide
-      };
-    });
-
-
-  },
-  error => {
-    console.error('Error loading publications:', error);
-
+    this.publicationService.getPublication().then(
+      (data: any[] | undefined) => {
+        if (data) {
+          this.PublicationList = data.map(publication => {
+            const creationDate = new Date(publication.creationDate);
+            return {
+              ...publication,
+              formattedCreationDate: creationDate.toLocaleString(),
+              showComments: false, // Ajouter une propriété pour contrôler l'affichage des commentaires
+              comments: [] // Initialiser la liste des commentaires vide
+            };
+          });
+        } else {
+          console.error('Error loading publications: Data is undefined');
+        }
+      },
+      (error: any) => {
+        console.error('Error loading publications:', error);
+      }
+    );
   }
-);
-  }
+
 
 
 

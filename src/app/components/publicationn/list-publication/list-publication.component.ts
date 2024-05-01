@@ -8,6 +8,7 @@ import { AddPublicationComponent } from '../add-publication/add-publication.comp
 import { Publication } from '../../../models/publication.model';
 import { FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
+import {from} from "rxjs";
 @Component({
   selector: 'app-list-publication',
   templateUrl: './list-publication.component.html',
@@ -95,8 +96,46 @@ Publications: any[]=[];
   toggleComments(publication: any): void {
     publication.showComments = !publication.showComments;
   }
-
   loadPublications(): void {
+    this.isLoading = true;
+
+    this.publicationService.getPublication().then(
+      (data: any[] | undefined) => {
+        if (data) {
+          // Trie les données par date de création
+          data.sort((a, b) => new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime());
+
+          // Traite seulement les 10 premières publications
+          this.PublicationList = data.slice(0, 10).map(publication => {
+            const creationDate = new Date(publication.creationDate);
+            return {
+              ...publication,
+              formattedCreationDate: creationDate.toLocaleString(),
+              showComments: false, // Ajouter une propriété pour contrôler l'affichage des commentaires
+              comments: [] // Initialiser la liste des commentaires vide
+            };
+          });
+
+          // Charger les commentaires pour chaque publication
+          this.PublicationList.forEach(publication => {
+            this.loadCommentsForPublication(publication.idPublication);
+          });
+
+          this.isLoading = false;
+        } else {
+          console.error('Error loading publications: Data is undefined');
+          this.isLoading = false;
+        }
+      },
+      (error: any) => {
+        console.error('Error loading publications:', error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+
+  loadPublicationns(): void {
     this.isLoading = true;
     this.publicationService.getPublications().subscribe(
       (data: any[]) => {
@@ -235,41 +274,51 @@ Publications: any[]=[];
     event.target.style.backgroundColor = '#ffffff'; // Remettre la couleur de fond par défaut de la box
   }
 
-  addCommentToPublication(idPublication: string, content: string) {
-    const newComment: Comment = {
-      content: content,
-      creationDate: new Date(), // Utilisation de 'new Date()' pour obtenir la date actuelle
-    };
 
-    this.commentService.addCommentToPublication(idPublication, newComment)
-      .subscribe(
-        () => {
-          // Le commentaire a été ajouté avec succès, mettez à jour la liste des commentaires
-          const publication = this.PublicationList.find(pub => pub.idPublication === idPublication);
-          if (publication) {
-            // Ajouter le nouveau commentaire à la liste des commentaires de la publication
-            publication.comments.push(newComment);
-          }
-        },
-        error => {
-          // Gérer les erreurs ici
-          console.error('Failed to add comment:', error);
+addCommentToPublication(idPublication: string, comment: Comment) {
+  const newComment: Comment = {
+    content: comment.content,
+    creationDate: new Date(), // Utilisation de 'new Date()' pour obtenir la date actuelle
+  };
+
+  from(this.commentService.addCommentToPublication(idPublication, newComment))
+    .subscribe(
+      () => {
+        // Le commentaire a été ajouté avec succès, mettez à jour la liste des commentaires
+        const publication = this.PublicationList.find(pub => pub.idPublication === idPublication);
+        if (publication) {
+          // Ajouter le nouveau commentaire à la liste des commentaires de la publication
+          publication.comments.push(newComment);
         }
-      );
-  }
+      },
+      (error: any) => {
+        // Gérer les erreurs ici
+        console.error('Failed to add comment:', error);
+      }
+    );
+}
+
 
   showCommentInput(publication: any): void {
     publication.showCommentInput = true; // Afficher la zone de commentaire pour cette publication
   }
 
-  addComment(publication: any): void {
+  async addComment(publication: any): Promise<void> {
     if (publication.idPublication) { // Vérifiez que l'ID de la publication est défini
       const content = publication.newComment.trim();
       if (content !== '') {
-        this.addCommentToPublication(publication.idPublication, content);
-        publication.newComment = ''; // Réinitialiser le champ d'entrée après l'ajout du commentaire
-        publication.showCommentInput = false; // Masquer la zone de commentaire après l'ajout du commentaire
-
+        try {
+          await this.addCommentToPublication(publication.idPublication, { content });
+          publication.newComment = ''; // Réinitialiser le champ d'entrée après l'ajout du commentaire
+          publication.showCommentInput = false; // Masquer la zone de commentaire après l'ajout du commentaire
+        } catch (error) {
+          console.error('Failed to add comment:', error);
+          // Gérer les erreurs d'ajout de commentaire ici
+        }
+      } else {
+        console.error('Comment content is empty');
+        // Gérez le cas où le contenu du commentaire est vide
+        // Affichez un message d'erreur ou prenez d'autres mesures nécessaires
       }
     } else {
       console.error('Publication ID is undefined');
@@ -277,6 +326,7 @@ Publications: any[]=[];
       // Affichez un message d'erreur ou prenez d'autres mesures nécessaires
     }
   }
+
   editComment(Comment: any): void {
     Comment.editing = true; // Activer le mode d'édition du commentaire
   }

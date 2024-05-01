@@ -9,9 +9,10 @@ import { ServiceFazzetregisterService } from './service-fazzetregister-service.s
 export class CommentService{
   private apiUrl = 'http://localhost:8085/courszello/api/comments';
   constructor(private http: HttpClient, private authService: ServiceFazzetregisterService){}
-  addCommentToPublication(publicationId: string, comment: Comment): Observable<any> {
-    return this.authService.requestWithToken('POST', `${this.apiUrl}/${publicationId}`, comment);
+  addCommentToPublication(publicationId: string, comment: Comment): Promise<any> {
+    return this.http.post<any>(`${this.apiUrl}/${publicationId}/comments`, comment).toPromise();
   }
+
 
   // Obtenir tous les commentaires pour une publication spécifique
   getCommentsForPublication(publicationId: string): Observable<Comment[]> {

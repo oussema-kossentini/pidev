@@ -193,7 +193,15 @@ toggleEmojis() {
   onSubmit() {
     // Vérifiez d'abord si le formulaire est valide
     if (this.publicationForm.valid) {
-      const publicationData = this.publicationForm.value;
+      // Création de la date actuelle
+      const currentDate = new Date();
+      // Assignation des valeurs du formulaire
+      const publicationData: Publication = {
+        content: this.publicationForm.value.content,
+        title: this.publicationForm.value.title,
+        creationDate: currentDate // Utiliser la date actuelle comme date de création
+      };
+
       // Vérifiez si un fichier a été sélectionné
       const file = this.fileInput?.nativeElement.files?.[0];
       // Vérifiez également si le fichier est valide
@@ -242,6 +250,7 @@ toggleEmojis() {
       });
     }
   }
+
   imageUrls:string[]=[];
 
 

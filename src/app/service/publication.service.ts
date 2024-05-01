@@ -45,6 +45,14 @@ export class PublicationService {
     const url = `${this.apiUrl}/retrieve`;
     return this.authService.requestWithToken('GET', url);
   }
+  getPublication(): Promise<any[] | undefined> {
+    const url = `${this.apiUrl}/retrieve`;
+    return this.http.get<any[]>(url).toPromise().catch(error => {
+      console.error('Erreur lors de la récupération des publications : ', error);
+      return undefined;
+    });
+  }
+
 
 
   removePublication(id: string): Observable<any> {
